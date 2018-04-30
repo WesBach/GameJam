@@ -1,0 +1,71 @@
+//midterm bomb code
+
+//from game loop
+		////find the bomb collision point and blow it up
+		//if (g_theBomb->vel.x != 0.0f)
+		//{
+		//	//FindBombCollisionPoint(g_theBomb->position, g_theBomb);
+		//	//ResolveBombCollision(g_theBomb);
+		//}
+
+//void FindBombCollisionPoint(glm::vec3& thePoint, cGameObject* theObject)
+//{
+//	cContactInfo* tempContactInfo;
+//	bool contact = false;
+//
+//	if (theObject->bIsUpdatedInPhysics)
+//	{
+//		unsigned int numberOfTriangles = g_GameTerrain->vecPhysTris.size();
+//		for (int triIndex = 0; triIndex != numberOfTriangles; triIndex++)
+//		{
+//			cPhysTriangle& curTriangle = g_GameTerrain->vecPhysTris[triIndex];
+//			glm::vec3 theClosestPoint = curTriangle.ClosestPtPointTriangle(&thePoint);
+//			glm::vec3 theReturnPoint;
+//
+//			if (curTriangle.TestSphereTriangle
+//			(theObject,
+//				&curTriangle.vertex[0],
+//				&curTriangle.vertex[1],
+//				&curTriangle.vertex[2],
+//				theReturnPoint) != 0
+//				)
+//			{
+//				tempContactInfo = new cContactInfo();
+//				tempContactInfo->closestPoint = theReturnPoint;
+//				tempContactInfo->normal = curTriangle.normals[0];
+//				tempContactInfo->velocityAtContact = theObject->vel;
+//				theObject->contactPoints.push_back(tempContactInfo);
+//				//std::cout << "The sphere intersected with " << theReturnPoint.x << theReturnPoint.y << theReturnPoint.z << std::endl;
+//				contact = true;
+//			}
+//
+//			if (contact)
+//				break;
+//		}
+//
+//	}	
+//	return;
+//}
+
+//void ResolveBombCollision(cGameObject* theGameObject) {
+//	
+//		//if the object has contact points
+//		if (theGameObject->contactPoints.size() > 0)
+//		{
+//			theGameObject->vel.x = 0.0f;
+//			glm::vec3 pos = theGameObject->position;
+//			theExplosion = new cGameObject();
+//			theExplosion->position = pos;
+//			theExplosion->meshName = "Sphereply_xyz_n.ply";
+//			theExplosion->scale = 1.0f;
+//			theExplosion->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f,1.0f);
+//			theExplosion->bIsUpdatedInPhysics = true;
+//			theExplosion->typeOfObject == eTypeOfObject::CAPSULE;
+//			g_vecGameObjects.pop_back();
+//			g_vecGameObjects.push_back(theExplosion);
+//			g_bombExploded = true;
+//
+//			theGameObject->contactPoints.clear();
+//			//theGameObject->position = glm::vec4(2000.0f, 1.0f, 1.0f, 1.0f);
+//		}	
+//}

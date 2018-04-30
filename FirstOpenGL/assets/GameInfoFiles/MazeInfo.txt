@@ -1,0 +1,56 @@
+NUM_NODES
+48
+
+MAZE_DESCRIPTION
+1 1 1 1 1 0 1 1 1 0 0 0 1 0 0 1 1 1 1 1 1 1 1 0 0 0 1 1 0 1 0 0 1 0 0 1 0 1 0 1 1 1 1 1 1 1 1 1
+
+//visual representation (0 being inactive nodes) counts from bottom left to top right
+
+1 1 1 1 1 1 1 1
+1 1 1 0 0 1 1 1
+1 1 1 0 0 0 0 1
+1 0 0 1 1 1 0 1
+0 0 0 0 0 1 0 1
+1 1 1 1 1 0 0 1
+
+1 1 1 1 1 0 0 1 0 0 0 0 0 1 0 1 1 0 0 1 1 1 0 1 1 1 1 0 0 0 0 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1
+example start positions any open node (1)
+example end position 0,7,40,47,16,19,37
+
+///////////////////
+//another maze
+1 1 1 1 1 1 1 1 
+1 0 0 1 0 1 0 1 
+0 0 1 1 0 1 0 0 
+1 1 1 1 1 1 1 0 
+1 0 0 0 1 0 0 1  
+1 1 1 1 1 0 1 1 
+
+1 1 1 1 1 0 1 1 1 0 0 0 1 0 0 1 1 1 1 1 1 1 1 0 0 0 1 1 0 1 0 0 1 0 0 1 0 1 0 1 1 1 1 1 1 1 1 1
+example start positions: any open node (1)
+example end position 19,37,32,6,39,44
+
+////////////////////
+//another maze
+1 1 1 1 1 1 1 1 
+1 0 0 1 0 1 0 1 
+0 0 1 1 0 1 0 0 
+1 1 1 1 1 1 1 0 
+1 0 0 0 1 1 0 0  
+1 1 1 1 1 1 0 1
+
+1 1 1 1 1 1 0 1 1 0 0 0 1 1 0 0 1 1 1 1 1 1 1 0 0 0 1 1 0 1 0 0 1 0 0 1 0 1 0 1 1 1 1 1 1 1 1 1
+starting node (beginning of the line at the top)
+
+
+//index starting at 0
+STARTING_NODE
+0
+
+//there are 48 nodes starting at 0
+FINISH_NODE
+32
+
+//pathing values(1st node on left last on right)
+PATHING_VALUES
+1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0 2.0 1.5 1.0

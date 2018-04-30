@@ -1,0 +1,6 @@
+Game Config
+width 1920
+height 1080
+Title_Start
+Not Made With Unity!! 
+Title_End

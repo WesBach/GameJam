@@ -1,0 +1,71 @@
+<Localization>
+	<Language LanguageID = "IN">
+		<Language_1>1 ENGLISH</Language_1>
+		<Language_2>2 SPANISH</Language_2>
+		<Language_3>3 FRENCH</Language_3>
+		<Language_4>4 GERMAN</Language_4>
+		<Language_5>5 ITALIAN</Language_5>
+		<Language_6>PRESS ESC KEY TO EXIT</Language_6>
+	</Language>	
+	
+	<Language LanguageID = "EN">
+		<String_1>WELCOME</String_1>
+		<String_2>This Game is an AI OPENGL application.</String_2>
+		<String_3>The Application will start and find the shortest path for the teapot to travel.</String_3>
+		<String_4>The teapot will automatically start moving.</String_4>
+		<String_5>One node at a time until the finish node.</String_5>
+		<String_6>Exit the application by pressing Esc.</String_6>
+		<String_7>To Start over close the app and restart.</String_7>
+		<String_8>Written By:</String_8>
+		<String_9>Wes Bach</String_9>
+		<String_10>With OPENGL and C++</String_10>
+	</Language>	
+	<Language LanguageID = "SP">
+		<String_1>BIENVENIDO</String_1>
+		<String_2>Este juego es una aplicación AI OPENGL.</String_2>
+		<String_3>La aplicación se iniciará y encontrará el camino más corto para que la tetera viaje.</String_3>
+		<String_4>La tetera comenzará a moverse automáticamente.</String_4>
+		<String_5>Un nodo a la vez hasta el nodo final.</String_5>
+		<String_6>Salga de la aplicación presionando Esc.</String_6>
+		<String_7>Para comenzar, cierra la aplicación y reinicia.</String_7>
+		<String_8>Escrito por:</String_8>
+		<String_9>Wes Bach</String_9>
+		<String_10>Con OPENGL y C ++</String_10>
+	</Language>	
+	<Language LanguageID = "FR">
+		<String_1>BIENVENUE</String_1>
+		<String_2>Ce jeu est une application AI OPENGL.</String_2>
+		<String_3>L'application démarre et trouve le chemin le plus court pour que la théière puisse voyager.</String_3>
+		<String_4>La théière commencera automatiquement à se déplacer..</String_4>
+		<String_5>Un nœud à la fois jusqu'au nœud de fin.</String_5>
+		<String_6>Quittez l'application en appuyant sur Echap..</String_6>
+		<String_7>Pour recommencer, fermez l'application et redémarrez.</String_7>
+		<String_8>Écrit par:</String_8>
+		<String_9>Wes Bach</String_9>
+		<String_10>Avec OPENGL et C ++</String_10>
+	</Language>
+	<Language LanguageID = "GE">
+		<String_1>HERZLICH WILLKOMMEN</String_1>
+		<String_2>Dieses Spiel ist eine AI OPENGL-Anwendung.</String_2>
+		<String_3>Die Anwendung startet und findet den kürzesten Weg für die Teekanne.</String_3>
+		<String_4>Die Teekanne wird automatisch in Bewegung gesetzt.</String_4>
+		<String_5>Ein Knoten nach dem anderen bis zum Zielknoten.</String_5>
+		<String_6>Beenden Sie die Anwendung, indem Sie Esc drücken.</String_6>
+		<String_7>Um zu beginnen, schließe die App und starte neu.</String_7>
+		<String_8>Geschrieben von:</String_8>
+		<String_9>Wes Bach</String_9>
+		<String_10>Mit OPENGL und C ++</String_10>
+	</Language>	
+	<Language LanguageID = "IT">
+		<String_1>BENVENUTO</String_1>
+		<String_2>Questo gioco è un'applicazione AI OPENGL.</String_2>
+		<String_3>L'applicazione inizierà e troverà il percorso più breve per la teiera da percorrere.</String_3>
+		<String_4>La teiera inizierà automaticamente a muoversi.</String_4>
+		<String_5>Un nodo alla volta fino al nodo finale.</String_5>
+		<String_6>Esci dall'applicazione premendo Esc.</String_6>
+		<String_7>Per ricominciare chiudere l'app e riavviare.</String_7>
+		<String_8>Scritto da:</String_8>
+		<String_9>Wes Bach</String_9>
+		<String_10>Con OPENGL e C ++</String_10>
+	</Language>	
+</Localization>

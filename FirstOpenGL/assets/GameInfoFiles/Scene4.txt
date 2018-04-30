@@ -1,0 +1,38 @@
+CAMERA_POSITION
+0.0 48.0 72.0
+
+NUMBER_OF_ENTITIES
+10
+
+//meshname											pos.x		pos.y		pos.z		scale  vel.x	vel.y	vel.z   radius	Mass  diff.x	diff.y  diff.z diff.a    iswireframe	postRot.x	postRot.y	postRot.z  typeOfObject	hassAABB	entityType	stateType
+ENTITIES
+Sample_Ship.ply										-20.0	 	0.0			00.0		5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				0		NONE
+Viper_MkVII_ASCII_UVTex.ply							20.0	 	0.0			-15.0		5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				1		FOLLOWER
+Viper_MkVII_ASCII_UVTex.ply							25.0	 	0.0			10.0		5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				1		FOLLOWER
+mig29_xyz.ply										10.0	 	0.0			20.0		5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				1		ANGRY
+mig29_xyz.ply										-5.0	 	0.0			-10.0		5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				1		ANGRY
+Raider_ASCII_UVtex.ply								-15.0	 	0.0			-25.0		5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				1		CURIOUS
+Raider_ASCII_UVtex.ply								-5.0 		0.0			5.0			5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				1		CURIOUS
+Raider_ASCII_UVtex.ply								-30.0 		0.0			25.0		5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				1		CURIOUS
+mig29_xyz.ply										30.0	 	0.0			-25.0		5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				1		ANGRY
+Viper_MkVII_ASCII_UVTex.ply							30.0	 	0.0			30.0		5.0		0.0	 	0.0		0.0		 1.5	13.0	1.0		0.0		1.0		1.0			0			0.0			0.0			0.0			SPHERE		0				1		FOLLOWER
+
+
+PLAYER_SPEED
+14.0
+
+NUMBER_OF_TERRAIN
+2
+
+//meshname											pos.x		pos.y		pos.z		scale  vel.x	vel.y	vel.z   radius	Mass  diff.x	diff.y  diff.z diff.a    iswireframe	postRot.x	postRot.y	postRot.z  typeOfObject	hassAABB	entityType	stateType
+TERRAIN
+SmoothSphere_Inverted_Normals_xyz_n.ply				0.0			0.0			0.0			2000.0	0.0		0.0		0.0		 1.0	1.0		0.0		1.0		1.0		1.0			0			0.0			0.0			0.0			PLANE		0				3		NONE
+MeshLabTerrain_FLAT_xyz_n_uv.ply					0.0	 		-2.0		0.0			0.006	0.0	 	0.0		0.0		 0.0	1.0		1.0		1.0		1.0		1.0			0			-90.0		0.0			0.0			PLANE		0				3		NONE
+
+ENEMY_SPEED
+1.0
+
+NUMBER_OF_POWERUPS
+0
+
+POWERUPS

@@ -1,0 +1,98 @@
+NUM_MODELS_UV
+9
+
+MODEL_NAME_UV_START
+Big_Old_House.ply
+birch_tree1.ply
+Exterior_lamp.ply
+houseA.ply
+mount.blend.ply
+SmoothSphere_Inverted_Normals_xyz_n.ply
+Ship_Pack_WIP_mod-gas-harvester_xyz_n_uv.ply
+Sphere_xyz_n_uv.ply
+MeshLabTerrain_FLAT_xyz_n_uv.ply
+
+//BMPs
+NUM_TEXTURES
+7
+
+TEXTURE_NAMES
+Big_Old_House_C.bmp
+ground_grass.bmp
+houseA.bmp
+leaves.bmp
+rust.bmp
+terrain.bmp
+TropicalSunnyDayUp.bmp
+
+CAMERA_POSITION
+-94.0 96.0 -4.0
+
+//Specific model information to populate the vector of cGameObjects
+MODELS_BEGIN
+
+NUMBER_OF_MODELS_WITH_UV
+25
+
+//meshname											pos.x		pos.y		pos.z			scale  vel.x	vel.y	vel.z   radius  diff.x	diff.y  diff.z diff.a    iswireframe	preRot.x	preRot.y	preRot.z	postRot.x	postRot.y	postRot.z physUpdate typeOfObject	hassAABB	hasTexture
+MODELS_WITH_UV_FOR_DRAWING																																   
+SmoothSphere_Inverted_Normals_xyz_n.ply				0.0			0.0			0.0				1.0		0.0		0.0		0.0		 5.0	 0.0	0.1		0.1		0.75		1			0.0			0.0			0.0			0.0			0.0			0.0				0		SPHERE		0				1			
+mount.blend.ply										10.0	 	-5.0		0.0				5.0		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			-90.0			0.0			0.0			0		PLANE		0				1
+Exterior_lamp.ply									-222.699	-34.5001	-167.802		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			90.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-232.699	-34.1001	-184.302		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			180.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-222.699	-34.5001	-170.602		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			90.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-222.699	-34.5001	-176.802		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			90.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-222.699	-34.5001	-159.501		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			90.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-237.009	-34.1001	-184.302		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			180.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-238.199	-34.3001	-177.202		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			-90.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-238.199	-34.3001	-170.001		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			-90.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-238.199	-34.3001	-167.401		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			-90.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-238.199	-34.3001	-159.6			2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			-90.0		0.0				0		PLANE		0				1
+Exterior_lamp.ply									-232.998	-34.3001	-158.1			2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+Exterior_lamp.ply									-227.998	-34.3001	-158.1			2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+birch_tree1.ply										-193.9991	-40.3		-180.603		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		0.5			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+birch_tree1.ply										-200.699	-40.9		-170.802		2.2		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		0.5			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+birch_tree1.ply										-206.699	-40.9		-175.802		1.0		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		0.5			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+birch_tree1.ply										-210.699	-40.5		-162.201		1.0		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		0.5			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+birch_tree1.ply										-218.399	-40.5		-167.201		2.0		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		0.25		0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+birch_tree1.ply										-149.8998	7.7			0.0				1.0		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		0.5			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+birch_tree1.ply										19.8		5.2			-33.5			1.0		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		0.95		0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+Big_Old_House.ply									13.69998	-5.40004	 -78.7994		1.0		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+houseA.ply											-231.699	-32.7001	 -171.201		1.0		0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+SmoothSphere_Inverted_Normals_xyz_n.ply				0.0			-4.0			0.0			250.0	0.0		0.0		0.0		 5.0	 0.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0			0.0				0		SPHERE		0				1
+Sphere_xyz_n_uv.ply									-131.699	-0.7001	 -171.201			10.0	0.0	 	0.0		0.0		 0.0	 1.0	1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0			0.0				0		PLANE		0				1
+
+NUM_LIGHTS_TO_LOAD
+18
+
+//in order from 
+//back left			for room lighting
+//back right		also for room lighting
+//cloud right
+//fire entity right
+//fire entity left
+//cloud left
+//back wall moon thing
+//bottom middle for under lighting
+
+//			pos.x	pos.y	pos.z			atten.x	atten.y		atten.z	diff.x	diff.y	diff.z	type
+LIGHTS_BEGIN                        
+			-128.699 -25.3 -163.202			0.0		1.87678		0.0		0.7		0.2		0.0		DIRECTIONAL
+			-122.699 -34.5001 -167.802		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-132.699 -34.5001 -173.802		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-122.699 -34.5001 -170.602		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-122.699 -34.5001 -176.802		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT		
+			-122.699 -34.5001 -159.501		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-137.009 -34.1001 -184.302		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-138.199 -34.3001 -177.202		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-138.199 -34.3001 -170.001		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-138.199 -34.3001 -167.401		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-138.199 -34.3001 -159.6		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-132.998 -34.3001 -158.1		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-127.998 -34.3001 -158.1		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			-132.699 -34.1001 -184.302		0.0		1.81716		0.0		1.0		0.1		0.0		SPOT
+			0.0		 200.0	  0.0			0.0		0.029716	0.0		0.7		1.0		0.0		DIRECTIONAL
+			-131.699 -10.3001 -171.201		0.0		0.0978638	0.0		0.7		1.0		0.0		SPOT
+			1.29998	-0.799955 -78.3994		0.0		0.35939		0.0		1.0		1.0		1.0		DIRECTIONAL
+			3.69998	-2.20004 -76.1994		0.0		0.35939		0.0		1.0		0.0		0.0		SPOT
+LIGHTS_END				

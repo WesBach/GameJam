@@ -1,0 +1,64 @@
+NUM_MODELS_UV
+7
+
+MODEL_NAME_UV_START
+MeshLabTerrain_FLAT_xyz_n_uv.ply
+SmoothSphere_Inverted_Normals_xyz_n.ply
+MeshLabTerrain_FLAT_xyz_n_uv_back.ply
+MeshLabTerrain_FLAT_xyz_n_uv_left.ply
+MeshLabTerrain_FLAT_xyz_n_uv_right.ply
+MeshLabTerrain_FLAT_xyz_n_uv_front.ply	
+Sphere_xyz_n_uv.ply
+
+//BMPs
+NUM_TEXTURES
+6
+
+TEXTURE_NAMES
+leaves.bmp
+rust.bmp
+TropicalSunnyDayBack2048.bmp
+lava.bmp
+donut_texture.bmp
+wall1.bmp
+
+CAMERA_POSITION
+18.0 100.0 -80.0
+
+//Specific model information to populate the vector of cGameObjects
+MODELS_BEGIN
+
+NUMBER_OF_MODELS_WITH_UV
+8
+
+//meshname											pos.x		pos.y		pos.z		scale  vel.x	vel.y	vel.z   radius	Mass  diff.x	diff.y  diff.z diff.a    iswireframe	reflectRat	refractRat	postRot.x	postRot.y	postRot.z  typeOfObject	hassAABB	hasTexture	isReflectRefract
+MODELS_WITH_UV_FOR_DRAWING																																	   
+SmoothSphere_Inverted_Normals_xyz_n.ply				5.0			1.0			0.0			2000.0	0.0		0.0		0.0		 1.0	1.0		0.0		1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0				SPHERE		0				0			 0
+MeshLabTerrain_FLAT_xyz_n_uv_back.ply				0.0	 		0.0			-100.0		0.017	0.0	 	0.0		0.0		 0.0	1.0		1.0		1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0				PLANE		0				0			 0
+MeshLabTerrain_FLAT_xyz_n_uv_left.ply				-100.0	 	0.0			0.0			0.017	0.0	 	0.0		0.0		 0.0	1.0		1.0		1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0				PLANE		0				0			 0
+MeshLabTerrain_FLAT_xyz_n_uv_right.ply				100.0	 	0.0			0.0			0.017	0.0	 	0.0		0.0		 0.0	1.0		1.0		1.0		1.0		1.0			0			0.0			0.0			0.0			0.0			0.0				PLANE		0				0			 0
+MeshLabTerrain_FLAT_xyz_n_uv.ply					0.0	 		-6.0		00.0		0.017	0.0	 	0.0		0.0		 0.0	1.0		1.0		1.0		1.0		1.0			0			0.0			0.0			-90.0		0.0			0.0				PLANE		0				0			 0
+MeshLabTerrain_FLAT_xyz_n_uv_front.ply				0.0	 		0.0			100.0		0.017	0.0	 	0.0		0.0		 0.0	1.0		1.0		1.0		0.0		1.0			0			0.0			0.0			0.0			0.0			0.0				PLANE		0				0			 0
+Sphere_xyz_n_uv.ply									0.0			-8.0		0.0			0.5		0.0		0.0		0.0		 1.0	1.0		1.0		1.0		0.0		1.0			1			0.0			0.0			0.0			0.0			0.0				SPHERE		0				0			 0
+Sphere_xyz_n_uv.ply									0.0			-8.0		0.0			0.5		0.0		0.0		0.0		 1.0	1.0		1.0		1.0		0.0		1.0			1			0.0			0.0			0.0			0.0			0.0				SPHERE		0				0			 0
+
+
+
+
+NUM_LIGHTS_TO_LOAD
+1
+
+//in order from 
+//back left			for room lighting
+//back right		also for room lighting
+//cloud right
+//fire entity right
+//fire entity left
+//cloud left
+//back wall moon thing
+//bottom middle for under lighting
+
+//			pos.x	pos.y	pos.z			atten.x	atten.y		atten.z	diff.x	diff.y	diff.z	type
+LIGHTS_BEGIN                        
+			-100.0	480.0	  -50.0			0.0		0.000158	0.0		0.1		0.1		0.1		DIRECTIONAL
+LIGHTS_END				
