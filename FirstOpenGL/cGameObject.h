@@ -1,6 +1,5 @@
 #ifndef _cGameObject_HG_
 #define _cGameObject_HG_
-#include "cContactInfo.h"
 #include "AABB_Center_Radius.h"
 #include "sMeshDrawInfo.h"
 #include "sTextureBindBlendInfo.h"
@@ -12,7 +11,6 @@
 #include "cPowerUp.h"
 #include <string>
 #include <vector>
-
 
 class cAnimationManager;
 class cPathingNode;
@@ -36,7 +34,6 @@ enum eSpeed {
 	Run,
 	IdleSpeed
 };
-
 
 class cGameObject
 {
@@ -67,7 +64,7 @@ public:
 	ePowerUpType typeOfPowerUp;
 	//======================================
 	//put all this in another class
-    //======================================
+	//======================================
 	eSpeed theMovementSpeed = eSpeed::IdleSpeed;
 	cAnimationManager* pAnimationManager;
 	//=======================================

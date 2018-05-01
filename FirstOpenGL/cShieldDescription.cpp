@@ -5,8 +5,7 @@
 extern nPhysics::iPhysicsWorld* theWorld;
 extern nPhysics::iPhysicsFactory* theFactory;
 
-cShieldDescription::cShieldDescription(int numbodies,glm::vec3 mainBodyPosition) {
-
+cShieldDescription::cShieldDescription(int numbodies, glm::vec3 mainBodyPosition) {
 	//TODO:: get generic sphere and make a few bodies
 	cGameObject* tempObject;
 	float positionDisplacement = 3.f;

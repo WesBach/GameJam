@@ -20,7 +20,7 @@ enum eActionType {
 class cGameObject;
 
 class iState {
-	public:
+public:
 	virtual ~iState() {}
 	virtual void performAction(cGameObject* player, cGameObject* me, float deltaTime) = 0;
 	virtual eStateType getStateType() = 0;

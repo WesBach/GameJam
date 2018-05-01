@@ -2,7 +2,7 @@
 #define _AABB_Tri_HG_
 #include "glm\vec3.hpp"
 
-class AABB_Tri{
+class AABB_Tri {
 public:
 	AABB_Tri();
 	~AABB_Tri();
@@ -21,4 +21,3 @@ private:
 	unsigned long long ID;
 };
 #endif // !_AABB_Tri_HG_
-

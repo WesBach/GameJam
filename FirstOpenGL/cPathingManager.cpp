@@ -4,11 +4,9 @@
 #include "cGameObject.h"
 
 cPathingManager::cPathingManager() {
-
 }
 
 cPathingManager::~cPathingManager() {
-
 }
 
 //Name:		getShortestPath
@@ -24,10 +22,9 @@ bool cPathingManager::getShortestPath() {
 }
 
 //Name:		readMazeFromFile
-//Purpose:	Reads in the node state and values from the passed in file. 
+//Purpose:	Reads in the node state and values from the passed in file.
 //Return:	bool
 bool cPathingManager::readMazeFromFile(std::string path, std::vector<cGameObject*>& theObjects) {
-
 	std::vector<bool> vecIsActiveNode;
 	std::vector<float> vecPathingValues;
 	std::string tokenToFind = "";

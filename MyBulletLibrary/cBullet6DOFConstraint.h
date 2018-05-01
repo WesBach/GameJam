@@ -4,9 +4,7 @@
 #include <bullet\btBulletDynamicsCommon.h>
 #include <glm\vec3.hpp>
 
-
 namespace nPhysics {
-
 	class cBulletRigidBody;
 
 	//bulet 6 degrees of freedom constraint wrapper class
@@ -20,7 +18,7 @@ namespace nPhysics {
 
 		virtual iRigidBody* GetRigidBodyA();
 		virtual iRigidBody* GetRigidBodyB();
-		//for changing the limits of the constraint 
+		//for changing the limits of the constraint
 		virtual void SetLinearLimits(const glm::vec3& min, const glm::vec3& max);
 		virtual void SetAngularLimits(const glm::vec3& min, const glm::vec3& max);
 
@@ -31,6 +29,5 @@ namespace nPhysics {
 		cBulletRigidBody* mBodyB;
 	};
 }
-
 
 #endif // !_cBullet6DOFConstraint_HG_

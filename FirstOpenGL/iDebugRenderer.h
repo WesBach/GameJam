@@ -78,7 +78,7 @@ public:
 	virtual void addDebugSphere(glm::vec3 xyz, glm::vec3 colour, float scale, float lifeTime = 0.0f) = 0;
 	static const std::string DEFAULT_DEBUG_SPHERE_MESH_NAME;// = "DSPHERE";
 
-															// Used to draw an arbitrary mesh. If 
+															// Used to draw an arbitrary mesh. If
 															//	virtual void addDebugMesh(std::string name, glm::vec3 xyz, glm::vec3 colour, float scale, float lifeTime=0.0f) = 0;
 															//	virtual void addDebugMesh(std::string name, glm::vec3 xyz, glm::vec3 colour, glm::vec3 EulerOrientation, float scale, float lifeTime=0.0f) = 0;
 															//	virtual void addDebugMesh(std::string name, glm::vec3 xyz, glm::vec3 colour, glm::quat qOrientation, float scale, float lifeTime=0.0f) = 0;
@@ -86,7 +86,6 @@ public:
 															// Various meshes that you could load and draw (are drawn with static meshes)
 															// Note: the mesh is ONLY triangles, so not indexed
 	virtual void loadDebugMesh(std::string friendlyName, std::vector<sDebugTri> &vecTris) = 0;
-
 };
 
 typedef iDebugRenderer::sDebugTri	drTri;

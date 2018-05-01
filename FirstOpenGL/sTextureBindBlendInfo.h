@@ -2,8 +2,8 @@
 #define _sTextureBindBlendInfo_HG_
 
 // Used to hold texture and (basic) blend information
-// This is pretty basic: any textures are modulated (multiplied) 
-//	together using the textureBlendRatio for each. 
+// This is pretty basic: any textures are modulated (multiplied)
+//	together using the textureBlendRatio for each.
 // So all the blend ratios, together, should add to 1.0f
 
 #include <string>

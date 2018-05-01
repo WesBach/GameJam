@@ -8,7 +8,7 @@ class cGameObject;
 
 class cShieldDescription {
 public:
-	cShieldDescription(int numbodies,glm::vec3 mainBodyPosition);
+	cShieldDescription(int numbodies, glm::vec3 mainBodyPosition);
 
 	std::vector<cGameObject*> pShieldBodies;
 };

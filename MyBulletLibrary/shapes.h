@@ -4,9 +4,8 @@
 #include <bullet\btBulletDynamicsCommon.h>
 
 namespace nPhysics {
-
 	//Shere shape
-	class cBulletSphereShape : public iShape{
+	class cBulletSphereShape : public iShape {
 	public:
 		cBulletSphereShape(float radius);
 		virtual ~cBulletSphereShape();
@@ -20,7 +19,7 @@ namespace nPhysics {
 	};
 
 	//Plane shape
-	class cBulletPlaneShape : public iShape{
+	class cBulletPlaneShape : public iShape {
 	public:
 		cBulletPlaneShape(const glm::vec3& normal, float planeConst);
 		virtual ~cBulletPlaneShape();
@@ -36,7 +35,7 @@ namespace nPhysics {
 	};
 
 	//Cylinder shape
-	class cBulletCylinderShape : public iShape{
+	class cBulletCylinderShape : public iShape {
 	public:
 		cBulletCylinderShape(const glm::vec3& halfExtents);
 		virtual ~cBulletCylinderShape();
@@ -49,7 +48,7 @@ namespace nPhysics {
 	};
 
 	//Box shape
-	class cBulletBoxShape : public iShape{
+	class cBulletBoxShape : public iShape {
 	public:
 		cBulletBoxShape(const glm::vec3& boxHalfExtents);
 		virtual ~cBulletBoxShape();
@@ -67,7 +66,7 @@ namespace nPhysics {
 	public:
 		cBulletConeShape(const float& radius, const float& height);
 		virtual ~cBulletConeShape();
-		virtual bool GetConeRadiusAndHeight(float& radius,float& height);
+		virtual bool GetConeRadiusAndHeight(float& radius, float& height);
 	private:
 		cBulletConeShape();
 		cBulletConeShape(const cBulletBoxShape& other);
@@ -75,8 +74,6 @@ namespace nPhysics {
 		float mHeight;
 		float mRadius;
 	};
-
 }
-
 
 #endif

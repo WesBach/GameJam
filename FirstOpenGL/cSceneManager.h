@@ -18,7 +18,7 @@ class iEntity;
 class cShieldDescription;
 
 struct sScene {
-	sScene(); 
+	sScene();
 	~sScene();
 	//for ease of drawing
 	std::vector<cGameObject*>	entities;
@@ -36,14 +36,14 @@ struct sScene {
 };
 
 class cSceneManager {
-public :
+public:
 	cSceneManager();
-	bool loadSceneFromFileIntoSceneMap(std::string& fileName,int mapIndex, cVAOMeshManager* theMeshManager);
-	bool loadModelsFromModelInfoFile(std::string& filename, cVAOMeshManager* theMeshManager,int shaderId);
+	bool loadSceneFromFileIntoSceneMap(std::string& fileName, int mapIndex, cVAOMeshManager* theMeshManager);
+	bool loadModelsFromModelInfoFile(std::string& filename, cVAOMeshManager* theMeshManager, int shaderId);
 
 	sScene getSceneById(int id);//copy the vector, we dont want to change the original
 	void copySceneFromCopyToPointer(const sScene& copyFrom, sScene* copyTo);
-	void populateEnemies(std::vector<cEnemy>& enemies,sScene* theScene);
+	void populateEnemies(std::vector<cEnemy>& enemies, sScene* theScene);
 	void loadLevelTextures(sScene* theScene);
 	void loadNextLevel(sScene* g_pCurrentScene, cPlayer* thePlayer);
 	void configurePowerUpsForScene(sScene* theScene, std::vector<cPowerUp*>& thePowerUps);
@@ -60,8 +60,7 @@ private:
 	bool loadPlyFileIntoMeshWithNormals(std::string filename, cMesh &theMesh);
 	void createSceneRigidBodies(sScene* theScene, cVAOMeshManager* theMeshManager);
 	std::map<int, sScene*> mSceneMap;
-	void populateRigidBodyDescAndShape(const cGameObject& object,  nPhysics::sRigidBodyDesc& desc,nPhysics::iShape*& shape,cVAOMeshManager* theMeshManager);
+	void populateRigidBodyDescAndShape(const cGameObject& object, nPhysics::sRigidBodyDesc& desc, nPhysics::iShape*& shape, cVAOMeshManager* theMeshManager);
 };
 
 #endif // !_cSceneManager_HG_
-

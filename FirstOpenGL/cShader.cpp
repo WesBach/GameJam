@@ -7,14 +7,14 @@ cShader::cShader()
 	return;
 }
 
-cShader::~cShader() 
+cShader::~cShader()
 {
 	return;
 }
 
 std::string cShader::getShaderTypeString(void)
 {
-	switch ( this->shaderType )
+	switch (this->shaderType)
 	{
 	case cShader::VERTEX_SHADER:
 		return "VERTEX_SHADER";
@@ -47,7 +47,7 @@ void cShader::parseStringIntoMultiLine(std::string singleLineSouce)
 
 	char * pCharLine;
 	pCharLine = strtok(charSourceString, "\n");
-	//char *next_token = NULL;  
+	//char *next_token = NULL;
 	//pCharLine = strtok_s(charSourceString,"\n",&next_token);
 
 	while (pCharLine != NULL)

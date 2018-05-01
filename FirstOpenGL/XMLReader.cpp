@@ -2,7 +2,7 @@
 
 void XMLReader::load_languages_from_xml(std::wstring input_xml_file) {
 	//TODO:: set up xml to have 5 different languages
-	//Read the languages in 
+	//Read the languages in
 	//10 items for the "menu"
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(input_xml_file.c_str());
@@ -19,4 +19,3 @@ void XMLReader::load_languages_from_xml(std::wstring input_xml_file) {
 		}
 	}
 }
-

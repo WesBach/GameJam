@@ -15,15 +15,13 @@ public:
 
 	// Loads a model and returns a mesh
 	bool loadModelA(std::string filename,
-					cMesh &theMesh,
-					std::string &error);
+		cMesh &theMesh,
+		std::string &error);
 
 	bool loadAllMeshesFromModel(
 		std::string filename,
 		cMesh &theMesh,
 		std::string &error, int shaderId);
-
 };
 
-#endif 
-
+#endif

@@ -5,7 +5,6 @@
 #include <bullet\btBulletDynamicsCommon.h>
 
 namespace nPhysics {
-
 	class cBulletRigidBody;
 
 	//Bullet Cone Twist Constraint wrapper
@@ -30,4 +29,3 @@ namespace nPhysics {
 }
 
 #endif // ! _cBulletConeTwistConstraint_HG_
-

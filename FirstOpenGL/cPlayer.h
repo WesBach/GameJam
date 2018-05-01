@@ -5,7 +5,7 @@
 #include "sProjectile.h"
 class cEmitter;
 
-class cPlayer: public iEntity {
+class cPlayer : public iEntity {
 public:
 	cPlayer();
 	~cPlayer();
@@ -39,7 +39,6 @@ public:
 	cEmitter* playerParticleEmitter;
 	void setPlayerEmitterToActive();
 	void emitParticles(float deltaTime, int shaderProgram);
-
 
 	void updateEmitterPosition();
 	void setProjectileInUse(sProjectile& projectile);

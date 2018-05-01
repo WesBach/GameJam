@@ -3,8 +3,6 @@
 
 class cCollisionListener {
 public:
-
 };
-
 
 #endif // !_cCollisionListener_HG_

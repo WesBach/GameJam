@@ -7,9 +7,9 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
-#include "sVAOInfo.h"		
+#include "sVAOInfo.h"
 
-// Note: 
+// Note:
 // - Include this header in the thing(s) that MANAGE the debug render
 //   (init, rendering, etc.)
 // - Include the ++iDebugRenderer++ in the things that need to add things to draw
@@ -52,7 +52,6 @@ public:
 	// Note: the mesh is ONLY triangles, so NOT indexed (like ply, obj, etc.)
 	virtual void loadDebugMesh(std::string friendlyName, std::vector<sDebugTri> &vecTris);
 
-
 	unsigned int getTriangleBufferSizeInTriangles(void) { return this->m_VAOBufferInfoTriangles.bufferSizeObjects; }
 	unsigned int getTriangleBufferSizeInBytes(void) { return this->m_VAOBufferInfoTriangles.bufferSizeBytes; }
 	unsigned int getLineBufferSizeInLines(void) { return this->m_VAOBufferInfoLines.bufferSizeObjects; }
@@ -72,13 +71,12 @@ public:
 	// "arrayName" is the name of the array and the size value:
 	// - arrayName+"_array" for the array		(example: "float teapot_array[] = ...")
 	// - arrayName+"_array_size" for the size	(example: "unsigned int teapot_array_size = ...")
-	// NOTE: Size is the TOTAL number of floats, so 3x the number of triangles. 
+	// NOTE: Size is the TOTAL number of floats, so 3x the number of triangles.
 	//       You pass this TOTAL number info the loadHeaderArrayInto_vecTri() method.
 	// Leave outputFileName blank to NOT save to a file.
 	bool QnD_convert_vecTri_to_array_header(std::vector<sDebugTri> &vecTris, std::string arrayName, std::string &arrayText, std::string outputFileName = "");
 	bool QnD_loadHeaderArrayInto_vecTri(float* shapeArray, int sizeOfArray, std::vector<sDebugTri> &vecTris);
 	static const std::string DEFAULT_PLY_SPHERE_MODEL_TEXT;
-
 
 	//AABB debug draw
 	void addAABB(AABB_Center_Radius* bound);
@@ -87,7 +85,6 @@ public:
 private:
 	void DebugRenderer::m_copyAABBsIntoRenderBuffer(double deltaTime);
 	unsigned int debugAABBId;
-
 
 private:
 
@@ -104,7 +101,7 @@ private:
 	std::vector<drLine>  m_vecLines;
 	std::vector<drPoint> m_vecPoints;
 	std::vector<drMesh>  m_vecMeshes;
-	std::map<int,drAABB*>  m_mapAABB;
+	std::map<int, drAABB*>  m_mapAABB;
 
 	static const std::string DEFALUT_VERT_SHADER_SOURCE;
 	static const std::string DEFAULT_FRAG_SHADER_SOURCE;
@@ -163,9 +160,8 @@ private:
 
 	std::map<std::string /*meshname*/, sVAOInfoDebug /*drawInfo*/> m_mapMeshNameToVAOInfo;
 
-
 	// Used to hold the shader information
-	// Note: it's set up this way so that we don't have to include the shader manager 
+	// Note: it's set up this way so that we don't have to include the shader manager
 	//	in this file or set up a pimpl, etc. The cShaderProgramInfo is defined in
 	//	the implementation file for the DebugRenderer.cpp
 	cShaderProgramInfo* m_pShaderProg;

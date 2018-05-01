@@ -1,7 +1,7 @@
 #include "cMathHelper.h"
 
 //http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-17-quaternions/
-//static 
+//static
 bool doQuaternionsMatch(const glm::quat &q1, const glm::quat &q2)
 {
 	float dotProd = glm::dot(q1, q2);
@@ -13,7 +13,7 @@ bool doQuaternionsMatch(const glm::quat &q1, const glm::quat &q2)
 }
 
 //http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-17-quaternions/
-//static 
+//static
 float angleBetweenQuaternionsRadians(const glm::quat &q1, const glm::quat &q2)
 {
 	float dotProd = glm::dot(q1, q2);
@@ -21,8 +21,7 @@ float angleBetweenQuaternionsRadians(const glm::quat &q1, const glm::quat &q2)
 	return acos(dotProd);
 }
 
-
-// From 
+// From
 // http://mmmovania.blogspot.ca/2014/03/making-opengl-object-look-at-another.html
 //static
 glm::quat RotationBetweenVectors(glm::vec3 start, glm::vec3 dest)
@@ -61,7 +60,6 @@ glm::quat RotationBetweenVectors(glm::vec3 start, glm::vec3 dest)
 //static
 glm::quat RotateTowards(glm::quat qStart, glm::quat qEnd, float maxAngleRadians)
 {
-
 	if (maxAngleRadians < 0.001f)
 	{
 		// No rotation allowed. Prevent dividing by 0 later.
@@ -101,15 +99,15 @@ glm::quat RotateTowards(glm::quat qStart, glm::quat qEnd, float maxAngleRadians)
 	return res;
 }
 
-////static 
-//glm::mat4 CMathHelper::ObjectLookAt_GetMatrixMethod_Quaternion(const glm::vec3& object, const glm::vec3& target) 
+////static
+//glm::mat4 CMathHelper::ObjectLookAt_GetMatrixMethod_Quaternion(const glm::vec3& object, const glm::vec3& target)
 //{
 //    glm::vec3 delta =  (target-object);
-//    glm::vec3 desiredUp(0,1,0.00001); 
+//    glm::vec3 desiredUp(0,1,0.00001);
 //    glm::quat rot1 = RotationBetweenVectors(glm::vec3(0,0,1), delta);
 //    glm::vec3 right = glm::cross(delta, desiredUp);
 //    desiredUp = glm::cross(right, delta);
-//  
+//
 //    glm::vec3 newUp = rot1 * glm::vec3(0.0f, 1.0f, 0.0f);
 //    glm::quat rot2 = RotationBetweenVectors(newUp, desiredUp);
 //    glm::quat targetOrientation = rot2 * rot1;
@@ -120,7 +118,7 @@ glm::quat RotateTowards(glm::quat qStart, glm::quat qEnd, float maxAngleRadians)
 //    return M;
 //}
 
-//static 
+//static
 glm::mat4 ObjectLookAt_GetMatrixMethod_Quaternion(const glm::vec3& objectEye, const glm::vec3& targetAt, glm::quat &resultingEyeOrientation)
 {
 	glm::vec3 delta = (targetAt - objectEye);
@@ -142,14 +140,13 @@ glm::mat4 ObjectLookAt_GetMatrixMethod_Quaternion(const glm::vec3& objectEye, co
 	return M;
 }
 
-
 //static
 glm::mat4 ObjectLookAt_GetMatrixMethod_MatrixOnly(const glm::vec3& objectEye, const glm::vec3& targetAt)
 {
 	//second method
 	glm::vec3 up;
 	glm::vec3 direction(glm::normalize(targetAt - objectEye));
-	if (abs(direction.x)< 0.00001 && abs(direction.z) < 0.00001)
+	if (abs(direction.x) < 0.00001 && abs(direction.z) < 0.00001)
 	{
 		if (direction.y > 0)
 		{
@@ -175,22 +172,20 @@ glm::mat4 ObjectLookAt_GetMatrixMethod_MatrixOnly(const glm::vec3& objectEye, co
 		objectEye.x, objectEye.y, objectEye.z, 1.0f);
 }
 
-
-
-//static 
+//static
 float calcDistanceBetweenTwoPoints(glm::vec3 a, glm::vec3 b)
 {
 	//return sqrt( pow(a.x-b.x, 2) + pow(a.y-b.y, 2) + pow( a.z-b.z, 2) );
 	return glm::distance(a, b);
 }
 
-//static 
+//static
 float degToRad(float degrees)
 {
 	return glm::radians(degrees);
 }
 
-//static 
+//static
 float radToDeg(float radians)
 {
 	return glm::degrees(radians);
@@ -257,7 +252,6 @@ glm::vec3 VectorMultiplyMatrices(const glm::mat4& m1, const glm::vec3* v1)
 	return out;
 }
 
-
 void RotateAboutY(Matrix* m, float angle) {
 	Matrix rotation = IDENTITY_MATRIX;
 	float sine = (float)sin(angle);
@@ -281,7 +275,7 @@ void RotateAboutY(glm::mat4* m, float angle) {
 	float cosine = (float)cos(angle);
 
 	//TODO:: fix this
-	//iswrong 
+	//iswrong
 	rotation[0].x = cosine;
 	rotation[1].w = sine;
 	rotation[0].y = -sine;
@@ -306,7 +300,6 @@ Matrix MultiplyMatrices(const Matrix* m1, const Matrix* m2)
 
 	return out;
 }
-
 
 void TranslateMatrix(Matrix* m, float x, float y, float z)
 {

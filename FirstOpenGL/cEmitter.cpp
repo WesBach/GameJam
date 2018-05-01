@@ -8,13 +8,13 @@ extern cVAOMeshManager* g_pVAOManager;
 extern cGameObject tempObject;
 cEmitter::cEmitter()
 {
-	// Maybe set some defaults?? 
+	// Maybe set some defaults??
 	// (Or just be careful, right?)
 	this->m_numParticles = 0;
 	this->m_maxParticleCreatedPerStep = 0;
 	this->m_minLife = 0.0f;
 	this->m_maxLife = 0.0f;
-	// 
+	//
 	this->m_maxInitVel = glm::vec3(0.0f);
 	this->m_minInitVel = glm::vec3(0.0f);
 	this->m_minRangeFromEmitter = glm::vec3(0.0f);
@@ -29,32 +29,31 @@ cEmitter::~cEmitter()
 	return;
 }
 
-double getRandInRange( double min, double max )
+double getRandInRange(double min, double max)
 {
-
-	double value = min + static_cast <double> (rand()) / ( static_cast <double> (RAND_MAX/(max-min)));
+	double value = min + static_cast <double> (rand()) / (static_cast <double> (RAND_MAX / (max - min)));
 	return value;
 }
 
 // Call this only to start of if you want to change the initial values
 // (NOT to be called every frame or anything)
-// (Also, call IN ADVANCE of "expensive" operations, like explosions, 
+// (Also, call IN ADVANCE of "expensive" operations, like explosions,
 //  or other things that require a lot of particles)
 void cEmitter::init(
 	int numParticles, int maxParticleCreatedPerStep,
 	glm::vec3 minInitVel, glm::vec3 maxInitVel,
 	float minLife, float maxLife,
 	glm::vec3 minRangeFromEmitter,
-	glm::vec3 maxRangeFromEmitter, 
-	glm::vec3 acceleration,std::string meshname )
+	glm::vec3 maxRangeFromEmitter,
+	glm::vec3 acceleration, std::string meshname)
 {
 	this->meshName = meshname;
-	// Do I already have this many particles in my vector? 
+	// Do I already have this many particles in my vector?
 	int numParticlesToCreate = numParticles - this->m_vecParticles.size();
 	// If we DON'T have enough, then create some
 	for (int count = 0; count <= numParticlesToCreate; count++)
-	{	// 
-		this->m_vecParticles.push_back( new cParticle() );
+	{	//
+		this->m_vecParticles.push_back(new cParticle());
 	}
 	// At this point, we have enough particles
 
@@ -96,7 +95,7 @@ void cEmitter::init(
 
 int cEmitter::getLivingParticles(std::vector< cParticle* > &vecParticles)
 {
-	// Resize if too small	
+	// Resize if too small
 	if (vecParticles.size() < this->m_numParticles)
 	{
 		// Resize and fill with NULL (or whatever)
@@ -122,27 +121,27 @@ int cEmitter::getLivingParticles(std::vector< cParticle* > &vecParticles)
 	return indexAliveParticles;
 }
 
-void cEmitter::Update(float deltaTime,glm::vec3 forwardVector)
+void cEmitter::Update(float deltaTime, glm::vec3 forwardVector)
 {
 	// 1. Calculate how many particles from m_maxParticleCreatedPerStep
 	// 2. Find 'dead' particles in the vector
 	// 3. IF you find them, 'create' new particles (copy init values)
-	
+
 	int particlesToStillMake = this->m_maxParticleCreatedPerStep;
 
 	// Scan through the vector, looking for "dead" particles
-	for (int index = 0; 
-		 (index != this->m_numParticles) && (particlesToStillMake > 0);
-		 index++)
+	for (int index = 0;
+		(index != this->m_numParticles) && (particlesToStillMake > 0);
+		index++)
 	{
 		// Is this particle 'dead'
 		if (this->m_vecParticles[index]->lifetime <= 0.0f)
-		{	// "create" a particle			
-			this->m_vecParticles[index]->lifetime = getRandInRange( this->m_minLife, this->m_maxLife );
+		{	// "create" a particle
+			this->m_vecParticles[index]->lifetime = getRandInRange(this->m_minLife, this->m_maxLife);
 			this->m_vecParticles[index]->pos = this->position;
-			this->m_vecParticles[index]->vel.x = getRandInRange( this->m_minRangeFromEmitter.x, this->m_maxRangeFromEmitter.x );
-			this->m_vecParticles[index]->vel.y = getRandInRange( this->m_minRangeFromEmitter.y, this->m_maxRangeFromEmitter.y );
-			this->m_vecParticles[index]->vel.z = getRandInRange( this->m_minRangeFromEmitter.z, this->m_maxRangeFromEmitter.z );
+			this->m_vecParticles[index]->vel.x = getRandInRange(this->m_minRangeFromEmitter.x, this->m_maxRangeFromEmitter.x);
+			this->m_vecParticles[index]->vel.y = getRandInRange(this->m_minRangeFromEmitter.y, this->m_maxRangeFromEmitter.y);
+			this->m_vecParticles[index]->vel.z = getRandInRange(this->m_minRangeFromEmitter.z, this->m_maxRangeFromEmitter.z);
 			// Update the count
 			particlesToStillMake--;
 		}
@@ -151,15 +150,15 @@ void cEmitter::Update(float deltaTime,glm::vec3 forwardVector)
 	// 4. Perform integration step (aka Euler, or use physics, etc.)
 	//    (ALSO: decrease the 'life' of the particle by deltaTime)
 	for (int index = 0; index != this->m_numParticles; index++)
-//	for (int index = 0; index != this->m_vecParticles.size()-1; index++)
+		//	for (int index = 0; index != this->m_vecParticles.size()-1; index++)
 	{
-		// Forward explicit Euler...		
-		// Velocity comes from accleration 
+		// Forward explicit Euler...
+		// Velocity comes from accleration
 		this->m_vecParticles[index]->vel += (this->m_acceleration * deltaTime);
 
 		// Position comes from velocity
 		this->m_vecParticles[index]->pos +=
-                         (this->m_vecParticles[index]->vel * deltaTime);
+			(this->m_vecParticles[index]->vel * deltaTime);
 
 		// Update the lifetime
 		this->m_vecParticles[index]->lifetime -= deltaTime;
@@ -191,8 +190,7 @@ void cEmitter::addInstancedAttributeToParticleVAO(int vao, int vbo, int attribut
 	glBindVertexArray(0);
 }
 
-void cEmitter::renderParticles(const float& deltaTime,const int& shaderProgram,glm::vec3 playerPosition) {
-
+void cEmitter::renderParticles(const float& deltaTime, const int& shaderProgram, glm::vec3 playerPosition) {
 	//get the active particles for each active emitter and draw that amount of particles to the screen
 	tempObject.meshName = this->meshName;
 	tempObject.bIsWireFrame = false;
@@ -212,14 +210,14 @@ void cEmitter::renderParticles(const float& deltaTime,const int& shaderProgram,g
 	int numActiveParticles = this->getLivingParticles(activeParticles);
 	std::vector<cGameObject*> theParticlesToDraw;
 
-	//set the position offsets to 0.f 
+	//set the position offsets to 0.f
 	for (int i = 0; i < NUMPARTICLES; i++) {
 		positions[i] = glm::vec3(0.f);
 	}
 
 	for (int particleIndex = 0; particleIndex < numActiveParticles; particleIndex++) {
 		//particle position from the emitter
-		this->positions[particleIndex] =  activeParticles[particleIndex]->pos - this->position ;
+		this->positions[particleIndex] = activeParticles[particleIndex]->pos - this->position;
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);

@@ -11,7 +11,6 @@ namespace nPhysics
 			, Rotation(0.f, 0.f, 0.f)
 			, Mass(1.f)
 		{
-
 		}
 		glm::vec3 Position;
 		glm::vec3 Velocity;

@@ -7,7 +7,6 @@
 #include <glm\gtc\quaternion.hpp>
 
 namespace nPhysics {
-
 	//Conversion namespace for easy switch between glm and bullet types
 	namespace nConvert {
 		inline btVector3 vec3ToBullet(const glm::vec3& v)
@@ -36,13 +35,13 @@ namespace nPhysics {
 		//quaternion conversion from glm to bullet
 		inline btQuaternion ToBullet(const glm::quat& q)
 		{
-			return btQuaternion(q.x, q.y, q.z,q.w);
+			return btQuaternion(q.x, q.y, q.z, q.w);
 		}
 
 		//quaternion conversion from bullet to glm
 		inline glm::quat ToGLM(const btQuaternion& v)
 		{
-			return glm::quat(v[0], v[1], v[2],v[3]);
+			return glm::quat(v[0], v[1], v[2], v[3]);
 		}
 
 		//quaternion conversion from glm to bullet

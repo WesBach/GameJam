@@ -1,7 +1,6 @@
 #include "Camera.h"
 
-glm::vec3 Camera::m_calcDirectionVectorFromTarget(void)
-{
+glm::vec3 Camera::m_calcDirectionVectorFromTarget(void){
 	// Get a vector from the target to the eye
 	// (i.e. what direction the camera is looking at)
 	glm::vec3 vecDirectionAndDistanceTarget = this->target - this->eye;
@@ -12,10 +11,7 @@ glm::vec3 Camera::m_calcDirectionVectorFromTarget(void)
 	return vecDirection;
 }
 
-
-
-void Camera::Fly_moveForward(float distanceAlongRelativeZAxis_PosIsForward)
-{
+void Camera::Fly_moveForward(float distanceAlongRelativeZAxis_PosIsForward){
 	// Calcualte axis components based on orientation
 	glm::vec3 vecDirection = this->m_calcDirectionVectorFromTarget();
 
@@ -28,8 +24,7 @@ void Camera::Fly_moveForward(float distanceAlongRelativeZAxis_PosIsForward)
 	return;
 }
 
-void Camera::Fly_moveRightLeft(float distanceAlongRelativeXAxis_PosIsRight)
-{
+void Camera::Fly_moveRightLeft(float distanceAlongRelativeXAxis_PosIsRight){
 	// Calcualte axis components based on orientation
 	glm::vec3 vecDirection = this->m_calcDirectionVectorFromTarget();
 
@@ -43,49 +38,41 @@ void Camera::Fly_moveRightLeft(float distanceAlongRelativeXAxis_PosIsRight)
 	return;
 }
 
-void Camera::Fly_moveUpDown(float distanceAlongRelativeYAxis_PosIsUp)
-{
+void Camera::Fly_moveUpDown(float distanceAlongRelativeYAxis_PosIsUp){
 	//TODO:
 	return;
 }
 // +ve is right
-void Camera::Fly_turn(float turnDegreesPosIsRight)
-{
+void Camera::Fly_turn(float turnDegreesPosIsRight){
 	//TODO:
 	return;
 }
-void Camera::Fly_turn_RightLeft(float turnDegreesPosIsRight)
-{
+void Camera::Fly_turn_RightLeft(float turnDegreesPosIsRight){
 	//TODO:
 	return;
 }
 // +ve it up
-void Camera::Fly_pitch(float pitchDegreesPosIsNoseUp)
-{
+void Camera::Fly_pitch(float pitchDegreesPosIsNoseUp){
 	//TODO:
 	return;
 }
-void Camera::Fly_pitch_UpDown(float pitchDegreesPosIsNoseUp)
-{
+void Camera::Fly_pitch_UpDown(float pitchDegreesPosIsNoseUp){
 	//TODO:
 	return;
 }
 // +ve is Clock-wise rotation (from nose to tail)
-void Camera::Fly_yaw(float pitchDegreesPosIsClockWise)
-{
+void Camera::Fly_yaw(float pitchDegreesPosIsClockWise){
 	//TODO:
 	return;
 }
-void Camera::Fly_yaw_CWorCCW(float pitchDegreesPosIsClockWise)
-{
+void Camera::Fly_yaw_CWorCCW(float pitchDegreesPosIsClockWise){
 	//TODO:
 	return;
 }
-// 
+//
 // You can use this to change the target from wherever it is
-//	to, say, 1.0 units from the front of the camera. 
-void Camera::RelocateTargetInFrontOfCamera(float howFarAwayFromFront)
-{
+//	to, say, 1.0 units from the front of the camera.
+void Camera::RelocateTargetInFrontOfCamera(float howFarAwayFromFront){
 	//TODO:
 	return;
 }

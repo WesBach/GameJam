@@ -3,7 +3,6 @@
 #include "nConvert.h"
 
 namespace nPhysics {
-
 	//destructor
 	cBulletHingeConstraint::~cBulletHingeConstraint() {
 		delete this->mHinge;
@@ -12,7 +11,7 @@ namespace nPhysics {
 	}
 
 	//hinge constructor 1 rigid body and origin
-	cBulletHingeConstraint::cBulletHingeConstraint(cBulletRigidBody* rbA, const glm::vec3& originA): iConstraint(eConstraintType::CONSTRAINT_TYPE_HINGE) {
+	cBulletHingeConstraint::cBulletHingeConstraint(cBulletRigidBody* rbA, const glm::vec3& originA) : iConstraint(eConstraintType::CONSTRAINT_TYPE_HINGE) {
 		//set origin
 		btTransform trans;
 		trans.setIdentity();
@@ -35,7 +34,7 @@ namespace nPhysics {
 		transB.setIdentity();
 		transB.setOrigin(nConvert::vec3ToBullet(originB));
 		//create constraint
-		this->mHinge = new btHingeConstraint(*rbA->getBulletRigidBody(),*rbB->getBulletRigidBody(),transA,transB);
+		this->mHinge = new btHingeConstraint(*rbA->getBulletRigidBody(), *rbB->getBulletRigidBody(), transA, transB);
 		//set rigid body pointers
 		this->mBodyA = rbA;
 		this->mBodyB = rbB;
@@ -80,7 +79,7 @@ namespace nPhysics {
 	}
 
 	void cBulletHingeConstraint::EnableAngularMotor(bool enableMotor, float targetVelocity, float maxMotorImpulse) {
-		this->mHinge->enableAngularMotor(enableMotor,targetVelocity,maxMotorImpulse);
+		this->mHinge->enableAngularMotor(enableMotor, targetVelocity, maxMotorImpulse);
 	}
 
 	void cBulletHingeConstraint::EnableMotor(bool enableMotor) {

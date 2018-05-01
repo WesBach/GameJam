@@ -8,7 +8,6 @@
 // (Also, it would be Supah Cool if I heard this was remotely useful!)
 // Use this code at your own risk. It is indented only as a learning aid.
 
-
 typedef unsigned char uchar;
 
 struct C24BitBMPpixel

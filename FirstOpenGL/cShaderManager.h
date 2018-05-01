@@ -1,7 +1,6 @@
 #ifndef _cShaderManager_HG_
 #define _cShaderManager_HG_
 
-
 #include <string>
 #include <vector>
 #include <map>

@@ -21,13 +21,13 @@ struct sVertex_xyz_rgba_n_uv2_bt_4Bones
 		tx(0.0f), ty(0.0f), tz(0.0f),
 		bx(0.0f), by(0.0f), bz(0.0f)
 	{
-//#ifdef _DEBUG
+		//#ifdef _DEBUG
 		memset(this->boneID, 0, sizeof(unsigned int) * NUMBEROFBONES);
 		memset(this->boneWeights, 0, sizeof(float) * NUMBEROFBONES);
-//#endif // DEBUG
-	};	
+		//#endif // DEBUG
+	};
 	// Destructor isn't really needed here
-	//~sVertex_xyz_rgba_n_uv2_bt_skinnedMesh();	
+	//~sVertex_xyz_rgba_n_uv2_bt_skinnedMesh();
 
 	float x, y, z;									// 12
 	float r, g, b, a;								// 16 (28)
@@ -41,7 +41,4 @@ struct sVertex_xyz_rgba_n_uv2_bt_4Bones
 	float boneWeights[NUMBEROFBONES];	// New		// starts at 96
 };
 
-
 #endif
-
-

@@ -4,34 +4,30 @@ float smoothstep(float edge0, float edge1, float x);
 float smootherstep(float edge0, float edge1, float x);
 float clamp(float x, float lowerlimit, float upperlimit);
 
-void Camera::Follow_SetOrUpdateTarget(glm::vec3 target)
-{
+void Camera::Follow_SetOrUpdateTarget(glm::vec3 target){
 	this->target = target;
 	return;
 }
-void Camera::Follow_SetIdealCameraLocation(glm::vec3 relativeToTarget)
-{
+
+void Camera::Follow_SetIdealCameraLocation(glm::vec3 relativeToTarget){
 	this->follow_idealCameraLocationRelToTarget = relativeToTarget;
 	return;
 }
-void Camera::Follow_SetMaxFollowSpeed(float speed)
-{
+
+void Camera::Follow_SetMaxFollowSpeed(float speed){
 	this->follow_max_speed = speed;
 	return;
 }
 
-void Camera::Follow_SetDistanceMaxSpeed(float distanceToTarget)
-{
+void Camera::Follow_SetDistanceMaxSpeed(float distanceToTarget){
 	this->follow_distance_max_speed = distanceToTarget;
 	return;
 }
 
-void Camera::Follow_SetDistanceMinSpeed(float distanceToTarget)
-{
+void Camera::Follow_SetDistanceMinSpeed(float distanceToTarget){
 	this->follow_distance_zero_speed = distanceToTarget;
 	return;
 }
-
 
 float smoothstep(float edge0, float edge1, float x) {
 	// Scale, bias and saturate x to 0..1 range
@@ -55,8 +51,7 @@ float clamp(float x, float lowerlimit, float upperlimit) {
 	return x;
 }
 
-void Camera::m_UpdateFollowCamera_GOOD(double deltaTime)
-{
+void Camera::m_UpdateFollowCamera_GOOD(double deltaTime){
 	// Using the smoothstep from Wikipedia:
 	// https://en.wikipedia.org/wiki/Smoothstep
 
@@ -71,8 +66,7 @@ void Camera::m_UpdateFollowCamera_GOOD(double deltaTime)
 	// Pro tip: don't use .lenth();
 	float currentDistanceToTarget = glm::length(vectorToTarget);
 
-
-	// Pass all that into the smooth (or smoother) step 
+	// Pass all that into the smooth (or smoother) step
 	// 1st is distance to Zero Speed "circle"
 	// 2nd is distance to Max Speed "circle"
 	float speedRatio
@@ -92,9 +86,7 @@ void Camera::m_UpdateFollowCamera_GOOD(double deltaTime)
 	return;
 }
 
-
-void Camera::m_UpdateFollowCamera_SUCKS(double deltaTime)
-{
+void Camera::m_UpdateFollowCamera_SUCKS(double deltaTime){
 	// Calculate ideal location in world
 	glm::vec3 camIdealPositionWorld
 		= this->target + this->follow_idealCameraLocationRelToTarget;
@@ -106,14 +98,13 @@ void Camera::m_UpdateFollowCamera_SUCKS(double deltaTime)
 	// Giving DIRECTION, then.
 	glm::vec3 vectorToTargetNormal = glm::normalize(vectorToTarget);
 
-	// Distance to target? 
+	// Distance to target?
 	// Pro tip: don't use .lenth();
 	float currentDistanceToTarget = glm::length(vectorToTarget);
 
-
 	// Quick-n-Dirty version
-	if (currentDistanceToTarget >= this->follow_distance_max_speed)
-	{	// Set the velocity to full
+	if (currentDistanceToTarget >= this->follow_distance_max_speed){	
+		// Set the velocity to full
 		// Scale this "max speed" by the direction vector
 		// (normalized camera to target vector)
 		// Calculate maximum speed (in a vec3)
@@ -123,8 +114,7 @@ void Camera::m_UpdateFollowCamera_SUCKS(double deltaTime)
 			this->follow_distance_max_speed);
 		this->velocity = vecMaxSpeed * vectorToTargetNormal;
 	}
-	else if (currentDistanceToTarget <= this->follow_distance_max_speed)
-	{	// The "slow down" area.
+	else if (currentDistanceToTarget <= this->follow_distance_max_speed){	// The "slow down" area.
 		// Use the smoothstep to determine velocity
 		// Scale this area to a range from 0 to 1 (smooth step)
 		float slowDownRangeLength =
@@ -147,12 +137,10 @@ void Camera::m_UpdateFollowCamera_SUCKS(double deltaTime)
 
 		this->velocity = scaledVel * vectorToTargetNormal;
 	}
-	else// (currentDistanceToTarget <= this->follow_distance_min_speed)
-	{
+	else{
 		// Stop
 		this->velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 	}
-
 
 	return;
 }

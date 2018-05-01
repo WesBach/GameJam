@@ -3,14 +3,13 @@
 #include "nConvert.h"
 
 namespace nPhysics {
-
 	//construct with one rigid body
-	cBulletConeTwistConstraint::cBulletConeTwistConstraint(cBulletRigidBody* bodyA):iConstraint(eConstraintType::CONSTRAINT_TYPE_CONE_TWIST) {
+	cBulletConeTwistConstraint::cBulletConeTwistConstraint(cBulletRigidBody* bodyA) :iConstraint(eConstraintType::CONSTRAINT_TYPE_CONE_TWIST) {
 		//new btConeTwistConstraint(*pBodyA, *pBodyB, frameInA, frameInB);
 		glm::vec3 origin;
 		bodyA->GetPosition(origin);
 		btTransform frameInA;
-		frameInA.setIdentity();		
+		frameInA.setIdentity();
 		frameInA.setOrigin(nConvert::vec3ToBullet(origin));
 
 		frameInA = btTransform::getIdentity();
@@ -71,10 +70,8 @@ namespace nPhysics {
 		this->mConeTwist->setLimit(btScalar(limits.x), btScalar(limits.y), btScalar(limits.z));
 	}
 
-	void cBulletConeTwistConstraint::SetLimits(const glm::vec3& limits , const glm::vec3& limitsRestrictions) {
+	void cBulletConeTwistConstraint::SetLimits(const glm::vec3& limits, const glm::vec3& limitsRestrictions) {
 		//swing span,twist span,softness,bias factor,relaxation factor
-		this->mConeTwist->setLimit(btScalar(limits.x), btScalar(limits.y), btScalar(limits.z),btScalar(limitsRestrictions.x),btScalar(limitsRestrictions.y));
+		this->mConeTwist->setLimit(btScalar(limits.x), btScalar(limits.y), btScalar(limits.z), btScalar(limitsRestrictions.x), btScalar(limitsRestrictions.y));
 	}
-
 }
-

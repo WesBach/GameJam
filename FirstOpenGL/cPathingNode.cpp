@@ -7,5 +7,4 @@ cPathingNode::cPathingNode() {
 }
 
 cPathingNode::~cPathingNode() {
-
 }

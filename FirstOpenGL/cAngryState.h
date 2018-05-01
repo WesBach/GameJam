@@ -16,7 +16,7 @@ private:
 	eActionType mAction;
 	bool isBehindPlayer;
 
-	//timer for damage 
+	//timer for damage
 	float timeInRadius;
 };
 

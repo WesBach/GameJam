@@ -29,7 +29,6 @@ void main () {
 	}
 })glsl";
 
-
 cTextRenderer::cTextRenderer() {
 	this->mfontSize = 16;
 	//set the shader text
@@ -37,7 +36,7 @@ cTextRenderer::cTextRenderer() {
 	this->m_vertexShaderSource = mvs_text;
 
 	this->m_pShaderProg = new cShaderProgramInfo();
-	
+
 	//initialize freetype
 	if (FT_Init_FreeType(&this->mft))
 	{
@@ -75,11 +74,10 @@ void cTextRenderer::setFontSize(const int& fontSize) {
 }
 
 void cTextRenderer::render_text(const wchar_t *text, float x, float y, float sx, float sy) {
-
-	// Get the uniform variable locations 
+	// Get the uniform variable locations
 	glUseProgram(this->m_pShaderProg->shaderProgramID);
 
-	//generate and bind vbo 
+	//generate and bind vbo
 	glGenBuffers(1, &mdp_vbo);
 	//generate and bind vao
 	glGenVertexArrays(1, &mvao);
@@ -90,7 +88,7 @@ void cTextRenderer::render_text(const wchar_t *text, float x, float y, float sx,
 	glUniform4fv(uniform_color, 1, yellow);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glDisable(GL_CULL_FACE); 
+	glDisable(GL_CULL_FACE);
 
 	//bind vert buffer
 	glBindVertexArray(mvao);
@@ -121,7 +119,6 @@ void cTextRenderer::render_text(const wchar_t *text, float x, float y, float sx,
 	glEnableVertexAttribArray(attribute_coord);
 	glBindBuffer(GL_ARRAY_BUFFER, mdp_vbo);
 	glVertexAttribPointer(attribute_coord, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
 
 	/* Draw the background on the screen */
 	//point back[4] = {
@@ -167,7 +164,7 @@ void cTextRenderer::render_text(const wchar_t *text, float x, float y, float sx,
 
 	//clean up
 	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER,0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDisableVertexAttribArray(attribute_coord);
 	glDeleteTextures(1, &tex);
 	glDisable(GL_BLEND);

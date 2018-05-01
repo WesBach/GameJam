@@ -15,7 +15,7 @@ public:
 	glm::vec3 up;
 	glm::vec3 velocity;		// For "fly camera", like in blender
 	glm::vec3 accel;		// For "thruster" like with rockets
-							// For following, etc. 
+							// For following, etc.
 	void updateTick(double deltaTime);
 
 	enum eMode
@@ -25,9 +25,9 @@ public:
 		FLY_CAMERA_USING_LOOK_AT,	// Here, you use the "target" as direction
 									// you want to go. This allows you to transition
 									// from the FOLLOW_CAMERA to FLY seamlessly
-		FLY_CAMERA_GARBAGE_DONT_USE	// Movement based on direction of gaze
-									// Use quaternion orientation
-									// "catch"  is no LOOKAT
+									FLY_CAMERA_GARBAGE_DONT_USE	// Movement based on direction of gaze
+																// Use quaternion orientation
+																// "catch"  is no LOOKAT
 	};
 
 	void setCameraMode(eMode cameraMode);
@@ -61,9 +61,9 @@ public:
 	// +ve is Clock-wise rotation (from nose to tail)
 	void Fly_yaw(float pitchDegreesPosIsClockWise);
 	void Fly_yaw_CWorCCW(float pitchDegreesPosIsClockWise);
-	// 
+	//
 	// You can use this to change the target from wherever it is
-	//	to, say, 1.0 units from the front of the camera. 
+	//	to, say, 1.0 units from the front of the camera.
 	void RelocateTargetInFrontOfCamera(float howFarAwayFromFront);
 
 	// ************************************************************
@@ -75,8 +75,7 @@ public:
 	//	glm::mat4 getMat4FromOrientation(void);
 	glm::mat4 getViewMatrix(void);
 
-
-	// 
+	//
 	glm::quat qOrientation;
 
 	glm::vec3 EulerAngles;	// Ya get gimbal lock, yo.

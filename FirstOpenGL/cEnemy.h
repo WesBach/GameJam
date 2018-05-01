@@ -14,7 +14,7 @@ enum eAttackType {
 	EXPLOSION
 };
 
-class cEnemy : public iEntity{
+class cEnemy : public iEntity {
 public:
 	cEnemy();
 	~cEnemy();
@@ -33,7 +33,7 @@ public:
 	cGameObject* theEnemyObject;
 
 	std::vector<cGameObject*> projectilesToDraw;
-	std::vector<sProjectile> projectilePool;	
+	std::vector<sProjectile> projectilePool;
 	std::vector<sProjectile> projectiles;
 	//vector for sake of not writing another render function
 	std::vector<cGameObject*> explosion;
@@ -41,7 +41,7 @@ public:
 	float timeElapsedBetweenProjectiles;
 	float explosionSize;
 
-	virtual void attack(glm::vec3 direction,float deltaTime);
+	virtual void attack(glm::vec3 direction, float deltaTime);
 	virtual void removeProjectile(cGameObject* theProjectile);
 	virtual void takeDamage(int damage);
 	virtual eEntityType getEntityType();

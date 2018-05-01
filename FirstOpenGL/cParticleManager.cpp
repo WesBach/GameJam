@@ -15,7 +15,7 @@ void cParticleManager::createEmitters(int numEmitters) {
 	for (int i = 0; i < numEmitters; i++) {
 		this->mEnemyEmitters.push_back(new cEmitter());
 	}
-	
+
 	this->mPlayerEmitter = new cEmitter();
 }
 
@@ -28,7 +28,6 @@ void  cParticleManager::connectEmittersWithEntities(std::vector<cEnemy>& enemies
 		}
 	}
 }
-
 
 void cParticleManager::addEmitter(cEmitter* emitter) {
 	//make sure the emitter doesn't already exist in the vector
@@ -46,7 +45,6 @@ void cParticleManager::addEmitter(cEmitter* emitter) {
 }
 
 void cParticleManager::setEnemyEmitterToActive(int index) {
-
 	if (index < this->mEnemyEmitters.size()) {
 		cEmitter* emitter = this->mEnemyEmitters[index];
 		//make sure the emitter isn't already in the vector
@@ -71,7 +69,7 @@ void cParticleManager::setEnemyEmitterToActive(int index) {
 		//				glm::vec3(0.0f, 0.0f, 0.0f),
 		//				glm::vec3(1.0f, 1.0f, 1.0f),
 		//				glm::vec3(0.0f, 0.0f, 0.0f),);
-		//			//add the emitter to active 
+		//			//add the emitter to active
 		//			this->mActiveEmitters.push_back(this->mEnemyEmitters[i]);
 		//			break;
 		//		}
@@ -82,7 +80,7 @@ void cParticleManager::setEnemyEmitterToActive(int index) {
 
 void cParticleManager::setPlayerEmitterToActive() {
 	bool emitterIsAlreadyActive = false;
-	//check to see if the emitter is already active 
+	//check to see if the emitter is already active
 	for (int i = 0; i < this->mActiveEmitters.size(); i++) {
 		if (this->mActiveEmitters[i] == this->mPlayerEmitter) {
 			emitterIsAlreadyActive = true;
@@ -103,7 +101,7 @@ void cParticleManager::setPlayerEmitterToActive() {
 	//}
 }
 
-void cParticleManager::setPlayerEmitterToInactive(){
+void cParticleManager::setPlayerEmitterToInactive() {
 	//check to see if the emitter is active
 	bool isInactive = true;
 	for (int i = 0; i < this->mActiveEmitters.size(); i++) {
@@ -159,12 +157,11 @@ void cParticleManager::clearAllEmitters() {
 void cParticleManager::updateLivingParticles(float deltaTime) {
 	//update the particles
 	for (int i = 0; i < this->mActiveEmitters.size(); i++) {
-		this->mActiveEmitters[i]->Update(deltaTime,glm::vec3(0.f));
+		this->mActiveEmitters[i]->Update(deltaTime, glm::vec3(0.f));
 	}
 }
 
 void cParticleManager::drawActiveParticles(int shaderId) {
-
 	//get the active particles for each active emitter and draw that amount of particles to the screen
 	cGameObject* tempObject = new cGameObject();
 	tempObject = new cGameObject();
@@ -178,7 +175,7 @@ void cParticleManager::drawActiveParticles(int shaderId) {
 	//TODO:: may have to change this
 	//might kill performance
 	for (int i = 0; i < this->mActiveEmitters.size(); i++) {
-		//get the active particles 
+		//get the active particles
 		std::vector<cParticle*> activeParticles;
 		int numActiveParticles = this->mActiveEmitters[i]->getLivingParticles(activeParticles);
 		std::vector<cGameObject*> theParticlesToDraw;
@@ -191,13 +188,13 @@ void cParticleManager::drawActiveParticles(int shaderId) {
 			//set the textures with random blend values
 			tempObject->vecMehs2DTextures.push_back(sTextureBindBlendInfo("smoke.bmp", textureBlend));
 			tempObject->vecMehs2DTextures.push_back(sTextureBindBlendInfo("smoke2.bmp", texBlend2));
-			DrawObject(tempObject, shaderId,0.f,true, numActiveParticles);
+			DrawObject(tempObject, shaderId, 0.f, true, numActiveParticles);
 			//clear the textures
 			tempObject->vecMehs2DTextures.clear();
 		}
 
 		//render the objects
-		renderScene(theParticlesToDraw, g_pGLFWWindow,0,0.f);		
+		renderScene(theParticlesToDraw, g_pGLFWWindow, 0, 0.f);
 	}
 
 	//clean up the object
@@ -214,7 +211,7 @@ cParticleManager::~cParticleManager() {
 
 void cParticleManager::updateEmitterPositions(std::vector<cEnemy>& enemies, cPlayer* thePlayer) {
 	//update the emitter position for the player
-	this->mPlayerEmitter->position= thePlayer->thePlayerObject->position;
+	this->mPlayerEmitter->position = thePlayer->thePlayerObject->position;
 	//update the emitter position for the enemies
 	if (enemies.size() <= this->mEnemyEmitters.size()) {
 		for (int i = 0; i < enemies.size(); i++) {

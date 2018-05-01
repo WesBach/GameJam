@@ -39,21 +39,6 @@
     <Filter Include="VAO">
       <UniqueIdentifier>{a650c9f0-238d-4775-a98f-1d2db390858a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Lua">
-      <UniqueIdentifier>{67409459-c120-491a-8af8-5b8818c36656}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commands">
-      <UniqueIdentifier>{b5949954-cbc7-492f-b865-d8b25a3bd8d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commands\MoveTo">
-      <UniqueIdentifier>{e582b01c-be45-4d75-b85c-0642457e0d4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commands\Curve">
-      <UniqueIdentifier>{8858e865-2399-4c37-be83-a60790f2e72e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commands\OrientTo">
-      <UniqueIdentifier>{eefd921f-b2df-4b15-a743-e88e3539a524}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Texture">
       <UniqueIdentifier>{1b6e3d97-4557-45a6-a75b-ee8b4cc06b87}</UniqueIdentifier>
     </Filter>
@@ -62,9 +47,6 @@
     </Filter>
     <Filter Include="Assimp">
       <UniqueIdentifier>{d24ac34f-a3e1-4d89-906d-50169a3c29cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TestCases">
-      <UniqueIdentifier>{8f8c37f5-bf18-4719-8eee-2e9f6badfc7f}</UniqueIdentifier>
     </Filter>
     <Filter Include="XMLLoader/stbImg">
       <UniqueIdentifier>{b3259490-1ca0-405c-a2e9-9fceea14d848}</UniqueIdentifier>
@@ -113,12 +95,6 @@
     <ClCompile Include="cLightManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Physics.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="cContactInfo.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
@@ -152,17 +128,8 @@
     <ClCompile Include="cTriangle.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="cVertex_xyz_rgb_n.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="cShader.cpp">
       <Filter>Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="ErrorLog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGLError.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cMathHelper.cpp">
       <Filter>Utilities</Filter>
@@ -185,36 +152,6 @@
     <ClCompile Include="cDebugRenderer_BuiltInShapes.cpp">
       <Filter>DebugRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="SpiralWithXYZDistance.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="FollowObject.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveToDistanceTime.cpp">
-      <Filter>Commands\MoveTo</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveToDistanceVelocity.cpp">
-      <Filter>Commands\MoveTo</Filter>
-    </ClCompile>
-    <ClCompile Include="CurveXY.cpp">
-      <Filter>Commands\Curve</Filter>
-    </ClCompile>
-    <ClCompile Include="CurveYXZ.cpp">
-      <Filter>Commands\Curve</Filter>
-    </ClCompile>
-    <ClCompile Include="CurveYZX.cpp">
-      <Filter>Commands\Curve</Filter>
-    </ClCompile>
-    <ClCompile Include="OrientToTime.cpp">
-      <Filter>Commands\OrientTo</Filter>
-    </ClCompile>
-    <ClCompile Include="OrientToWorldSpace.cpp">
-      <Filter>Commands\OrientTo</Filter>
-    </ClCompile>
     <ClCompile Include="CTextureManager.cpp">
       <Filter>Texture</Filter>
     </ClCompile>
@@ -226,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="cEmitter.cpp">
       <Filter>Particles</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaBrain.cpp">
-      <Filter>Lua</Filter>
     </ClCompile>
     <ClCompile Include="cPathingNode.cpp">
       <Filter>AI\PathFinding</Filter>
@@ -247,15 +181,6 @@
     </ClCompile>
     <ClCompile Include="PathingUtilities.cpp">
       <Filter>AI\PathFinding</Filter>
-    </ClCompile>
-    <ClCompile Include="cPhysicalProperties.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="cItem.cpp">
-      <Filter>Items</Filter>
-    </ClCompile>
-    <ClCompile Include="cInventory.cpp">
-      <Filter>Items</Filter>
     </ClCompile>
     <ClCompile Include="cMenuRenderer.cpp">
       <Filter>Menu</Filter>
@@ -320,6 +245,12 @@
     <ClCompile Include="GamePad.cpp">
       <Filter>Controlls</Filter>
     </ClCompile>
+    <ClCompile Include="ErrorLog.cpp">
+      <Filter>Error</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLError.cpp">
+      <Filter>Error</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cShaderManager.h">
@@ -327,12 +258,6 @@
     </ClInclude>
     <ClInclude Include="cLightManager.h">
       <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="cContactInfo.h">
-      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Utilities</Filter>
@@ -361,17 +286,11 @@
     <ClInclude Include="cTriangle.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="cVertex_xyz_rgb_n.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="DebugRenderer.h">
       <Filter>DebugRenderer</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLError.h">
       <Filter>Error</Filter>
-    </ClInclude>
-    <ClInclude Include="ErrorLog.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="globalOpenGL_GLFW.h">
       <Filter>Header Files</Filter>
@@ -391,50 +310,8 @@
     <ClInclude Include="sVAOInfo.h">
       <Filter>VAO</Filter>
     </ClInclude>
-    <ClInclude Include="sVertex_xyz_rgba_n_uv2_bt.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="sMeshDrawInfo.h">
       <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="iPhysicalObject.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaBrain.h">
-      <Filter>Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="iCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpiralWithXYZDistance.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="FollowObject.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveToDistanceTime.h">
-      <Filter>Commands\MoveTo</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveToDitanceVelocity.h">
-      <Filter>Commands\MoveTo</Filter>
-    </ClInclude>
-    <ClInclude Include="CurveXY.h">
-      <Filter>Commands\Curve</Filter>
-    </ClInclude>
-    <ClInclude Include="CurveYXZ.h">
-      <Filter>Commands\Curve</Filter>
-    </ClInclude>
-    <ClInclude Include="CurveYZX.h">
-      <Filter>Commands\Curve</Filter>
-    </ClInclude>
-    <ClInclude Include="OrientToTime.h">
-      <Filter>Commands\OrientTo</Filter>
-    </ClInclude>
-    <ClInclude Include="OrientToWorldSpace.h">
-      <Filter>Commands\OrientTo</Filter>
     </ClInclude>
     <ClInclude Include="CTexUnitInfoBrief.h">
       <Filter>Texture</Filter>
@@ -484,18 +361,6 @@
     <ClInclude Include="cTextRenderer.h">
       <Filter>TextRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="GTest.h">
-      <Filter>TestCases</Filter>
-    </ClInclude>
-    <ClInclude Include="cItem.h">
-      <Filter>Items</Filter>
-    </ClInclude>
-    <ClInclude Include="sObjectWorldInfo.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="cInventory.h">
-      <Filter>Items</Filter>
-    </ClInclude>
     <ClInclude Include="cMenuRenderer.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -540,9 +405,6 @@
     </ClInclude>
     <ClInclude Include="PathingUtilities.h">
       <Filter>AI\PathFinding</Filter>
-    </ClInclude>
-    <ClInclude Include="cPhysicalProperties.h">
-      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="sProjectile.h">
       <Filter>Entity</Filter>
@@ -589,6 +451,9 @@
     <ClInclude Include="GamePad.h">
       <Filter>Controlls</Filter>
     </ClInclude>
+    <ClInclude Include="ErrorLog.h">
+      <Filter>Error</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -600,9 +465,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="codeSnippets.txt" />
-    <Text Include="modelsAndScene.txt">
-      <Filter>Utilities</Filter>
-    </Text>
     <Text Include="assets\GameInfoFiles\config.txt">
       <Filter>GameInfoFiles</Filter>
     </Text>

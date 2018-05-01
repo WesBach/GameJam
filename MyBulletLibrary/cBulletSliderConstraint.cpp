@@ -3,9 +3,8 @@
 #include "nConvert.h"
 
 namespace nPhysics {
-
 	//constructor with a rigid 2 rigid bodies, 2 origins,and useLinearReferenceFrameA
-	cBulletSliderConstraint::cBulletSliderConstraint(cBulletRigidBody* bodyA, cBulletRigidBody* bodyB, const glm::vec3& originA, const glm::vec3& originB, bool useLinearReferenceFrameA):iConstraint(eConstraintType::CONSTRAINT_TYPE_SLIDER) {
+	cBulletSliderConstraint::cBulletSliderConstraint(cBulletRigidBody* bodyA, cBulletRigidBody* bodyB, const glm::vec3& originA, const glm::vec3& originB, bool useLinearReferenceFrameA) :iConstraint(eConstraintType::CONSTRAINT_TYPE_SLIDER) {
 		//set the origin of a
 		btTransform transA;
 		transA.setIdentity();
@@ -15,7 +14,7 @@ namespace nPhysics {
 		transB.setIdentity();
 		transB.setOrigin(nConvert::vec3ToBullet(originB));
 		//create constraint
-		this->mSlider = new btSliderConstraint(*bodyA->getBulletRigidBody(),*bodyB->getBulletRigidBody(),transA, transB, useLinearReferenceFrameA);
+		this->mSlider = new btSliderConstraint(*bodyA->getBulletRigidBody(), *bodyB->getBulletRigidBody(), transA, transB, useLinearReferenceFrameA);
 		////set the linear limits
 		//mSlider->setLowerLinLimit(-15.0F);
 		//mSlider->setUpperLinLimit(-5.0F);
@@ -26,7 +25,7 @@ namespace nPhysics {
 	}
 
 	//constructor with a rigid body and origin and useLinearReferenceFrameA
-	cBulletSliderConstraint::cBulletSliderConstraint(cBulletRigidBody* bodyA, const glm::vec3& originA,bool useLinearReferenceFrameA) : iConstraint(eConstraintType::CONSTRAINT_TYPE_SLIDER) {
+	cBulletSliderConstraint::cBulletSliderConstraint(cBulletRigidBody* bodyA, const glm::vec3& originA, bool useLinearReferenceFrameA) : iConstraint(eConstraintType::CONSTRAINT_TYPE_SLIDER) {
 		//set rigid body origin
 		btTransform trans;
 		trans.setIdentity();
@@ -78,7 +77,6 @@ namespace nPhysics {
 	}
 
 	void cBulletSliderConstraint::EnableAngularMotor(bool enableMotor, float targetCelocity, float maxMotorImpulse) {
-
 	}
 
 	void cBulletSliderConstraint::EnableMotor(bool enableMotor) {
@@ -94,7 +92,5 @@ namespace nPhysics {
 	}
 
 	void cBulletSliderConstraint::setMotorTarget(float targetAngle, float  dt) {
-
 	}
 }
-

@@ -17,7 +17,6 @@ extern std::vector<cGameObject*>  g_vecGameObjects;
 extern bool g_shakeCamera;
 //Do the collision actions for each type of collision
 void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCollisionBody* bodyB) {
-	
 	nPhysics::eCollisionBodyType bodyTypeA = bodyA->GetBodyType();
 	nPhysics::eCollisionBodyType bodyTypeB = bodyB->GetBodyType();
 
@@ -30,8 +29,8 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 				g_pCurrentScene->currentPlayer->removeProjectile(projectile.object);
 				g_pCurrentScene->currentPlayer->setProjectileInUse(projectile);
 				//play the enemy damaged sound
-				g_pSoundManager->playEnemyDamagedSound();			
-			}		
+				g_pSoundManager->playEnemyDamagedSound();
+			}
 		}
 	}
 
@@ -51,7 +50,6 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 
 	//check for collisions between player and enemy projectile
 	if (bodyTypeA == nPhysics::eCollisionBodyType::PLAYER_BODY) {
-
 		if (bodyTypeB == nPhysics::eCollisionBodyType::ENEMY_PROJECTILE_BODY) {
 			sProjectile* projectile = dynamic_cast<sProjectile*>(bodyB);
 			g_pCurrentScene->currentPlayer->takeDamage(projectile->damage);
@@ -105,7 +103,7 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 			g_shakeCamera = true;
 		}
 		//else if (bodyTypeB == nPhysics::eCollisionBodyType::TREE_BODY) {
-		//	//find the tree 
+		//	//find the tree
 		//	for (int i = 0; i < g_pCurrentScene->terrain.size(); i++) {
 		//		if (bodyB == g_pCurrentScene->terrain[i]->theBody) {
 		//			//populate the particle system
@@ -127,10 +125,8 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 		//	}
 		//}
 	}
-	
-	
-	if (bodyTypeB == nPhysics::eCollisionBodyType::PLAYER_BODY) {
 
+	if (bodyTypeB == nPhysics::eCollisionBodyType::PLAYER_BODY) {
 		if (bodyTypeA == nPhysics::eCollisionBodyType::ENEMY_PROJECTILE_BODY) {
 			sProjectile* projectile = dynamic_cast<sProjectile*>(bodyA);
 			g_pCurrentScene->currentPlayer->takeDamage(projectile->damage);
@@ -138,8 +134,7 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 			//removeRigidBodyFromWorld(bodyA);
 			nPhysics::iRigidBody* tempBody = dynamic_cast<nPhysics::iRigidBody*>(bodyA);
 			tempBody->SetActivationState(false);
-			//find the enemy that the projectile that belongs to 
-
+			//find the enemy that the projectile that belongs to
 		}
 		else if (bodyTypeA == nPhysics::eCollisionBodyType::ITEM_HEALTH_BODY) {
 			//find the power up
@@ -176,12 +171,9 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 			g_shakeCamera = true;
 		}
 	}//check to collisions between enemy and player projectile
-	
-	
+
 	if (bodyTypeA == nPhysics::eCollisionBodyType::ENEMY_BODY) {
-
 		if (bodyTypeB == nPhysics::eCollisionBodyType::PLAYER_PROJECTILE_BODY) {
-
 			//find the enemy
 			for (int i = 0; i < g_pCurrentScene->entities.size(); i++) {
 				if (g_pCurrentScene->entities[i]->theBody == bodyA) {
@@ -198,17 +190,15 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 			}
 		}
 	}
-	
-	
-	if (bodyTypeB == nPhysics::eCollisionBodyType::ENEMY_BODY) {
 
+	if (bodyTypeB == nPhysics::eCollisionBodyType::ENEMY_BODY) {
 		if (bodyTypeA == nPhysics::eCollisionBodyType::PLAYER_PROJECTILE_BODY) {
 			//get the projectile
 			//find the enemy
 			for (int i = 0; i < g_pCurrentScene->entities.size(); i++) {
 				if (g_pCurrentScene->entities[i]->theBody == bodyB) {
 					//get the projectile from the player
-					sProjectile projectile = getProjectileFromPlayer(g_pCurrentScene->currentPlayer,bodyA);
+					sProjectile projectile = getProjectileFromPlayer(g_pCurrentScene->currentPlayer, bodyA);
 					g_pCurrentScene->entities[i]->theEntity->takeDamage(projectile.damage);
 					//remove the rigid body from the world
 					g_pCurrentScene->currentPlayer->removeProjectile(projectile.object);
@@ -220,8 +210,7 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 			}
 		}
 	}
-	
-	
+
 	if (bodyTypeA == nPhysics::eCollisionBodyType::ITEM_HEALTH_BODY) {
 		if (bodyTypeB == nPhysics::eCollisionBodyType::PLAYER_BODY) {
 			//find the power up
@@ -241,8 +230,7 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 			}
 		}
 	}
-	
-	
+
 	if (bodyTypeA == nPhysics::eCollisionBodyType::ITEM_RANGE_BODY) {
 		if (bodyTypeB == nPhysics::eCollisionBodyType::PLAYER_BODY) {
 			//find the power up
@@ -262,7 +250,6 @@ void cCollisionHandler::Collision(nPhysics::iCollisionBody* bodyA, nPhysics::iCo
 			}
 		}
 	}
-
 }
 
 void cCollisionHandler::removeRigidBodyFromWorld(nPhysics::iCollisionBody* theBody) {
@@ -276,7 +263,6 @@ void cCollisionHandler::setCurrentScene(sScene* currentScene) {
 }
 
 void cCollisionHandler::removeObjectFromDrawVector(nPhysics::iCollisionBody* body, std::vector<cGameObject*>& vectorToRemoveFrom) {
-
 	for (std::vector<cGameObject*>::iterator it = vectorToRemoveFrom.begin(); it != vectorToRemoveFrom.end(); it++) {
 		if (body == (*it)->theBody) {
 			it = vectorToRemoveFrom.erase(it);
@@ -286,7 +272,6 @@ void cCollisionHandler::removeObjectFromDrawVector(nPhysics::iCollisionBody* bod
 }
 
 sProjectile getProjectileFromEntity(iEntity* entity, nPhysics::iCollisionBody* collisionBody) {
-
 	eEntityType entType = entity->getEntityType();
 	cPlayer* tempPlayer;
 	cEnemy* tempEnemy;
@@ -326,7 +311,6 @@ sProjectile getProjectileFromEntity(iEntity* entity, nPhysics::iCollisionBody* c
 		}
 		break;
 	}
-	
 }
 
 sProjectile cCollisionHandler::getProjectileFromPlayer(cPlayer* player, nPhysics::iCollisionBody* collisionBody) {
@@ -337,5 +321,3 @@ sProjectile cCollisionHandler::getProjectileFromPlayer(cPlayer* player, nPhysics
 		}
 	}
 }
-
-

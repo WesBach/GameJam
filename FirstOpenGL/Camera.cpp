@@ -1,30 +1,22 @@
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 
-
-Camera::Camera()
-{
+Camera::Camera(){
 	// Default OpenGL 1.1 was on z axis looking at the origin
 	this->eye = glm::vec3(0.0f, 0.0f, 1.0f);
 	this->target = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
-
 	// Set quaternion to some default rotation value
 	this->qOrientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
-
 	this->accel = glm::vec3(0.0f);
 	this->velocity = glm::vec3(0.0f);
-
 	return;
 }
 
-
-// For following, etc. 
-void Camera::updateTick(double deltaTime)
-{
-
-	if (this->cameraMode == Camera::FOLLOW_CAMERA)
-	{	// update the velocity of the camera 
+// For following, etc.
+void Camera::updateTick(double deltaTime){
+	if (this->cameraMode == Camera::FOLLOW_CAMERA){	
+		// update the velocity of the camera
 		this->m_UpdateFollowCamera_GOOD(deltaTime);
 
 		// Explicit forward Euler, like in the physics loop
@@ -37,15 +29,12 @@ void Camera::updateTick(double deltaTime)
 		this->eye += velChangeThisStep;
 	}
 
-
 	return;
 }
 
-void Camera::setCameraMode(eMode cameraMode)
-{
+void Camera::setCameraMode(eMode cameraMode){
 	// Yes, it's an enum, but you can pass anything, so double-check
-	switch (cameraMode)
-	{
+	switch (cameraMode){
 	case Camera::eMode::FLY_CAMERA_GARBAGE_DONT_USE:
 		cameraMode = Camera::FLY_CAMERA_USING_LOOK_AT;
 		assert("What are you doing with your life? DON'T use the garbage camera");
@@ -61,8 +50,8 @@ void Camera::setCameraMode(eMode cameraMode)
 	this->cameraMode = Camera::eMode::MANUAL;
 	return;
 }
-glm::mat4 Camera::getViewMatrix(void)
-{
+
+glm::mat4 Camera::getViewMatrix(void){
 	// Based on the mode, calculate the view matrix
 	switch (cameraMode)
 	{
@@ -110,36 +99,16 @@ glm::mat4 Camera::getViewMatrix(void)
 	return glm::mat4(1.0f);
 }
 
-//matView = glm::lookAt( g_cameraXYZ,						// "eye" or "camera" position
-//					   g_cameraTarget_XYZ,		// "At" or "target" 
-//					   glm::vec3( 0.0f, 1.0f, 0.0f ) );	// "up" vector
 
-
-
-//// ************************************************************
-//
-//void Camera::setOrientationFromEuler(glm::vec3 eulerAngles);
-//glm::mat4 Camera::getMat4FromOrientation(void);
-
-void Camera::overwrtiteQOrientationFormEuler(glm::vec3 eulerAxisOrientation)
-{
-	// Calcualte the quaternion represnetaiton of this Euler axis
-	// NOTE: We are OVERWRITING this..
+void Camera::overwrtiteQOrientationFormEuler(glm::vec3 eulerAxisOrientation){
 	this->qOrientation = glm::quat(eulerAxisOrientation);
-
 	return;
 }
 
-void Camera::adjustQOrientationFormDeltaEuler(glm::vec3 eulerAxisOrientChange)
-{
-	// How do we combine two matrices?
-	// That's also how we combine quaternions...
-
+void Camera::adjustQOrientationFormDeltaEuler(glm::vec3 eulerAxisOrientChange){
 	// So we want to "add" this change in oriention
 	glm::quat qRotationChange = glm::quat(eulerAxisOrientChange);
-
 	// Mulitply it by the current orientation;
 	this->qOrientation = this->qOrientation * qRotationChange;
-
 	return;
 }

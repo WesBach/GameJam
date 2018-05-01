@@ -20,23 +20,6 @@
 #include "CTexUnitInfoBrief.h"
 #include <assimp/scene.h>
 
-//// Used in the GetBoundTextureUnitsFromTextureNames() method
-//// (required for getting a list of the texture names and what unit they are bound to)
-//class CTexUnitInfoBrief
-//{
-//public:
-//	CTexUnitInfoBrief() : number(0), 
-//		                  texUnitNum(INVALIDORUNKNOWN), 
-//						  texUnitNumOffsetBy_GL_TEXTURE0(INVALIDORUNKNOWN), 
-//	                      texType(INVALIDORUNKNOWN) {};
-//	static const int INVALIDORUNKNOWN = INT_MAX;	// Used for texture numbers and units
-//	std::string name;
-//	GLint number;		// Not really needed, only every used for debugging since we are using the texture unit in the sampler
-//	GLenum texUnitNum;
-//	GLenum texUnitNumOffsetBy_GL_TEXTURE0;
-//	GLenum texType;			// GL_TEXTURE_CUBE_MAP, GL_TEXTURE_2D, or GL_SAMPLER_2D_SHADOW for now
-//};
-
 class CTextureManager
 {
 public:
@@ -45,8 +28,8 @@ public:
 
 	static const int INVALIDORUNKNOWN = INT_MAX;	// Used for texture numbers and units
 
-	void setBasePath(std::string basePath);
-	bool loadTexture(std::string fileName);
+	void SetBasePath(std::string basePath);
+	bool LoadTexturesFromFile(std::string& fileName);
 
 	//TODO:: figure out what info is needed from assimp to do this
 	bool Create2DTextureFromASSIMPInfo(GLuint textureId, aiTexture* texture, const std::string& textureName);
@@ -128,7 +111,7 @@ public:
 	void ShutDown(void);
 
 	// TODO: Update these maps by texture ID, rather than name
-	//       then add lookups from name to ID. 
+	//       then add lookups from name to ID.
 	std::map< std::string, CTextureFromBMP* > m_map_TexNameToTexture;
 	std::map< GLenum /*textureUnit*/, std::string /*textureName*/ >		m_map_TexUnitToTexName;
 	// The texture units can have a number of "types" of textures (2D, skymap, etc.)
@@ -165,7 +148,3 @@ private:
 };
 
 #endif
-
-
-
-

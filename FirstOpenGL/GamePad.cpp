@@ -18,7 +18,6 @@ GamePad::GamePad() {
 	this->buttonsAndAxesPopulated = false;
 }
 
-
 void GamePad::resolveJoystickInteractions() {
 	//do the axes updates
 	if (axesCount > 0) {
@@ -27,7 +26,7 @@ void GamePad::resolveJoystickInteractions() {
 		}
 	}
 
-	//do the button updates 
+	//do the button updates
 	if (buttonCount > 0) {
 		for (int i = 0; i < this->buttonCount; i++) {
 			handleButtonUpdate(i);
@@ -72,7 +71,7 @@ void GamePad::handleAxesUpdate(int index) {
 			g_cameraXYZ.z += (forward.z * g_pCurrentScene->currentPlayer->playerSpeed) * (float)1.f / 60.f;;
 		}
 		break;
-		
+
 	case 2:
 		if (this->axes[index] > 0.1f) {
 			g_cameraXYZ.z += (-1.0f * 24.f) * (float)1.f / 60.f;
@@ -129,43 +128,36 @@ void GamePad::handleButtonUpdate(int index) {
 		if (this->buttons[index] == GLFW_PRESS) {
 		}
 		else {
-
 		}
 		break;
 	case 2: //X
 		if (this->buttons[index] == GLFW_PRESS) {
 		}
 		else {
-
 		}
 		break;
 	case 3: //Y
 		if (this->buttons[index] == GLFW_PRESS) {
 		}
 		else {
-
 		}
 		break;
 	case 4: //LeftBumper
 		if (this->buttons[index] == GLFW_PRESS) {
-
 		}
 		else {
-
 		}
 		break;
 	case 5: //Right Bumper
 		if (this->buttons[index] == GLFW_PRESS) {
 		}
 		else {
-
 		}
 		break;
 	case 6:	//SELECT
 		if (this->buttons[index] == GLFW_PRESS) {
 		}
 		else {
-
 		}
 		break;
 	case 7:	//START
@@ -173,7 +165,6 @@ void GamePad::handleButtonUpdate(int index) {
 			glfwSetWindowShouldClose(g_pGLFWWindow, GLFW_TRUE);
 		}
 		else {
-
 		}
 		break;
 	}
@@ -181,6 +172,6 @@ void GamePad::handleButtonUpdate(int index) {
 
 void GamePad::updateShoot() {
 	if (shoot) {
-		g_pCurrentScene->currentPlayer->attack(g_pCurrentScene->currentPlayer->playerForward,deltaTime);
+		g_pCurrentScene->currentPlayer->attack(g_pCurrentScene->currentPlayer->playerForward, deltaTime);
 	}
 }

@@ -12,7 +12,7 @@ enum eEntityType {
 	UNKNOWN_ENTITY
 };
 
-class iEntity : public nPhysics::iCollisionBody{
+class iEntity : public nPhysics::iCollisionBody {
 public:
 	virtual void attack(glm::vec3 direction, float deltaTime) = 0;
 	virtual void removeProjectile(cGameObject* theProjectile) = 0;

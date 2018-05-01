@@ -28,8 +28,7 @@ const glm::vec4 purple(0.933f, 0.090f, 0.901f, 1.0f);
 const glm::vec4 orange(0.933f, 0.415f, 0.090f, 1.0f);
 const glm::vec4 red(0.933f, 0.192f, 0.090f, 1.0f);
 
-
-sScene::sScene(){ 
+sScene::sScene() {
 	this->currentPlayer = new cPlayer();
 	//this->playerShield = new cShieldDescription(3);
 }
@@ -87,7 +86,6 @@ bool  cSceneManager::loadSceneFromFileIntoSceneMap(std::string& fileName, int ma
 		loadObjectData(sceneInfo, tempScene->terrain, theMeshManager);
 	}
 
-
 	//populate the enemies
 	ReadFileToToken(sceneInfo, "ENEMY_SPEED");
 	float enemySpeed;
@@ -123,7 +121,7 @@ bool  cSceneManager::loadSceneFromFileIntoSceneMap(std::string& fileName, int ma
 	}
 
 	//get the player speed
-	for(int i =0;i< tempScene->entities.size();i++){
+	for (int i = 0; i < tempScene->entities.size(); i++) {
 		if (tempScene->entities[i]->theEntity->getEntityType() == eEntityType::PLAYER_ENTITY) {
 			tempScene->currentPlayer->setSpeed(playerSpeed);
 			tempScene->currentPlayer->thePlayerObject = tempScene->entities[i];
@@ -145,13 +143,13 @@ bool  cSceneManager::loadSceneFromFileIntoSceneMap(std::string& fileName, int ma
 	//TODO:: when adding more levels do this per level
 	//TODO:: will have to remove the old rigid bodies as well
 	loadAssimpLoadedModelsIntoScene(tempScene);
-	createSceneRigidBodies(tempScene,theMeshManager);
+	createSceneRigidBodies(tempScene, theMeshManager);
 	loadConstraintsForScene(tempScene);
-	this->numLevels = this->mSceneMap.size()-1;
+	this->numLevels = this->mSceneMap.size() - 1;
 	return true;
 }
 
-bool cSceneManager::loadModelsFromModelInfoFile(std::string& filename, cVAOMeshManager* theMeshManager,int shaderId) {
+bool cSceneManager::loadModelsFromModelInfoFile(std::string& filename, cVAOMeshManager* theMeshManager, int shaderId) {
 	std::ifstream modelNameFile(filename.c_str());
 	std::string tempString;
 	int numModels = 0;
@@ -173,7 +171,6 @@ bool cSceneManager::loadModelsFromModelInfoFile(std::string& filename, cVAOMeshM
 		cMesh* testMesh;
 		testMesh = new cMesh();
 		testMesh->name = tempString;
-
 
 		if (testMesh->name == "SmoothSphere_Inverted_Normals_xyz_n.ply")
 		{
@@ -197,7 +194,6 @@ bool cSceneManager::loadModelsFromModelInfoFile(std::string& filename, cVAOMeshM
 			//std::cout << "Could not load mesh into VAO" << std::endl;
 			std::cout << "Could not load mesh >" << testMesh->name << "< into VAO" << std::endl;
 			succeeded = false;
-
 		}
 
 		tempString = "";
@@ -217,7 +213,6 @@ sScene cSceneManager::getSceneById(int id) {
 }
 
 void cSceneManager::copySceneFromCopyToPointer(const sScene& copyFrom, sScene* copyTo) {
-	
 	sScene temp = copyFrom;
 	//clear the previous scene
 	copyTo->entities.clear();
@@ -242,7 +237,6 @@ void cSceneManager::copySceneFromCopyToPointer(const sScene& copyFrom, sScene* c
 }
 
 void cSceneManager::loadObjectData(std::ifstream& theFile, std::vector<cGameObject*>& theVector, cVAOMeshManager* theMeshManager) {
-
 	std::string physicsObjectType = "";
 	std::string stateType = "";
 	cGameObject* pTempGO = new cGameObject();
@@ -273,7 +267,6 @@ void cSceneManager::loadObjectData(std::ifstream& theFile, std::vector<cGameObje
 	theFile >> stateType;
 	theFile >> powerUpType;
 
-	
 	//get the physics object shape
 	if (physicsObjectType == "UNKNOWN")
 	{
@@ -284,7 +277,7 @@ void cSceneManager::loadObjectData(std::ifstream& theFile, std::vector<cGameObje
 		pTempGO->typeOfObject = eTypeOfObject::SPHERE;
 	}
 	else if (physicsObjectType == "BOX") {
-		pTempGO->typeOfObject = eTypeOfObject::BOX;		
+		pTempGO->typeOfObject = eTypeOfObject::BOX;
 	}
 	else if (physicsObjectType == "CYLINDER") {
 		pTempGO->typeOfObject = eTypeOfObject::CYLINDER;
@@ -319,7 +312,6 @@ void cSceneManager::loadObjectData(std::ifstream& theFile, std::vector<cGameObje
 		break;
 	}
 
-
 	//set the ai state
 	if (stateType == "ANGRY") {
 		pTempGO->theAIState = new cAngryState();
@@ -334,12 +326,10 @@ void cSceneManager::loadObjectData(std::ifstream& theFile, std::vector<cGameObje
 		pTempGO->theAIState = NULL;
 	}
 
-
 	theVector.push_back(pTempGO);
 }
 
-bool cSceneManager::loadPlyFileIntoMeshWith_Normals_and_UV(std::string filename, cMesh &theMesh)
-{
+bool cSceneManager::loadPlyFileIntoMeshWith_Normals_and_UV(std::string filename, cMesh &theMesh) {
 	// Load the vertices
 	std::string file = "assets\\models\\" + filename;
 	// c_str() changes a string to a "c style char* string"
@@ -370,19 +360,18 @@ bool cSceneManager::loadPlyFileIntoMeshWith_Normals_and_UV(std::string filename,
 	for (int index = 0; index < theMesh.numberOfVertices; index++)
 	{
 		//end_header
-		//-0.0312216 0.126304 0.00514924 0.850855 0.5 		
+		//-0.0312216 0.126304 0.00514924 0.850855 0.5
 		float x, y, z, nx, ny, nz;
 		// Added
 		float u, v;		// Model now has texture coordinate
 
-						// Typical vertex is now... 
+						// Typical vertex is now...
 						// 29.3068 -5e-006 24.3079 -0.949597 0.1875 -0.251216 0.684492 0.5
 
 		plyFile >> x >> y >> z;
 		plyFile >> nx >> ny >> nz;
-		// 
+		//
 		plyFile >> u >> v;			// ADDED
-
 
 		theMesh.pVertices[index].x = x;	// vertices[index].x = x;
 		theMesh.pVertices[index].y = y;	// vertices[index].y = y;
@@ -402,7 +391,7 @@ bool cSceneManager::loadPlyFileIntoMeshWith_Normals_and_UV(std::string filename,
 	// Load the triangle (or face) information, too
 	for (int count = 0; count < theMesh.numberOfTriangles; count++)
 	{
-		// 3 164 94 98 
+		// 3 164 94 98
 		int discard = 0;
 		plyFile >> discard;									// 3
 		plyFile >> theMesh.pTriangles[count].vertex_ID_0;	// 164
@@ -415,8 +404,7 @@ bool cSceneManager::loadPlyFileIntoMeshWith_Normals_and_UV(std::string filename,
 	return true;
 }
 
-bool cSceneManager::loadPlyFileIntoMeshWithNormals(std::string filename, cMesh &theMesh)
-{
+bool cSceneManager::loadPlyFileIntoMeshWithNormals(std::string filename, cMesh &theMesh) {
 	// Load the vertices
 	// c_str() changes a string to a "c style char* string"
 	std::string file = "assets\\models\\" + filename;
@@ -447,7 +435,7 @@ bool cSceneManager::loadPlyFileIntoMeshWithNormals(std::string filename, cMesh &
 	for (int index = 0; index < theMesh.numberOfVertices; index++)
 	{
 		//end_header
-		//-0.0312216 0.126304 0.00514924 0.850855 0.5 		
+		//-0.0312216 0.126304 0.00514924 0.850855 0.5
 		float x, y, z, nx, ny, nz;//, confidence, intensity;
 
 		plyFile >> x;
@@ -471,7 +459,7 @@ bool cSceneManager::loadPlyFileIntoMeshWithNormals(std::string filename, cMesh &
 	// Load the triangle (or face) information, too
 	for (int count = 0; count < theMesh.numberOfTriangles; count++)
 	{
-		// 3 164 94 98 
+		// 3 164 94 98
 		int discard = 0;
 		plyFile >> discard;									// 3
 		plyFile >> theMesh.pTriangles[count].vertex_ID_0;	// 164
@@ -524,232 +512,223 @@ cSceneManager::cSceneManager() {
 }
 
 void cSceneManager::loadLevelTextures(sScene* theScene) {
-	
 	//based on current level load textures
 	switch (this->currentLevel) {
 		//level 1
-		case 0:
-			for (int i = 0; i < theScene->entities.size(); i++)
+	case 0:
+		for (int i = 0; i < theScene->entities.size(); i++)
+		{
+			if (theScene->entities[i]->meshName == "mig29_xyz.ply")
 			{
-
-				if (theScene->entities[i]->meshName == "mig29_xyz.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("leaves.bmp", 1.0f));
-				}
-				else if (theScene->entities[i]->meshName == "Raider_ASCII_UVtex.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 1.0f));
-				}
-				else if (theScene->entities[i]->meshName == "Viper_MkVII_ASCII_UVTex.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("rust.bmp", 0.5f));
-				}
-				else if (theScene->entities[i]->meshName == "Sample_Ship.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("sh3.bmp", 1.0f));
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("leaves.bmp", 1.0f));
 			}
-
-
-			for (int i = 0; i < theScene->terrain.size(); i++)
+			else if (theScene->entities[i]->meshName == "Raider_ASCII_UVtex.ply")
 			{
-				if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv.ply")
-				{
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("realistic-wet-grassl.bmp", 1.f));
-					//heightMap
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("heightmap.bmp", 1.f));
-					theScene->terrain[i]->heightMap  = new  sTextureBindBlendInfo("heightmap.bmp", 1.f);
-					theScene->terrain[i]->bIstoonShaded = false;
-
-				}
-				else if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv1.ply") {
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("TropicalSunnyDayUp2048.bmp", 0.5f));
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("heightmap.bmp", 1.f));
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("water-texture.bmp", 0.5f));
-					theScene->terrain[i]->bIstoonShaded = false;
-					theScene->terrain[i]->isNoiseGenerating = true;
-				}
-				if (theScene->terrain[i]->meshName == "high_poly_sphere.ply")
-				{
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("blue.bmp", 1.f));
-				}
-				else if (theScene->terrain[i]->meshName == "SmoothSphere_Inverted_Normals_xyz_n.ply")
-				{
-					theScene->terrain[i]->vecMeshCubeMaps.push_back(sTextureBindBlendInfo("sunny", 1.0f));
-					theScene->terrain[i]->bIsSkyBoxObject = true;
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 1.0f));
 			}
-
-			for (int i = 0; i < theScene->powerUps.size(); i++)
+			else if (theScene->entities[i]->meshName == "Viper_MkVII_ASCII_UVTex.ply")
 			{
-				if (theScene->powerUps[i]->meshName == "health_pack.ply")
-				{
-					theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("health.bmp", 1.0f));
-				}
-				if (theScene->powerUps[i]->meshName == "bullet.ply")
-				{
-					theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("gold.bmp", 1.0f));
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("rust.bmp", 0.5f));
 			}
-			break;
+			else if (theScene->entities[i]->meshName == "Sample_Ship.ply")
+			{
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("sh3.bmp", 1.0f));
+			}
+		}
+
+		for (int i = 0; i < theScene->terrain.size(); i++)
+		{
+			if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv.ply")
+			{
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("realistic-wet-grassl.bmp", 1.f));
+				//heightMap
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("heightmap.bmp", 1.f));
+				theScene->terrain[i]->heightMap = new  sTextureBindBlendInfo("heightmap.bmp", 1.f);
+				theScene->terrain[i]->bIstoonShaded = false;
+			}
+			else if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv1.ply") {
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("TropicalSunnyDayUp2048.bmp", 0.5f));
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("heightmap.bmp", 1.f));
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("water-texture.bmp", 0.5f));
+				theScene->terrain[i]->bIstoonShaded = false;
+				theScene->terrain[i]->isNoiseGenerating = true;
+			}
+			if (theScene->terrain[i]->meshName == "high_poly_sphere.ply")
+			{
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("blue.bmp", 1.f));
+			}
+			else if (theScene->terrain[i]->meshName == "SmoothSphere_Inverted_Normals_xyz_n.ply")
+			{
+				theScene->terrain[i]->vecMeshCubeMaps.push_back(sTextureBindBlendInfo("sunny", 1.0f));
+				theScene->terrain[i]->bIsSkyBoxObject = true;
+			}
+		}
+
+		for (int i = 0; i < theScene->powerUps.size(); i++)
+		{
+			if (theScene->powerUps[i]->meshName == "health_pack.ply")
+			{
+				theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("health.bmp", 1.0f));
+			}
+			if (theScene->powerUps[i]->meshName == "bullet.ply")
+			{
+				theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("gold.bmp", 1.0f));
+			}
+		}
+		break;
 
 		//level 2
-		case 1:
-			for (int i = 0; i < theScene->entities.size(); i++)
+	case 1:
+		for (int i = 0; i < theScene->entities.size(); i++)
+		{
+			if (theScene->entities[i]->meshName == "mig29_xyz.ply")
 			{
-				if (theScene->entities[i]->meshName == "mig29_xyz.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("leaves.bmp", 1.0f));
-				}
-				else if (theScene->entities[i]->meshName == "Raider_ASCII_UVtex.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 1.0f));
-				}
-				else if (theScene->entities[i]->meshName == "Viper_MkVII_ASCII_UVTex.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("rust.bmp", 0.5f));
-				}
-				else if (theScene->entities[i]->meshName == "Sample_Ship.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("sh3.bmp", 1.0f));
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("leaves.bmp", 1.0f));
 			}
-
-
-			for (int i = 0; i < theScene->terrain.size(); i++)
+			else if (theScene->entities[i]->meshName == "Raider_ASCII_UVtex.ply")
 			{
-				if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv.ply")
-				{
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("ground_grass.bmp", 0.5f));
-					//heightMap
-					theScene->terrain[i]->heightMap = new sTextureBindBlendInfo("heightmap.bmp", 1.f);
-				}
-				else if (theScene->terrain[i]->meshName == "SmoothSphere_Inverted_Normals_xyz_n.ply")
-				{
-					theScene->terrain[i]->vecMeshCubeMaps.push_back(sTextureBindBlendInfo("sunny", 1.0f));
-					theScene->terrain[i]->bIsSkyBoxObject = true;
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 1.0f));
 			}
-
-
-			for (int i = 0; i < theScene->powerUps.size(); i++)
+			else if (theScene->entities[i]->meshName == "Viper_MkVII_ASCII_UVTex.ply")
 			{
-				if (theScene->powerUps[i]->meshName == "health_pack.ply")
-				{
-					theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("health.bmp", 1.0f));
-				}
-				if (theScene->powerUps[i]->meshName == "bullet.ply")
-				{
-					theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("gold.bmp", 1.0f));
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("rust.bmp", 0.5f));
 			}
-			break;
+			else if (theScene->entities[i]->meshName == "Sample_Ship.ply")
+			{
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("sh3.bmp", 1.0f));
+			}
+		}
+
+		for (int i = 0; i < theScene->terrain.size(); i++)
+		{
+			if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv.ply")
+			{
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("ground_grass.bmp", 0.5f));
+				//heightMap
+				theScene->terrain[i]->heightMap = new sTextureBindBlendInfo("heightmap.bmp", 1.f);
+			}
+			else if (theScene->terrain[i]->meshName == "SmoothSphere_Inverted_Normals_xyz_n.ply")
+			{
+				theScene->terrain[i]->vecMeshCubeMaps.push_back(sTextureBindBlendInfo("sunny", 1.0f));
+				theScene->terrain[i]->bIsSkyBoxObject = true;
+			}
+		}
+
+		for (int i = 0; i < theScene->powerUps.size(); i++)
+		{
+			if (theScene->powerUps[i]->meshName == "health_pack.ply")
+			{
+				theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("health.bmp", 1.0f));
+			}
+			if (theScene->powerUps[i]->meshName == "bullet.ply")
+			{
+				theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("gold.bmp", 1.0f));
+			}
+		}
+		break;
 
 		//level 3
-		case 2:
-			for (int i = 0; i < theScene->entities.size(); i++)
+	case 2:
+		for (int i = 0; i < theScene->entities.size(); i++)
+		{
+			if (theScene->entities[i]->meshName == "mig29_xyz.ply")
 			{
-				if (theScene->entities[i]->meshName == "mig29_xyz.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("leaves.bmp", 1.0f));
-				}
-				else if (theScene->entities[i]->meshName == "Raider_ASCII_UVtex.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 1.0f));
-				}
-				else if (theScene->entities[i]->meshName == "Viper_MkVII_ASCII_UVTex.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("rust.bmp", 0.5f));
-				}
-				else if (theScene->entities[i]->meshName == "Sample_Ship.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("sh3.bmp", 1.0f));
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("leaves.bmp", 1.0f));
 			}
-
-
-			for (int i = 0; i < theScene->terrain.size(); i++)
+			else if (theScene->entities[i]->meshName == "Raider_ASCII_UVtex.ply")
 			{
-				if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv.ply")
-				{
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 0.5f));
-					//heightMap
-					theScene->terrain[i]->heightMap = new sTextureBindBlendInfo("heightmap.bmp", 1.f);
-				}
-				else if (theScene->terrain[i]->meshName == "SmoothSphere_Inverted_Normals_xyz_n.ply")
-				{
-					theScene->terrain[i]->vecMeshCubeMaps.push_back(sTextureBindBlendInfo("space", 1.0f));
-					theScene->terrain[i]->bIsSkyBoxObject = true;
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 1.0f));
 			}
-
-			for (int i = 0; i < theScene->powerUps.size(); i++)
+			else if (theScene->entities[i]->meshName == "Viper_MkVII_ASCII_UVTex.ply")
 			{
-				if (theScene->powerUps[i]->meshName == "health_pack.ply")
-				{
-					theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("health.bmp", 1.0f));
-				}
-				if (theScene->powerUps[i]->meshName == "bullet.ply")
-				{
-					theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("gold.bmp", 1.0f));
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("rust.bmp", 0.5f));
 			}
-			break;
-
-
-		case 3:
-			for (int i = 0; i < theScene->entities.size(); i++)
+			else if (theScene->entities[i]->meshName == "Sample_Ship.ply")
 			{
-				if (theScene->entities[i]->meshName == "mig29_xyz.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("leaves.bmp", 1.0f));
-				}
-				else if (theScene->entities[i]->meshName == "Raider_ASCII_UVtex.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 1.0f));
-				}
-				else if (theScene->entities[i]->meshName == "Viper_MkVII_ASCII_UVTex.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("rust.bmp", 0.5f));
-				}
-				else if (theScene->entities[i]->meshName == "Sample_Ship.ply")
-				{
-					theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("sh3.bmp", 1.0f));
-				}
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("sh3.bmp", 1.0f));
 			}
+		}
 
-
-			for (int i = 0; i < theScene->terrain.size(); i++)
+		for (int i = 0; i < theScene->terrain.size(); i++)
+		{
+			if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv.ply")
 			{
-				if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv.ply")
-				{
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 0.5f));
-					//heightMap
-					theScene->terrain[i]->heightMap = new sTextureBindBlendInfo("heightmap.bmp", 1.f);
-				}
-				else if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv1.ply") {
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("TropicalSunnyDayUp2048.bmp", 0.5f));
-					theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("water-texture.bmp", 0.5f));					
-				}
-				else if (theScene->terrain[i]->meshName == "SmoothSphere_Inverted_Normals_xyz_n.ply")
-				{
-					theScene->terrain[i]->vecMeshCubeMaps.push_back(sTextureBindBlendInfo("space", 1.0f));
-					theScene->terrain[i]->bIsSkyBoxObject = true;
-				}
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 0.5f));
+				//heightMap
+				theScene->terrain[i]->heightMap = new sTextureBindBlendInfo("heightmap.bmp", 1.f);
 			}
-
-			for (int i = 0; i < theScene->powerUps.size(); i++)
+			else if (theScene->terrain[i]->meshName == "SmoothSphere_Inverted_Normals_xyz_n.ply")
 			{
-				if (theScene->powerUps[i]->meshName == "health_pack.ply")
-				{
-					theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("health.bmp", 1.0f));
-				}
-				if (theScene->powerUps[i]->meshName == "bullet.ply")
-				{
-					theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("gold.bmp", 1.0f));
-				}
+				theScene->terrain[i]->vecMeshCubeMaps.push_back(sTextureBindBlendInfo("space", 1.0f));
+				theScene->terrain[i]->bIsSkyBoxObject = true;
 			}
-			break;
+		}
+
+		for (int i = 0; i < theScene->powerUps.size(); i++)
+		{
+			if (theScene->powerUps[i]->meshName == "health_pack.ply")
+			{
+				theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("health.bmp", 1.0f));
+			}
+			if (theScene->powerUps[i]->meshName == "bullet.ply")
+			{
+				theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("gold.bmp", 1.0f));
+			}
+		}
+		break;
+
+	case 3:
+		for (int i = 0; i < theScene->entities.size(); i++)
+		{
+			if (theScene->entities[i]->meshName == "mig29_xyz.ply")
+			{
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("leaves.bmp", 1.0f));
+			}
+			else if (theScene->entities[i]->meshName == "Raider_ASCII_UVtex.ply")
+			{
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 1.0f));
+			}
+			else if (theScene->entities[i]->meshName == "Viper_MkVII_ASCII_UVTex.ply")
+			{
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("rust.bmp", 0.5f));
+			}
+			else if (theScene->entities[i]->meshName == "Sample_Ship.ply")
+			{
+				theScene->entities[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("sh3.bmp", 1.0f));
+			}
+		}
+
+		for (int i = 0; i < theScene->terrain.size(); i++)
+		{
+			if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv.ply")
+			{
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("lava.bmp", 0.5f));
+				//heightMap
+				theScene->terrain[i]->heightMap = new sTextureBindBlendInfo("heightmap.bmp", 1.f);
+			}
+			else if (theScene->terrain[i]->meshName == "MeshLabTerrain_FLAT_xyz_n_uv1.ply") {
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("TropicalSunnyDayUp2048.bmp", 0.5f));
+				theScene->terrain[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("water-texture.bmp", 0.5f));
+			}
+			else if (theScene->terrain[i]->meshName == "SmoothSphere_Inverted_Normals_xyz_n.ply")
+			{
+				theScene->terrain[i]->vecMeshCubeMaps.push_back(sTextureBindBlendInfo("space", 1.0f));
+				theScene->terrain[i]->bIsSkyBoxObject = true;
+			}
+		}
+
+		for (int i = 0; i < theScene->powerUps.size(); i++)
+		{
+			if (theScene->powerUps[i]->meshName == "health_pack.ply")
+			{
+				theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("health.bmp", 1.0f));
+			}
+			if (theScene->powerUps[i]->meshName == "bullet.ply")
+			{
+				theScene->powerUps[i]->vecMehs2DTextures.push_back(sTextureBindBlendInfo("gold.bmp", 1.0f));
+			}
+		}
+		break;
 	}
 }
 
@@ -757,8 +736,7 @@ int cSceneManager::getCurrentLevel() {
 	return this->currentLevel;
 }
 
-void cSceneManager::loadNextLevel(sScene* g_pCurrentScene,cPlayer* thePlayer) {
-
+void cSceneManager::loadNextLevel(sScene* g_pCurrentScene, cPlayer* thePlayer) {
 	if (this->currentLevel == this->numLevels) {
 		this->currentLevel = 0;
 	}
@@ -789,17 +767,16 @@ void cSceneManager::loadNextLevel(sScene* g_pCurrentScene,cPlayer* thePlayer) {
 	}
 }
 
-void cSceneManager::configurePowerUpsForScene(sScene* theScene,std::vector<cPowerUp*>& thePowerups) {
-
+void cSceneManager::configurePowerUpsForScene(sScene* theScene, std::vector<cPowerUp*>& thePowerups) {
 	thePowerups.clear();
 	//set the modifiers
 	for (int i = 0; i < theScene->powerUps.size(); i++) {
-		if (theScene->powerUps[i]->meshName == "health_pack.ply") {			
-			thePowerups.push_back(new cPowerUp(eModifierType::MODIFIER_HEALTH,ePowerUpType::POWERUP_HEALTH, theScene->powerUps[i]));
+		if (theScene->powerUps[i]->meshName == "health_pack.ply") {
+			thePowerups.push_back(new cPowerUp(eModifierType::MODIFIER_HEALTH, ePowerUpType::POWERUP_HEALTH, theScene->powerUps[i]));
 		}
 		else if (theScene->powerUps[i]->meshName == "bullet.ply") {
 			thePowerups.push_back(new cPowerUp(eModifierType::MODIFIER_RANGE_INCREASE, ePowerUpType::POWERUP_RANGE_INCREASE, theScene->powerUps[i]));
-		}	
+		}
 	}
 }
 
@@ -807,7 +784,7 @@ void cSceneManager::setCurrentLevel(int levelIndex) {
 	this->currentLevel = levelIndex;
 }
 
-void cSceneManager::createSceneRigidBodies(sScene* theScene,cVAOMeshManager* theMeshManager) {
+void cSceneManager::createSceneRigidBodies(sScene* theScene, cVAOMeshManager* theMeshManager) {
 	nPhysics::sRigidBodyDesc theDesc;
 	nPhysics::iShape* theShape = NULL;
 	nPhysics::eCollisionBodyType bodyType;
@@ -837,9 +814,9 @@ void cSceneManager::createSceneRigidBodies(sScene* theScene,cVAOMeshManager* the
 			bodyType = nPhysics::eCollisionBodyType::RIGID_BODY;
 		}
 		//get the rigid body info
-		populateRigidBodyDescAndShape(*theScene->entities[i],theDesc,theShape,theMeshManager);
+		populateRigidBodyDescAndShape(*theScene->entities[i], theDesc, theShape, theMeshManager);
 		//create the rigid body
-		theScene->entities[i]->theBody = theFactory->CreateRigidBody(theDesc, theShape,bodyType);
+		theScene->entities[i]->theBody = theFactory->CreateRigidBody(theDesc, theShape, bodyType);
 		theWorld->AddCollisionBody(theScene->entities[i]->theBody);
 	}
 
@@ -904,8 +881,7 @@ void cSceneManager::createSceneRigidBodies(sScene* theScene,cVAOMeshManager* the
 	}
 }
 
-void cSceneManager::populateRigidBodyDescAndShape(const cGameObject& object, nPhysics::sRigidBodyDesc& desc,nPhysics::iShape*& theShape, cVAOMeshManager* theMeshManager) {
-
+void cSceneManager::populateRigidBodyDescAndShape(const cGameObject& object, nPhysics::sRigidBodyDesc& desc, nPhysics::iShape*& theShape, cVAOMeshManager* theMeshManager) {
 	cMesh theMesh;
 	theMeshManager->lookupMeshFromName(object.meshName, theMesh);
 	float dot;
@@ -935,7 +911,7 @@ void cSceneManager::populateRigidBodyDescAndShape(const cGameObject& object, nPh
 		desc.noCollisionResponse = true;
 		break;
 	case eTypeOfObject::CONE:
-		radius = object.scale/2.f;
+		radius = object.scale / 2.f;
 		height = object.scale;
 		theShape = theFactory->CreateCone(radius, height);
 		desc.noCollisionResponse = false;
@@ -951,7 +927,7 @@ void cSceneManager::loadConstraintsForScene(sScene* theScene) {
 	for (int i = 0; i < theScene->playerShield->pShieldBodies.size(); i++) {
 		glm::vec3 body1Loc = theScene->currentPlayer->thePlayerObject->position;
 		glm::vec3 body2Loc = theScene->playerShield->pShieldBodies[i]->position;
-		nPhysics::iConstraint* hinge = theFactory->CreateHingeConstraint(theScene->currentPlayer->thePlayerObject->theBody,body1Loc,yAxis,theScene->playerShield->pShieldBodies[i]->theBody,body2Loc,yAxis);
+		nPhysics::iConstraint* hinge = theFactory->CreateHingeConstraint(theScene->currentPlayer->thePlayerObject->theBody, body1Loc, yAxis, theScene->playerShield->pShieldBodies[i]->theBody, body2Loc, yAxis);
 		hinge->EnableMotor(true);
 		nPhysics::iRigidBody* tempRB = dynamic_cast<nPhysics::iRigidBody*>(theScene->playerShield->pShieldBodies[i]->theBody);
 		tempRB->SetAngularVelocity(glm::vec3(1.f, 1.f, 1.f));
@@ -965,8 +941,7 @@ void cSceneManager::loadConstraintsForScene(sScene* theScene) {
 	//low , high, softness,bias, relaxation
 	//hinge->SetLimits(glm::vec3(0.f,1.f,0.8f));
 
-
-	//create cone 
+	//create cone
 	cGameObject* coneObject;
 	coneObject = new cGameObject();
 	coneObject->meshName = "cone.ply";
@@ -985,12 +960,11 @@ void cSceneManager::loadConstraintsForScene(sScene* theScene) {
 	theDesc.Velocity = glm::vec3(0.f);
 	theDesc.Rotation = glm::vec3(0.f);
 	theDesc.noCollisionResponse = false;
-	theShape = theFactory->CreateCone(1.5f,3.f);
-	coneObject->theBody = theFactory->CreateCollisionBody(theDesc,theShape,bodyType);
+	theShape = theFactory->CreateCone(1.5f, 3.f);
+	coneObject->theBody = theFactory->CreateCollisionBody(theDesc, theShape, bodyType);
 	((nPhysics::iRigidBody*)coneObject->theBody)->SetLinearVelocity(glm::vec3(5.0f));
 	((nPhysics::iRigidBody*)coneObject->theBody)->SetLinearFactor(glm::vec3(1.0f));
 	theWorld->AddCollisionBody(coneObject->theBody);
-
 
 	//cone2
 	cGameObject* coneObject1;
@@ -1013,7 +987,7 @@ void cSceneManager::loadConstraintsForScene(sScene* theScene) {
 	theDesc1.noCollisionResponse = true;
 	theShape1 = theFactory->CreateCone(0.5, 1.f);
 	coneObject1->theBody = theFactory->CreateCollisionBody(theDesc1, theShape1, bodyType1);
-	((nPhysics::iRigidBody*)coneObject1->theBody)->SetLinearFactor(glm::vec3(1.0f,1.f,1.0f));
+	((nPhysics::iRigidBody*)coneObject1->theBody)->SetLinearFactor(glm::vec3(1.0f, 1.f, 1.0f));
 	theWorld->AddCollisionBody(coneObject1->theBody);
 
 	//cone3
@@ -1040,23 +1014,20 @@ void cSceneManager::loadConstraintsForScene(sScene* theScene) {
 	((nPhysics::iRigidBody*)coneObject2->theBody)->SetLinearFactor(glm::vec3(1.0f, 0.f, 1.0f));
 	theWorld->AddCollisionBody(coneObject2->theBody);
 
-	
-
-
 	//slider (the cone)
 	nPhysics::iConstraint* slider = theFactory->CreateSliderConstraint(coneObject->theBody, coneObject->position, true);
-	slider->SetLinearLimits(float(-20),float(20));
+	slider->SetLinearLimits(float(-20), float(20));
 	slider->EnableMotor(true);
 	slider->SetMotorTargetVelocity(30.f);
 	theWorld->addConstraint(slider);
 
 	//6 degrees of freedom (connecting the two cylinders together)
-	nPhysics::iConstraint* sixDoF = theFactory->Create6DOFConstraint(coneObject1->theBody, coneObject->theBody, coneObject1->position, coneObject->position,true);
+	nPhysics::iConstraint* sixDoF = theFactory->Create6DOFConstraint(coneObject1->theBody, coneObject->theBody, coneObject1->position, coneObject->position, true);
 	//sixDoF->SetLinearLimits(glm::vec3(-3.f, -3.f, -3.f), glm::vec3(3.f, 3.f, 3.f));
 	theWorld->addConstraint(sixDoF);
 
 	//cone twist (one of the small spheres has this on it)
-	nPhysics::iConstraint* pTwist = theFactory->CreateConeTwistConstraint(coneObject1->theBody,coneObject2->theBody);
+	nPhysics::iConstraint* pTwist = theFactory->CreateConeTwistConstraint(coneObject1->theBody, coneObject2->theBody);
 	theWorld->addConstraint(pTwist);
 
 	//create a slider with a 6dof and cone twist attached to it
@@ -1065,16 +1036,13 @@ void cSceneManager::loadConstraintsForScene(sScene* theScene) {
 	theScene->obstacles.push_back(coneObject2);
 }
 
-
-
-
 void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	//create the three models and add them to the scene
 	float treeRotation = getRandInRange(0.f, 360.f);
 	float treeXOrientation = getRandInRange(89.f, 90.5f);
 
 	nPhysics::iShape* shape;
-	shape = theFactory->CreateCylinder(glm::vec3(2.5f,5.f,2.5f));
+	shape = theFactory->CreateCylinder(glm::vec3(2.5f, 5.f, 2.5f));
 
 	nPhysics::sRigidBodyDesc desc;
 	glm::vec3 bodyPos;
@@ -1088,7 +1056,7 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTree->bIsReflectRefract = false;
 	toonTree->diffuseColour = glm::vec4(1.f);
 	toonTree->diffuseColour = brown,
-	toonTree->orientation2.y = treeRotation;
+		toonTree->orientation2.y = treeRotation;
 	toonTree->orientation2.x = 80.f;
 	toonTree->isNoiseGenerating = false;
 	toonTree->position = glm::vec3(-10.f, -2.f, 0.f);
@@ -1110,8 +1078,8 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	bodyPos = toonTree->position;
 	bodyPos.y += 3.f;
 	desc.Position = bodyPos;
-	desc.Rotation = glm::vec3(0.f,0.f,0.f);
-	toonTree->theBody = theFactory->CreateRigidBody(desc,shape,nPhysics::eCollisionBodyType::TREE_BODY);
+	desc.Rotation = glm::vec3(0.f, 0.f, 0.f);
+	toonTree->theBody = theFactory->CreateRigidBody(desc, shape, nPhysics::eCollisionBodyType::TREE_BODY);
 	theWorld->AddCollisionBody(toonTree->theBody);
 	theScene->terrain.push_back(toonTree);
 
@@ -1180,7 +1148,6 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTree2->position = glm::vec3(-40.f, -2.f, 0.f);
 	theScene->terrain.push_back(toonTree2);
 
-
 	//tree3
 	treeXOrientation = getRandInRange(89.f, 90.5f);
 	treeRotation = getRandInRange(0.f, 360.f);
@@ -1230,7 +1197,6 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTree3->diffuseColour = orange;
 	toonTree3->position = glm::vec3(-10.f, -2.f, 40.f);
 	theScene->terrain.push_back(toonTree3);
-
 
 	//tree4
 	treeXOrientation = getRandInRange(89.f, 90.5f);
@@ -1343,7 +1309,7 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTreeTrunk4->bIsReflectRefract = false;
 	toonTreeTrunk4->diffuseColour = glm::vec4(1.f);
 	toonTreeTrunk4->diffuseColour = brown;
-	toonTreeTrunk4->orientation2.y = getRandInRange(0.f,360.f);
+	toonTreeTrunk4->orientation2.y = getRandInRange(0.f, 360.f);
 	toonTreeTrunk4->orientation2.x = 80.f;
 	toonTreeTrunk4->orientation2.y = treeRotation;
 	toonTreeTrunk4->isNoiseGenerating = false;
@@ -1382,7 +1348,6 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTree5->diffuseColour = purple;
 	toonTree5->position = glm::vec3(-80.f, -2.f, 55.f);
 	theScene->terrain.push_back(toonTree5);
-
 
 	//Tree 7
 	treeXOrientation = getRandInRange(89.f, 90.5f);
@@ -1445,7 +1410,7 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTreeTrunk6->bIsReflectRefract = false;
 	toonTreeTrunk6->diffuseColour = glm::vec4(1.f);
 	toonTreeTrunk6->diffuseColour = brown;
-	toonTreeTrunk6->orientation2.x =80.f;
+	toonTreeTrunk6->orientation2.x = 80.f;
 	toonTreeTrunk6->orientation2.y = treeRotation;
 	toonTreeTrunk6->isNoiseGenerating = false;
 	toonTreeTrunk6->position = glm::vec3(-80.f, -2.f, -15.f);
@@ -1483,7 +1448,6 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTree7->diffuseColour = red;
 	toonTree7->position = glm::vec3(-80.f, -2.f, -15.f);
 	theScene->terrain.push_back(toonTree7);
-
 
 	//Tree 9
 	treeXOrientation = getRandInRange(89.f, 90.5f);
@@ -1535,7 +1499,6 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTree8->position = glm::vec3(-40.f, -2.f, -15.f);
 	theScene->terrain.push_back(toonTree8);
 
-
 	//Tree 10
 	treeXOrientation = getRandInRange(89.f, 90.5f);
 	treeRotation = getRandInRange(0.f, 360.f);
@@ -1573,8 +1536,6 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	theWorld->AddCollisionBody(toonTreeTrunk8->theBody);
 	theScene->terrain.push_back(toonTreeTrunk8);
 
-
-
 	cGameObject* toonTree9 = new cGameObject();
 	toonTree9->meshName = "assets/models/Cartoon_Tree.blend1";
 	toonTree9->scale = 2.f;
@@ -1587,8 +1548,6 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTree9->diffuseColour = purple;
 	toonTree9->position = glm::vec3(0.f, -2.f, -15.f);
 	theScene->terrain.push_back(toonTree9);
-
-	
 
 	//Tree 11
 	treeXOrientation = getRandInRange(89.f, 90.5f);
@@ -1640,7 +1599,6 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	toonTree10->position = glm::vec3(40.f, -2.f, -15.f);
 	theScene->terrain.push_back(toonTree10);
 
-
 	//cGameObject* mill = new cGameObject();
 	//mill->meshName = "assets/models/LowPolyMill.blend0";
 	//mill->scale = 0.5f;
@@ -1658,4 +1616,3 @@ void cSceneManager::loadAssimpLoadedModelsIntoScene(sScene* theScene) {
 	//mill->vecMeshNames.push_back("assets/models/LowPolyMill.blend5");
 	//theScene->terrain.push_back(mill);
 }
-

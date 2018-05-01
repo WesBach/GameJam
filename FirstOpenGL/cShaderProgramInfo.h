@@ -15,7 +15,7 @@ public:
 		this->vertShader = new cShader();
 	};
 
-	~cShaderProgramInfo() { 
+	~cShaderProgramInfo() {
 		delete this->vertShader;
 		delete this->fragShader;
 	}
@@ -29,4 +29,3 @@ public:
 	int matModelUniformLoc;
 };
 #endif // !_cShaderProgramInfo_HG_
-

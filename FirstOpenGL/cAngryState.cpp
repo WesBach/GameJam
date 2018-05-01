@@ -7,7 +7,6 @@
 #include "cSceneManager.h"
 #include "iEntity.h"
 
-
 extern sScene* g_pCurrentScene;
 
 cAngryState::cAngryState() {
@@ -36,7 +35,7 @@ void cAngryState::performAction(cGameObject* player, cGameObject* me, float delt
 	//glm::vec3 playerforwardVector = glm::vec3(1.0f, 0.0f, 0.0f);
 	//playerforwardVector = VectorMultiplyMatrices(&RotationMatrix, &playerforwardVector);
 
-	//set the players forward vector 
+	//set the players forward vector
 	//g_pCurrentScene->currentPlayer->playerForward = g_pCurrentScene->currentPlayer->playerForward;
 
 	float playerLookingAtMe = glm::dot(forwardVector, g_pCurrentScene->currentPlayer->playerForward);
@@ -86,26 +85,25 @@ void cAngryState::performAction(cGameObject* player, cGameObject* me, float delt
 		}
 		float rotationSpeed = 0.002f;
 
-		//check to see how far the rotation went 
+		//check to see how far the rotation went
 		if (me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) < 0.01f || me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) > -0.1f)
 		{
 			me->diffuseColour = stateOrange;
-			//move awat from the character 
+			//move awat from the character
 			glm::vec3 direction = player->position - me->position;
 			direction = glm::normalize(direction);
 			direction.y = 0.0f;
 
-			//make the enemy move away from the player at a set speed 
+			//make the enemy move away from the player at a set speed
 			me->position += -direction * this->speed * deltaTime;
 			me->updateRigidBody();
 			//me->theEntity->move(-direction);
 		}
 
 		me->orientation2.y += (rotationSpeed * rotAngle);
-//		me->position += (unitForVec)* deltaTime;
+		//		me->position += (unitForVec)* deltaTime;
 	}
 	else if (this->mAction == eActionType::PURSUE) {
-
 		glm::vec3 difVector = glm::vec3((player->position.x - me->position.x),
 			(player->position.y - me->position.y),
 			(player->position.z - me->position.z)
@@ -129,17 +127,17 @@ void cAngryState::performAction(cGameObject* player, cGameObject* me, float delt
 		}
 		float rotationSpeed = 0.01f;
 
-		//and to get the new forward use the rotation vector dot the 
-		//check to see how far the rotation went 
+		//and to get the new forward use the rotation vector dot the
+		//check to see how far the rotation went
 		if (me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) < 0.01f || me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) > -0.1f)
 		{
 			me->diffuseColour = stateRed;
-			//move towards the character 
+			//move towards the character
 			glm::vec3 direction = player->position - me->position;
 			direction = glm::normalize(direction);
 			direction.y = 0.0f;
 
-			//make the enemy move towards the player at a set speed 
+			//make the enemy move towards the player at a set speed
 			me->position += direction * this->speed * deltaTime;
 			me->updateRigidBody();
 			//me->theEntity->move(direction);
@@ -148,23 +146,20 @@ void cAngryState::performAction(cGameObject* player, cGameObject* me, float delt
 		me->orientation2.y += (rotationSpeed * rotAngle);
 
 		//do the damage
-		if (glm::distance(me->position, player->position) < 2.0f ) {
+		if (glm::distance(me->position, player->position) < 2.0f) {
 			this->timeInRadius += deltaTime;
 			//make sure the enemy is within the radius for a second before doing any damage
 			me->diffuseColour = stateWhite;
-
 		}
-		else{
+		else {
 			//if the player moves outside of the radius reset the timer
 			this->timeInRadius = 0.0f;
 		}
-
-
 	}
 
 	else if (this->mAction == eActionType::IDLE) {
 		//do nothing
-		//get the distance between the player and the object 
+		//get the distance between the player and the object
 		me->diffuseColour = stateWhite;
 		float dist = abs(glm::distance(player->position, me->position));
 		if (dist < this->visionDistance) {

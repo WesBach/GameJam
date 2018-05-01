@@ -1,20 +1,20 @@
 #ifndef _cVAOMeshManager_HG_
 #define _cVAOMeshManager_HG_
 
-//#include <GLFW\glfw3.h>	// Give us opengl.h 
+//#include <GLFW\glfw3.h>	// Give us opengl.h
 #include <string>
 //#include "cMesh.h"
-// Instead of including, which means possibly including 
-//	stuff we don't need or want to know about, we 
+// Instead of including, which means possibly including
+//	stuff we don't need or want to know about, we
 //  'forward declare'
 class cMesh;		// Forward declare
 
 #include <map>		// "dictonary" or PHP array
 #include "sVAOInfo.h"
 
-// This will handle: 
+// This will handle:
 // - taking a cMesh and loading into the various buffers
-// - take a mesh "name" and returning the desired VAO info 
+// - take a mesh "name" and returning the desired VAO info
 //   (for rendering)
 class cVAOMeshManager
 {

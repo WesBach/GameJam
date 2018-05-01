@@ -1,4 +1,5 @@
 #include "CTextureManager.h"
+#include "Utilities.h"
 #include <sstream>
 
 // Written by Michael Feeney, Fanshawe College, 2010
@@ -41,8 +42,30 @@ int CTextureManager::getOpenGL_GL_MAX_TEXTURE_IMAGE_UNITS(bool bMakeGLCallNow /*
 	return this->m_MaxTextureImageUnits;
 }
 
+bool CTextureManager::LoadTexturesFromFile(std::string& fileName) {
+	std::ifstream modelAndSceneFile(fileName.c_str());
+	int numTextures = 0;
+	if (!modelAndSceneFile.is_open())
+	{	// Didn't open file, so return
+		return false;
+	}
 
-void CTextureManager::setBasePath(std::string basePath)
+	ReadFileToToken(modelAndSceneFile, "NUM_TEXTURES");
+	modelAndSceneFile >> numTextures;
+
+	ReadFileToToken(modelAndSceneFile, "TEXTURE_NAMES");
+	for (int i = 0; i < numTextures; i++)
+	{
+		std::string temp = "";
+		modelAndSceneFile >> temp;
+		//load the textures into the texture manager
+		g_pTextureManager->Create2DTextureFromBMPFile(temp, true);
+		temp = "";
+	}
+	return true;
+}
+
+void CTextureManager::SetBasePath(std::string basePath)
 {
 	this->m_basePath = basePath;
 	return;
@@ -65,7 +88,7 @@ void CTextureManager::m_appendErrorStringLine(std::string nextErrorTextLine)
 	return;
 }
 
-// Make an alternative to this, where the textures "in use" are bound, but 
+// Make an alternative to this, where the textures "in use" are bound, but
 //	anything else that's loaded isn't.
 bool CTextureManager::UpdateTextureBindingsByTextureNameSimple(void)
 {
@@ -114,7 +137,6 @@ bool CTextureManager::UpdateTextureBindingsByTextureNameSimple(void)
 	return true;
 }
 
-
 void CTextureManager::GetLoadedTextures(std::vector<std::string> &vecTextures)
 {
 	vecTextures.clear();
@@ -126,7 +148,6 @@ void CTextureManager::GetLoadedTextures(std::vector<std::string> &vecTextures)
 	}
 	return;
 }
-
 
 // Returns true if the texture is present and bound to something
 // textureUnit is undefined if return is false
@@ -152,7 +173,7 @@ bool CTextureManager::GetBoundTextureUnitFromTextureName(std::string textureName
 }
 
 // Left off here. Was getting the map of textures and texture units from the texture manager.
-// This thing will take these and map them to the uniforms that are in the actual shader. 
+// This thing will take these and map them to the uniforms that are in the actual shader.
 // Returns a map of texture names and the texture binding information
 // Note: this stores the info in the CTexUnitInfoBrief class because the "heavy" CTextureUnitInfo is used internally.
 bool CTextureManager::GetBoundTextureUnitsByTextureNames(std::map<std::string /*textureName*/, CTexUnitInfoBrief> &mapTexAndUnitInfo)
@@ -171,7 +192,7 @@ bool CTextureManager::GetBoundTextureUnitsByTextureNames(std::map<std::string /*
 		{
 			curTexInfo.texType = GL_TEXTURE_2D;
 			// TODO: This could be GL_SAMPLER_2D, GL_INT_SAMPLER_2D (ES30), GL_UNSIGNED_INT_SAMPLER_2D (ES30), or GL_SAMPLER_2D_SHADOW
-			// How can you tell, for matching uniforms? 
+			// How can you tell, for matching uniforms?
 		}
 		else if (itTexture->second.pTexture->getIsCubeMap())
 		{
@@ -182,7 +203,6 @@ bool CTextureManager::GetBoundTextureUnitsByTextureNames(std::map<std::string /*
 
 	return true;
 }
-
 
 bool CTextureManager::Create2DTexturesFromBMPFiles(std::vector<std::string> vecTextures, bool bGenerateMIPMap, std::string &error)
 {
@@ -201,7 +221,6 @@ bool CTextureManager::Create2DTexturesFromBMPFiles(std::vector<std::string> vecT
 	error = ssErrors.str();
 	return bAllGood;
 }
-
 
 bool CTextureManager::Create2DTextureFromBMPFile(std::string textureFileName, bool bGenerateMIPMap)
 {
@@ -234,8 +253,6 @@ bool CTextureManager::Create2DTextureFromBMPFile(std::string textureFileName, bo
 	return true;
 }
 
-
-
 bool CTextureManager::CreateCubeTextureFromBMPFiles(std::string cubeMapName,
 	std::string posX_fileName, std::string negX_fileName,
 	std::string posY_fileName, std::string negY_fileName,
@@ -248,7 +265,6 @@ bool CTextureManager::CreateCubeTextureFromBMPFiles(std::string cubeMapName,
 	std::string negY_fileName_FULL = this->m_basePath + "/" + negY_fileName;
 	std::string posZ_fileName_FULL = this->m_basePath + "/" + posZ_fileName;
 	std::string negZ_fileName_FULL = this->m_basePath + "/" + negZ_fileName;
-
 
 	// #define GL_TEXTURE0 0x84C0
 	//GLuint textureUnit = this->m_BASETEXTURE + this->m_nextTextureUnitOffset;
@@ -279,8 +295,6 @@ bool CTextureManager::CreateCubeTextureFromBMPFiles(std::string cubeMapName,
 		return false;
 	}
 
-
-
 	// Texture is loaded OK
 	//this->m_nextTextureUnitOffset++;
 
@@ -288,7 +302,6 @@ bool CTextureManager::CreateCubeTextureFromBMPFiles(std::string cubeMapName,
 
 	return true;
 }
-
 
 // Returns zero if invalid
 CTextureFromBMP* CTextureManager::getTextureFromTextureName(std::string textureName)
@@ -314,7 +327,6 @@ int CTextureManager::getTextureIDFromTextureName(std::string textureName)
 	return -1;
 }
 
-
 std::string CTextureManager::getLastError(void)
 {
 	std::string errorText = this->m_lastError;
@@ -322,7 +334,7 @@ std::string CTextureManager::getLastError(void)
 	return errorText;
 }
 
-//// These are used for off-screen rendering, or any time that you want to 
+//// These are used for off-screen rendering, or any time that you want to
 //// manually set a texture unit
 //GLuint CTextureManager::getNextFreeTextureUnit(void)
 //{
@@ -344,7 +356,7 @@ std::string CTextureManager::getLastError(void)
 //	this->m_nextTextureUnitOffset++;
 //	return true;
 //}
-//	
+//
 
 // NEW: February, 2015: Allows the texture manager to create and manage framebuffers
 class CFramebufferInfo
@@ -384,7 +396,6 @@ bool CTextureManager::createNewOffscreenFrameBuffer(CFrameBufferInfo &frameBuffe
 // This bases the framebuffer information from what's contained in the frameBufferInfo object
 bool CTextureManager::createNewOffscreenFrameBuffer(CFrameBufferInfo &frameBufferInfo)
 {
-
 	return false;
 
 	// Is the size OK
@@ -393,7 +404,6 @@ bool CTextureManager::createNewOffscreenFrameBuffer(CFrameBufferInfo &frameBuffe
 		this->m_appendErrorStringLine("Framebuffer width of height is zero (0.0f) or less");
 		return false;
 	}
-
 
 	// Create the actual offscreen texture
 	//::g_FrameBufferHeight = static_cast<float>(::g_screenHeight);
@@ -408,15 +418,14 @@ bool CTextureManager::createNewOffscreenFrameBuffer(CFrameBufferInfo &frameBuffe
 	for (std::map< GLuint, CFrameBufferInfo::CColourBuffer >::iterator itCB = frameBufferInfo.mapColourBuffersByID.begin();
 		itCB != frameBufferInfo.mapColourBuffersByID.end(); itCB++)
 	{
-
 	}
 	//for ( GLuint count = 0; count != numberOfColourBuffers; count++ )
 	//{
 	//	CFrameBufferInfo::CColourBuffer tempColourBuffer;
 	//	tempColourBuffer.colourBufferAttachment = GL_COLOR_ATTACHMENT0 + count;
-	//	tempColourBuffer.colourBufferInternalFormat 
+	//	tempColourBuffer.colourBufferInternalFormat
 
-	//// Create the texture to write the "colour" stuff to 
+	//// Create the texture to write the "colour" stuff to
 	//glGenTextures( 1, &g_FrameBufferColourTexture );
 	//glBindTexture( GL_TEXTURE_2D, g_FrameBufferColourTexture );
 	//// Should really be a square, and a power of 2
@@ -449,7 +458,6 @@ void CTextureManager::ShutDown(void)
 }
 
 bool CTextureManager::Create2DTextureFromASSIMPInfo(GLuint textureId, aiTexture* texture, const std::string& textureName) {
-
 	GLuint m_textureNumber = 0;
 	glGenTextures(1, &(m_textureNumber));
 
@@ -474,7 +482,7 @@ bool CTextureManager::Create2DTextureFromASSIMPInfo(GLuint textureId, aiTexture*
 		texture->mWidth,
 		texture->mHeight,
 		GL_RGBA8,			// Pixel data format
-		GL_UNSIGNED_BYTE,	// Pixel data type  
+		GL_UNSIGNED_BYTE,	// Pixel data type
 		texture->pcData);
 
 	//maybe?
@@ -491,4 +499,3 @@ bool CTextureManager::Create2DTextureFromASSIMPInfo(GLuint textureId, aiTexture*
 
 	return true;
 }
-

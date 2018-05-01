@@ -24,7 +24,6 @@ namespace nPhysics
 		virtual iShape* CreateCylinder(const glm::vec3& halfExtents) = 0;
 		virtual iShape* CreateCone(const float& radius, const float& height) = 0;
 
-
 		//constraint creation functions
 		virtual iConstraint* CreateHingeConstraint(iCollisionBody* bodyA, const glm::vec3& pivot, const glm::vec3& axis, iCollisionBody* bodyB, const glm::vec3& pivotB, const glm::vec3& axisB) = 0;
 		virtual iConstraint* CreateHingeConstraint(iCollisionBody* bodyA, const glm::vec3& pivot, const glm::vec3& axis) = 0;

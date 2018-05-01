@@ -17,11 +17,9 @@ AABB_Center_Radius::AABB_Center_Radius()
 
 AABB_Center_Radius::~AABB_Center_Radius()
 {
-
 }
 
-
-AABB_Center_Radius::AABB_Center_Radius(cMesh * theMesh, glm::vec3& pos,float& scale)
+AABB_Center_Radius::AABB_Center_Radius(cMesh * theMesh, glm::vec3& pos, float& scale)
 {
 	//get the position for the box to be drawn
 	this->meshname = theMesh->name;
@@ -42,7 +40,6 @@ void AABB_Center_Radius::update(cMesh* theMesh, glm::vec3& pos, float& scale) {
 	this->radius.z = theMesh->maxExtentXYZ.z / 2;
 }
 
-
 void AABB_Center_Radius::setMeshInfo(cMesh * theMesh, glm::vec3& pos, float& scale)
 {
 	//get the position for the box to be drawn
@@ -61,7 +58,7 @@ void AABB_Center_Radius::buildBoundingBox(float& scale)
 
 	//FRONT POINTS
 	//front top right
-	point0.x = this->center.x + (radius.x* scale); 
+	point0.x = this->center.x + (radius.x* scale);
 	point0.y = this->center.y + (radius.y* scale);
 	point0.z = this->center.z + (radius.z* scale);
 	this->pVertices.push_back(point0);
@@ -73,14 +70,14 @@ void AABB_Center_Radius::buildBoundingBox(float& scale)
 	point1.z = this->center.z + (radius.z* scale);
 	this->pVertices.push_back(point1);
 
-	//front top left 
+	//front top left
 	glm::vec3 point2;
 	point2.x = this->center.x - (radius.x* scale);
 	point2.y = this->center.y + (radius.y* scale);
 	point2.z = this->center.z + (radius.z* scale);
 	this->pVertices.push_back(point2);
 
-	//front bottom left 
+	//front bottom left
 	glm::vec3 point3;
 	point3.x = this->center.x - (radius.x* scale);
 	point3.y = this->center.y - (radius.y* scale);
@@ -88,28 +85,28 @@ void AABB_Center_Radius::buildBoundingBox(float& scale)
 	this->pVertices.push_back(point3);
 
 	//BACK POINTS
-	//back top right 
+	//back top right
 	glm::vec3 point4;
 	point4.x = this->center.x + (radius.x* scale);
 	point4.y = this->center.y + (radius.y* scale);
 	point4.z = this->center.z - (radius.z* scale);
 	this->pVertices.push_back(point4);
 
-	//back bottom right 
+	//back bottom right
 	glm::vec3 point5;
 	point5.x = this->center.x + (radius.x* scale);
 	point5.y = this->center.y - (radius.y* scale);
 	point5.z = this->center.z - (radius.z* scale);
 	this->pVertices.push_back(point5);
 
-	//back top left 
+	//back top left
 	glm::vec3 point6;
 	point6.x = this->center.x - (radius.x* scale);
 	point6.y = this->center.y + (radius.y* scale);
 	point6.z = this->center.z - (radius.z* scale);
 	this->pVertices.push_back(point6);
 
-	//back bottom left 
+	//back bottom left
 	glm::vec3 point7;
 	point7.x = this->center.x - (radius.x* scale);
 	point7.y = this->center.y - (radius.y* scale);
@@ -165,7 +162,7 @@ float AABB_Center_Radius::getAverageRadius() {
 	return average;
 }
 
-void AABB_Center_Radius::drawCollisionBox(glm::vec3 point,float size, glm::vec3 color) {
+void AABB_Center_Radius::drawCollisionBox(glm::vec3 point, float size, glm::vec3 color) {
 	//tempCenter position
 	AABB_Center_Radius* innerAABB = new AABB_Center_Radius();
 	//FRONT POINTS
@@ -183,14 +180,14 @@ void AABB_Center_Radius::drawCollisionBox(glm::vec3 point,float size, glm::vec3 
 	point1.z = point.z + size;
 	innerAABB->pVertices.push_back(point1);
 
-	//front top left 
+	//front top left
 	glm::vec3 point2;
 	point2.x = point.x - size;
 	point2.y = point.y + size;
 	point2.z = point.z + size;
 	innerAABB->pVertices.push_back(point2);
 
-	//front bottom left 
+	//front bottom left
 	glm::vec3 point3;
 	point3.x = point.x - size;
 	point3.y = point.y - size;
@@ -198,28 +195,28 @@ void AABB_Center_Radius::drawCollisionBox(glm::vec3 point,float size, glm::vec3 
 	innerAABB->pVertices.push_back(point3);
 
 	//BACK POINTS
-	//back top right 
+	//back top right
 	glm::vec3 point4;
 	point4.x = point.x + size;
 	point4.y = point.y + size;
 	point4.z = point.z - size;
 	innerAABB->pVertices.push_back(point4);
 
-	//back bottom right 
+	//back bottom right
 	glm::vec3 point5;
 	point5.x = point.x + size;
 	point5.y = point.y - size;
 	point5.z = point.z - size;
 	innerAABB->pVertices.push_back(point5);
 
-	//back top left 
+	//back top left
 	glm::vec3 point6;
 	point6.x = point.x - size;
 	point6.y = point.y + size;
 	point6.z = point.z - size;
 	innerAABB->pVertices.push_back(point6);
 
-	//back bottom left 
+	//back bottom left
 	glm::vec3 point7;
 	point7.x = point.x - size;
 	point7.y = point.y - size;
@@ -240,7 +237,7 @@ void AABB_Center_Radius::drawCollisionBox(glm::vec3 point,float size, glm::vec3 
 	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[6], innerAABB->pVertices[4], color, 1.0f);
 }
 
-void AABB_Center_Radius::generateAABBInSpecificLocation(glm::vec3 point, float size){
+void AABB_Center_Radius::generateAABBInSpecificLocation(glm::vec3 point, float size) {
 	//tempCenter position
 	AABB_Center_Radius* innerAABB = new AABB_Center_Radius();
 	//FRONT POINTS
@@ -258,14 +255,14 @@ void AABB_Center_Radius::generateAABBInSpecificLocation(glm::vec3 point, float s
 	point1.z = point.z + size;
 	innerAABB->pVertices.push_back(point1);
 
-	//front top left 
+	//front top left
 	glm::vec3 point2;
 	point2.x = point.x - size;
 	point2.y = point.y + size;
 	point2.z = point.z + size;
 	innerAABB->pVertices.push_back(point2);
 
-	//front bottom left 
+	//front bottom left
 	glm::vec3 point3;
 	point3.x = point.x - size;
 	point3.y = point.y - size;
@@ -273,46 +270,46 @@ void AABB_Center_Radius::generateAABBInSpecificLocation(glm::vec3 point, float s
 	innerAABB->pVertices.push_back(point3);
 
 	//BACK POINTS
-	//back top right 
+	//back top right
 	glm::vec3 point4;
 	point4.x = point.x + size;
 	point4.y = point.y + size;
 	point4.z = point.z - size;
 	innerAABB->pVertices.push_back(point4);
 
-	//back bottom right 
+	//back bottom right
 	glm::vec3 point5;
 	point5.x = point.x + size;
 	point5.y = point.y - size;
 	point5.z = point.z - size;
 	innerAABB->pVertices.push_back(point5);
 
-	//back top left 
+	//back top left
 	glm::vec3 point6;
 	point6.x = point.x - size;
 	point6.y = point.y + size;
 	point6.z = point.z - size;
 	innerAABB->pVertices.push_back(point6);
 
-	//back bottom left 
+	//back bottom left
 	glm::vec3 point7;
 	point7.x = point.x - size;
 	point7.y = point.y - size;
 	point7.z = point.z - size;
 	innerAABB->pVertices.push_back(point7);
 
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[1], innerAABB->pVertices[3], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[2], innerAABB->pVertices[3], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[4], innerAABB->pVertices[5], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[1], innerAABB->pVertices[5], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[2], innerAABB->pVertices[6], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[4], innerAABB->pVertices[6], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[5], innerAABB->pVertices[1], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[3], innerAABB->pVertices[1], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[3], innerAABB->pVertices[2], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[6], innerAABB->pVertices[2], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[5], innerAABB->pVertices[4], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
-	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[6], innerAABB->pVertices[4], glm::vec3(1.0f, 0.3f, 1.0f),  -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[1], innerAABB->pVertices[3], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[2], innerAABB->pVertices[3], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[4], innerAABB->pVertices[5], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[1], innerAABB->pVertices[5], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[2], innerAABB->pVertices[6], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[0], innerAABB->pVertices[4], innerAABB->pVertices[6], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[5], innerAABB->pVertices[1], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[3], innerAABB->pVertices[1], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[3], innerAABB->pVertices[2], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[6], innerAABB->pVertices[2], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[5], innerAABB->pVertices[4], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
+	g_pTheDebugrender->addTriangle(innerAABB->pVertices[7], innerAABB->pVertices[6], innerAABB->pVertices[4], glm::vec3(1.0f, 0.3f, 1.0f), -1.0f);
 
 	innerAABB->radius.x = size / 2;
 	innerAABB->radius.y = size / 2;
@@ -342,14 +339,14 @@ void AABB_Center_Radius::adaptVerticesToNewCenter(glm::vec3& newCenter) {
 	point1.z = this->center.z + (radius.z* this->scale);
 	this->pVertices.push_back(point1);
 
-	//front top left 
+	//front top left
 	glm::vec3 point2;
 	point2.x = this->center.x - (radius.x* this->scale);
 	point2.y = this->center.y + (radius.y* this->scale);
 	point2.z = this->center.z + (radius.z* this->scale);
 	this->pVertices.push_back(point2);
 
-	//front bottom left 
+	//front bottom left
 	glm::vec3 point3;
 	point3.x = this->center.x - (radius.x* this->scale);
 	point3.y = this->center.y - (radius.y* this->scale);
@@ -357,28 +354,28 @@ void AABB_Center_Radius::adaptVerticesToNewCenter(glm::vec3& newCenter) {
 	this->pVertices.push_back(point3);
 
 	//BACK POINTS
-	//back top right 
+	//back top right
 	glm::vec3 point4;
 	point4.x = this->center.x + (radius.x* this->scale);
 	point4.y = this->center.y + (radius.y* this->scale);
 	point4.z = this->center.z - (radius.z* this->scale);
 	this->pVertices.push_back(point4);
 
-	//back bottom right 
+	//back bottom right
 	glm::vec3 point5;
 	point5.x = this->center.x + (radius.x* this->scale);
 	point5.y = this->center.y - (radius.y* this->scale);
 	point5.z = this->center.z - (radius.z* this->scale);
 	this->pVertices.push_back(point5);
 
-	//back top left 
+	//back top left
 	glm::vec3 point6;
 	point6.x = this->center.x - (radius.x* this->scale);
 	point6.y = this->center.y + (radius.y* this->scale);
 	point6.z = this->center.z - (radius.z* this->scale);
 	this->pVertices.push_back(point6);
 
-	//back bottom left 
+	//back bottom left
 	glm::vec3 point7;
 	point7.x = this->center.x - (radius.x* this->scale);
 	point7.y = this->center.y - (radius.y* this->scale);
@@ -386,15 +383,15 @@ void AABB_Center_Radius::adaptVerticesToNewCenter(glm::vec3& newCenter) {
 	this->pVertices.push_back(point7);
 
 	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[1], pVertices[3], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[2], pVertices[3], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[4], pVertices[5], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[1], pVertices[5], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[2], pVertices[6], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[4], pVertices[6], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[5], pVertices[1], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[3], pVertices[1], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[3], pVertices[2], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[6], pVertices[2], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[5], pVertices[4], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
-	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[6], pVertices[4], glm::vec3(1.0f, 0.0f, 1.0f),  0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[2], pVertices[3], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[4], pVertices[5], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[1], pVertices[5], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[2], pVertices[6], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[0], pVertices[4], pVertices[6], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[5], pVertices[1], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[3], pVertices[1], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[3], pVertices[2], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[6], pVertices[2], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[5], pVertices[4], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
+	g_pTheDebugrender->addTriangle(pVertices[7], pVertices[6], pVertices[4], glm::vec3(1.0f, 0.0f, 1.0f), 0.0f);
 }

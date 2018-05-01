@@ -4,16 +4,14 @@
 #include <bullet\btBulletDynamicsCommon.h>
 #include <glm\vec3.hpp>
 
-
 namespace nPhysics {
-
 	class cBulletRigidBody;
 
 	//Bullet Point to Point Constraint wrapper class
 
-	class cBulletBallAndSocketConstriant : public iConstraint{
+	class cBulletBallAndSocketConstriant : public iConstraint {
 	public:
-		cBulletBallAndSocketConstriant(cBulletRigidBody* bodyA,const glm::vec3& pivotPoint);
+		cBulletBallAndSocketConstriant(cBulletRigidBody* bodyA, const glm::vec3& pivotPoint);
 		cBulletBallAndSocketConstriant(cBulletRigidBody* bodyA, cBulletRigidBody* bodyB, const glm::vec3& pivotPointA, const glm::vec3&  pivotPointB);
 		virtual ~cBulletBallAndSocketConstriant();
 
@@ -29,4 +27,4 @@ namespace nPhysics {
 		cBulletRigidBody* mBodyB;
 	};
 }
-#endif // 
+#endif //

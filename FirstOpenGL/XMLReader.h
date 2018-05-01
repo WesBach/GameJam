@@ -13,5 +13,4 @@ public:
 	void load_languages_from_xml(std::wstring input_xml_file);
 };
 
-
 #endif // !_XMLReader_HG_

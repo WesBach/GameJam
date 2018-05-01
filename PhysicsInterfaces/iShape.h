@@ -8,7 +8,7 @@ namespace nPhysics
 	{
 	public:
 		virtual ~iShape() {}
-		
+
 		eShapeType GetShapeType() { return mShapeType; }
 
 		//accessors for specific shapes
@@ -23,7 +23,6 @@ namespace nPhysics
 		iShape(eShapeType shapeType)
 			: mShapeType(shapeType)
 		{
-
 		}
 		iShape() {}
 		iShape(const iShape& other) {}

@@ -3,7 +3,6 @@
 #include "nConvert.h"
 
 namespace nPhysics {
-
 	//destructor
 	cBulletBallAndSocketConstriant::~cBulletBallAndSocketConstriant() {
 		delete this->mPointToPoint;
@@ -13,7 +12,7 @@ namespace nPhysics {
 
 	//constructor with a rigid body and pivot point
 	cBulletBallAndSocketConstriant::cBulletBallAndSocketConstriant(cBulletRigidBody* bodyA, const glm::vec3&  pivotPoint) : iConstraint(eConstraintType::CONSTRAINT_TYPE_BALL_AND_SOCKET) {
-		this->mPointToPoint = new btPoint2PointConstraint(*bodyA->getBulletRigidBody(),nConvert::vec3ToBullet(pivotPoint));
+		this->mPointToPoint = new btPoint2PointConstraint(*bodyA->getBulletRigidBody(), nConvert::vec3ToBullet(pivotPoint));
 		//set the rigid body pointers
 		this->mBodyA = bodyA;
 		this->mBodyB = NULL;

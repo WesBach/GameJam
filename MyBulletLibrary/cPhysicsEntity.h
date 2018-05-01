@@ -4,7 +4,6 @@
 #include <ObjectDescriptions.h>
 
 namespace nPhysics {
-
 	class cPhysicsEntity : public iCollisionBody {
 	public:
 		cPhysicsEntity(const sEntityDescription& desc);
@@ -15,7 +14,6 @@ namespace nPhysics {
 		float mHealth;
 		iRigidBody* mBody;
 	};
-
 }
 
 #endif // !_cPlayer_HG_

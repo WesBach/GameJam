@@ -12,9 +12,9 @@ public:
 
 	// This might be backwards, but returns an error if there IS an error
 	// This way, you can write if ( bWasThereAnGLError ) { HandleError...}
-	// Also note: this is a very expensive operation that you should 
-	//	only really call during loading assets or perhaps during debug, and "never" 
-	//	during the render loop (at least not often) since it causes a GPU stall on 
+	// Also note: this is a very expensive operation that you should
+	//	only really call during loading assets or perhaps during debug, and "never"
+	//	during the render loop (at least not often) since it causes a GPU stall on
 	// the entire pipeline.
 	// Most (all?) OpenGL calls that return information or state cause GPU stalls.
 
@@ -37,4 +37,3 @@ public:
 };
 
 #endif
-

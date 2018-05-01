@@ -3,7 +3,6 @@
 #include "shapes.h"
 
 namespace nPhysics {
-
 	//accessor for the bpdy shape
 	iShape* cBulletRigidBody::GetShape() {
 		mBody->activate(true);
@@ -29,13 +28,13 @@ namespace nPhysics {
 		btTransform startTransform;
 		startTransform.setIdentity();
 
-		//based on the shape type set collision shape 
+		//based on the shape type set collision shape
 		if (tempShapeType == eShapeType::SHAPE_TYPE_PLANE)
 		{
-			colShape = new btStaticPlaneShape(nConvert::vec3ToBullet(normal),btScalar(0));
+			colShape = new btStaticPlaneShape(nConvert::vec3ToBullet(normal), btScalar(0));
 			startTransform.setOrigin(btVector3(desc.Position.x, desc.Position.y, desc.Position.z));
 		}
-		else if(tempShapeType == eShapeType::SHAPE_TYPE_SPHERE)
+		else if (tempShapeType == eShapeType::SHAPE_TYPE_SPHERE)
 		{
 			colShape = new btSphereShape(btScalar(radius));
 			startTransform.setOrigin(btVector3(desc.Position.x, desc.Position.y, desc.Position.z));
@@ -51,8 +50,8 @@ namespace nPhysics {
 			cBulletConeShape*  tempCone = dynamic_cast<cBulletConeShape*>(shape);
 			float radius;
 			float height;
-			tempCone->GetConeRadiusAndHeight(radius,height);
-			colShape = new btConeShape(radius,height);
+			tempCone->GetConeRadiusAndHeight(radius, height);
+			colShape = new btConeShape(radius, height);
 			startTransform.setOrigin(btVector3(desc.Position.x, desc.Position.y, desc.Position.z));
 		}
 		else {
@@ -75,7 +74,6 @@ namespace nPhysics {
 			colShape->calculateLocalInertia(mass, localInertia);
 		}
 
-
 		//set the body collision shape
 		this->mBodyShape = colShape;
 
@@ -96,7 +94,7 @@ namespace nPhysics {
 
 		this->mBody->setAngularFactor(btVector3(0, 0, 0));
 		this->mBody->setLinearFactor(btVector3(1, 0, 1));
-		this->mBody->setGravity(btVector3(0.f,0.f,0.f));
+		this->mBody->setGravity(btVector3(0.f, 0.f, 0.f));
 		//call the set body type function (from iCollisionBody)
 		this->SetBodyType(bodyType);
 		mBody->activate(true);
@@ -106,7 +104,7 @@ namespace nPhysics {
 	//transform accessor
 	void cBulletRigidBody::GetTransform(glm::mat4& transformOut) {
 		mBody->activate(true);
-		nConvert::ToGLM(this->mBody->getWorldTransform(),transformOut);
+		nConvert::ToGLM(this->mBody->getWorldTransform(), transformOut);
 	}
 
 	void cBulletRigidBody::SetActivationState(bool isActive) {
@@ -145,7 +143,6 @@ namespace nPhysics {
 
 	//previous position accessor
 	void cBulletRigidBody::GetPreviousPosition(glm::vec3& positionOu) {
-
 	}
 
 	//angular velocity accessor
@@ -155,25 +152,21 @@ namespace nPhysics {
 
 	//torque accessor
 	void cBulletRigidBody::GetTorque(glm::vec3& torqueOut) {
-
 	}
 	//velocity accessor
 	void cBulletRigidBody::GetVelocity(glm::vec3& velOut) {
 		mBody->activate(true);
 		velOut = nConvert::vec3ToGLM(mBody->getLinearVelocity());
 	}
-	
+
 	//inverse mass accessor
 	void cBulletRigidBody::GetInverseMass(glm::vec3& velOut) {
-
 	}
 	//mass accessor
 	void cBulletRigidBody::GetMass(float& massOut) {
-
 	}
 	//transform mutator
 	void cBulletRigidBody::SetTransform(glm::mat4& transformIn) {
-		
 	}
 	//position mutator
 	void cBulletRigidBody::SetPosition(glm::vec3& positionIn) {
@@ -186,17 +179,15 @@ namespace nPhysics {
 	}
 	//previous position mutator
 	void cBulletRigidBody::SetPreviousPosition(glm::vec3& positionIn) {
-
 	}
 	//angular vel mutator
 	void cBulletRigidBody::SetAngularVelocity(glm::vec3& andgularVelIn) {
 		mBody->activate(true);
-		btVector3 tempVec =	nConvert::vec3ToBullet(andgularVelIn);
+		btVector3 tempVec = nConvert::vec3ToBullet(andgularVelIn);
 		mBody->setAngularVelocity(tempVec);
 	}
 	//torque mutator
 	void cBulletRigidBody::SetTorque(glm::vec3& torqueIn) {
-		
 	}
 	//vel mutator
 	void cBulletRigidBody::SetVelocity(glm::vec3& velIn) {
@@ -206,11 +197,9 @@ namespace nPhysics {
 	}
 	//inv mass mutator
 	void cBulletRigidBody::SetInverseMass(glm::vec3& velIn) {
-
 	}
 	//mass mutator
 	void cBulletRigidBody::SetMass(float& massIn) {
-
 	}
 	//impulse application
 	void cBulletRigidBody::ApplyImpulseAtPoint(const glm::vec3& impulse, const glm::vec3& relativePoint) {
@@ -261,7 +250,7 @@ namespace nPhysics {
 		tempBody->setLinearVelocity(nConvert::vec3ToBullet(velIn));
 	}
 
-	void cBulletRigidBody::SetGravity(glm::vec3& gravity){
+	void cBulletRigidBody::SetGravity(glm::vec3& gravity) {
 		btRigidBody* tempBody = this->getBulletRigidBody();
 		tempBody->setGravity(nConvert::vec3ToBullet(gravity));
 	}
@@ -275,6 +264,4 @@ namespace nPhysics {
 		btRigidBody* tempBody = this->getBulletRigidBody();
 		linearVelOut = nConvert::vec3ToGLM(tempBody->getLinearVelocity());
 	}
-
-
 }

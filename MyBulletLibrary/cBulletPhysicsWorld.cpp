@@ -30,7 +30,7 @@ namespace nPhysics
 		int numManifolds = mDynamicsWorld->getDispatcher()->getNumManifolds();
 
 		for (int i = 0; i < numManifolds; i++) {
- 			btPersistentManifold* man = mDynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+			btPersistentManifold* man = mDynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
 			const btRigidBody* btRbA = btRigidBody::upcast(man->getBody0());
 			if (!btRbA) continue;
 			const btRigidBody* btRbB = btRigidBody::upcast(man->getBody1());
@@ -77,7 +77,6 @@ namespace nPhysics
 		if (isInWorld == false) {
 			this->mDynamicsWorld->addRigidBody(myBody->getBulletRigidBody());
 		}
-
 	}
 
 	bool cBulletPhysicsWorld::checkIfRigidBodyExistsInWorld(iRigidBody* rigidBody) {
@@ -85,8 +84,6 @@ namespace nPhysics
 		btRigidBody* btBody = myBody->getBulletRigidBody();
 		return btBody->isInWorld();
 	}
-
-
 
 	//remove rigid body from the world
 	void cBulletPhysicsWorld::RemoveRigidBody(iRigidBody* rigidBody) {
@@ -167,7 +164,5 @@ namespace nPhysics
 
 	//integration type
 	void cBulletPhysicsWorld::setIntegrationType(IntegrationType theType) {
-
 	}
 }
-

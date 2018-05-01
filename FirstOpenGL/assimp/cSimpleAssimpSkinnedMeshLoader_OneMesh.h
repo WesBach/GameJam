@@ -18,7 +18,7 @@
 // Used by the game object and the rendering
 #include "../cMesh.h"			// For loading into the VAO manager
 
-class cSimpleAssimpSkinnedMesh 
+class cSimpleAssimpSkinnedMesh
 {
 private:
 	static const int MAX_BONES_PER_VERTEX = 4;
@@ -41,7 +41,7 @@ private:
 
 public:
 	// Mesh and VAO and VBO infor
-	//unsigned int m_VBO_ID;				// Vertex buffer object 
+	//unsigned int m_VBO_ID;				// Vertex buffer object
 	unsigned int m_numberOfVertices;
 	//unsigned int m_indexBuf_ID;			// Index buffer referring to VBO
 	unsigned int m_numberOfIndices;
@@ -60,14 +60,14 @@ public:
 	Assimp::Importer mImporter;
 
 	std::map< std::string /*animationfile*/,
-		      const aiScene* > mapAnimationNameTo_pScene;		// Animations
+		const aiScene* > mapAnimationNameTo_pScene;		// Animations
 
 	glm::mat4 AIMatrixToGLMMatrix(const aiMatrix4x4 &mat);
 
 	// Looks in the animation map and returns the total time
-	float FindAnimationTotalTime( std::string animationName );
+	float FindAnimationTotalTime(std::string animationName);
 
-	cMesh* CreateMeshObjectFromCurrentModel( unsigned int meshIndex = 0 );
+	cMesh* CreateMeshObjectFromCurrentModel(unsigned int meshIndex = 0);
 
 	void BoneTransform(float TimeInSeconds,
 		std::string animationName,		// Now we can pick the animation
@@ -79,13 +79,12 @@ public:
 	unsigned int GetNums(void) const { return this->mNumBones; }
 
 	float GetDuration(void);
-	
+
 	std::vector<sVertexBoneData> vecVertexBoneData;	//Bones;
 	glm::mat4 mGlobalInverseTransformation;
 
-
 	bool Initialize(void);
-	
+
 	void CalcInterpolatedRotation(float AnimationTime, const aiNodeAnim* pNodeAnim, aiQuaternion& out);
 	void CalcInterpolatedPosition(float AnimationTime, const aiNodeAnim* pNodeAnim, aiVector3D& out);
 	void CalcInterpolatedScaling(float AnimationTime, const aiNodeAnim* pNodeAnim, aiVector3D& out);
@@ -99,7 +98,7 @@ public:
 	unsigned int FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim);
 
 	const aiNodeAnim* FindNodeAnimationChannel(const aiAnimation* pAnimation, aiString nodeOrBoneName);
-	
+
 	void ReadNodeHeirarchy(float AnimationTime,
 		std::string animationName,
 		const aiNode* pNode,

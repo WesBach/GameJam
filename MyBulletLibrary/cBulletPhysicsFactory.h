@@ -5,7 +5,7 @@
 #include <ObjectDescriptions.h>
 
 namespace nPhysics {
-	class cBulletPhysicsFactory : public iPhysicsFactory{
+	class cBulletPhysicsFactory : public iPhysicsFactory {
 	public:
 		virtual ~cBulletPhysicsFactory();
 		cBulletPhysicsFactory();
@@ -22,27 +22,24 @@ namespace nPhysics {
 		virtual iShape* CreateBox(const glm::vec3& halfExtents);
 		virtual iShape* CreateCone(const float& radius, const float& height);
 
-
 		//Functions to create constraints for the rigid bodies
 		virtual iConstraint* CreateHingeConstraint(iCollisionBody* bodyA, const glm::vec3& pivot, const glm::vec3& axis, iCollisionBody* bodyB, const glm::vec3& pivotB, const glm::vec3& axisB);
 		virtual iConstraint* CreateHingeConstraint(iCollisionBody* bodyA, const glm::vec3& pivot, const glm::vec3& axis);
 		virtual iConstraint* CreateHingeConstraint(iCollisionBody* bodyA, const glm::vec3& origin, iCollisionBody* bodyB, const glm::vec3& originB);
 		virtual iConstraint* CreateHingeConstraint(iCollisionBody* bodyA, const glm::vec3& origin);
 
-		virtual iConstraint* CreateBallAndSocketConstraint(iCollisionBody* bodyA,const glm::vec3& pivotPoint);
+		virtual iConstraint* CreateBallAndSocketConstraint(iCollisionBody* bodyA, const glm::vec3& pivotPoint);
 		virtual iConstraint* CreateBallAndSocketConstraint(iCollisionBody* bodyA, const glm::vec3& pivotPointA, iCollisionBody* bodyB, const glm::vec3& pivotPointB);
-		
+
 		virtual iConstraint* CreateSliderConstraint(iCollisionBody* bodyA, iCollisionBody* bodyB, const glm::vec3& originA, const glm::vec3& originB, bool useLinearReferenceFrameA);
 		virtual iConstraint* CreateSliderConstraint(iCollisionBody* bodyB, const glm::vec3& originB, bool useLinearReferenceFrameA);
 
-		virtual iConstraint* Create6DOFConstraint(iCollisionBody* bodyA, iCollisionBody* bodyB,const glm::vec3& originA,const glm::vec3& originB,bool useLinearReferenceFrameA );
+		virtual iConstraint* Create6DOFConstraint(iCollisionBody* bodyA, iCollisionBody* bodyB, const glm::vec3& originA, const glm::vec3& originB, bool useLinearReferenceFrameA);
 		virtual iConstraint* Create6DOFConstraint(iCollisionBody* bodyB, const glm::vec3& originB, bool useLinearReferenceFrameA);
 
 		virtual iConstraint* CreateConeTwistConstraint(iCollisionBody* bodyA, iCollisionBody* bodyB);
 		virtual iConstraint* CreateConeTwistConstraint(iCollisionBody* bodyA);
-
 	};
 }
 
 #endif // !_cBulletPhysicsFactory_HG_
-

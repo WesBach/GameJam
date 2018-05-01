@@ -30,7 +30,7 @@ const Matrix IDENTITY_MATRIX = { {
 // From
 // http://mmmovania.blogspot.ca/2014/03/making-opengl-object-look-at-another.html
 static glm::quat RotationBetweenVectors(glm::vec3 start, glm::vec3 dest);
-//	static glm::mat4 ObjectLookAt_GetMatrixMethod_Quaternion(const glm::vec3& objectEye, const glm::vec3& targetAt); 
+//	static glm::mat4 ObjectLookAt_GetMatrixMethod_Quaternion(const glm::vec3& objectEye, const glm::vec3& targetAt);
 static glm::mat4 ObjectLookAt_GetMatrixMethod_Quaternion(const glm::vec3& objectEye, const glm::vec3& targetAt, glm::quat &resultingEyeOrientation);
 static glm::mat4 ObjectLookAt_GetMatrixMethod_MatrixOnly(const glm::vec3& objectEye, const glm::vec3& targetAt);
 // From: http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-17-quaternions/

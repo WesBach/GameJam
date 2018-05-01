@@ -1,7 +1,6 @@
 #ifndef _cPowerUp_HG_
 #define _cPowerUp_HG_
 
-
 enum ePowerUpType {
 	POWERUP_HEALTH = 0,
 	POWERUP_RANGE_INCREASE,
@@ -21,7 +20,7 @@ class cGameObject;
 
 class cPowerUp {
 public:
-	cPowerUp(eModifierType type, ePowerUpType pickupType,cGameObject* theObject);
+	cPowerUp(eModifierType type, ePowerUpType pickupType, cGameObject* theObject);
 	ePowerUpType getPowerUpType();
 	eModifierType getModifierType();
 	void setModifierType(eModifierType type);

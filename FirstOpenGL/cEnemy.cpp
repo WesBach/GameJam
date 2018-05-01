@@ -2,19 +2,18 @@
 #include "cGameObject.h"
 #include <iPhysicsFactory.h>
 
-void cEnemy::attack(glm::vec3 direction,float deltaTime) {
-	if (this->attackType == eAttackType::PROJECTILE)
-	{
+void cEnemy::attack(glm::vec3 direction, float deltaTime) {
+	if (this->attackType == eAttackType::PROJECTILE){
 		//add the time to counter
 		this->timeElapsedBetweenProjectiles += deltaTime;
 		//get the projectile
 		sProjectile projectile = this->createProjectileBasedOnEnemyStats();
 
 		//check projectile state
-		for (int i = 0; i < this->projectilePool.size(); i++) { //go through the pool 
+		for (int i = 0; i < this->projectilePool.size(); i++) { //go through the pool
 			//try to find the projectile in the projectiles vector
 			bool foundCurrentProjectile = false;
-			
+
 			for (int index = 0; index < this->projectiles.size(); index++) {
 				if (this->projectilePool[i].object == this->projectiles[index].object) {
 					foundCurrentProjectile = true;
@@ -47,11 +46,10 @@ void cEnemy::attack(glm::vec3 direction,float deltaTime) {
 		this->timeElapsedBetweenProjectiles += deltaTime;
 		//get the projectile
 		sProjectile projectile = this->createProjectileBasedOnEnemyStats();
-		//default check 
+		//default check
 		if (projectile.object != NULL) {
-			//make sure the object only explodes once 
-			if (isExploding == false){
-
+			//make sure the object only explodes once
+			if (isExploding == false) {
 				//set the position for the explosion
 				projectile.object->position = this->theEnemyObject->position;
 				projectile.object->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f, 0.5f);
@@ -77,7 +75,6 @@ void cEnemy::attack(glm::vec3 direction,float deltaTime) {
 			}
 		}
 	}
-
 }
 
 cEnemy::cEnemy() {
@@ -101,7 +98,6 @@ cEnemy::cEnemy() {
 		projectileObject->scale = 0.25f;
 		projectileObject->radius = 0.125f;
 
-
 		sProjectile pro;
 		pro.object = projectileObject;
 		pro.speed = 12.f;
@@ -111,8 +107,7 @@ cEnemy::cEnemy() {
 }
 
 cEnemy::~cEnemy() {
-	//delete this->theEnemyObject;
-	//delete this->theParticleEmitter;
+
 }
 
 void cEnemy::takeDamage(int dmg) {
@@ -131,7 +126,6 @@ void cEnemy::setMaxHealth(float health) {
 }
 
 void cEnemy::removeProjectile(cGameObject* theProjectile) {
-
 	for (std::vector<cGameObject*>::iterator it = this->projectilesToDraw.begin(); it != this->projectilesToDraw.end(); it++) {
 		//remove the projectile from the drawing vector
 		if (*it == theProjectile) {
@@ -157,7 +151,6 @@ void cEnemy::removeProjectile(cGameObject* theProjectile) {
 }
 
 void cEnemy::removeExplosion(cGameObject* theExplosion) {
-
 	for (std::vector<cGameObject*>::iterator it = this->explosion.begin(); it != this->explosion.end(); it++) {
 		//remove the projectile from the drawing vector
 		if (*it == theExplosion) {
@@ -220,7 +213,6 @@ void cEnemy::setSpeed(float speed) {
 	this->speed = speed;
 }
 
-
 void cEnemy::synchronize() {
 	for (int i = 0; i < this->projectilesToDraw.size(); i++) {
 		this->projectilesToDraw[i]->synchronize();
@@ -228,5 +220,4 @@ void cEnemy::synchronize() {
 }
 
 void cEnemy::checkProjectileBounds() {
-
 }

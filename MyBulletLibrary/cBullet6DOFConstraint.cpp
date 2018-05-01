@@ -3,15 +3,14 @@
 #include "nConvert.h"
 
 namespace nPhysics {
-
 	//Constructor with single rigid body, constraint origin and useLinearReferenceFrameA
-	cBullet6DOFConstraint::cBullet6DOFConstraint(cBulletRigidBody* bodyB, const glm::vec3& originB, bool useLinearReferenceFrameA):iConstraint(eConstraintType::CONSTRAINT_TYPE_6DOF) {
+	cBullet6DOFConstraint::cBullet6DOFConstraint(cBulletRigidBody* bodyB, const glm::vec3& originB, bool useLinearReferenceFrameA) :iConstraint(eConstraintType::CONSTRAINT_TYPE_6DOF) {
 		btTransform trans;
 		trans.setIdentity();
 		trans.setOrigin(nConvert::vec3ToBullet(originB));
 		//create the constraint
-		this->m6DOF = new btGeneric6DofConstraint(*bodyB->getBulletRigidBody(),trans,useLinearReferenceFrameA);
-		
+		this->m6DOF = new btGeneric6DofConstraint(*bodyB->getBulletRigidBody(), trans, useLinearReferenceFrameA);
+
 		//set the linear lower and upper limit(could do this somewhere else)
 		m6DOF->setLinearLowerLimit(btVector3(-5., -2., -1.));
 		m6DOF->setLinearUpperLimit(btVector3(5., 2., 1.));
@@ -22,7 +21,7 @@ namespace nPhysics {
 		m6DOF->getTranslationalLimitMotor()->m_enableMotor[0] = true;
 		m6DOF->getTranslationalLimitMotor()->m_targetVelocity[0] = -5.0f;
 		m6DOF->getTranslationalLimitMotor()->m_maxMotorForce[0] = 0.1f;
-		//set the rigid body pointers 
+		//set the rigid body pointers
 		this->mBodyB = bodyB;
 		this->mBodyA = NULL;
 	}
@@ -38,11 +37,11 @@ namespace nPhysics {
 		transB.setIdentity();
 		transB.setOrigin(nConvert::vec3ToBullet(originB));
 		//create constrain
-		this->m6DOF = new btGeneric6DofConstraint(*bodyA->getBulletRigidBody(),*bodyB->getBulletRigidBody(),transA,transB,useLinearReferenceFrameA);
+		this->m6DOF = new btGeneric6DofConstraint(*bodyA->getBulletRigidBody(), *bodyB->getBulletRigidBody(), transA, transB, useLinearReferenceFrameA);
 		//set the linear upper and lower limit
 		m6DOF->setLinearLowerLimit(btVector3(-10., -2., -1.));
 		m6DOF->setLinearUpperLimit(btVector3(10., 2., 1.));
-			
+
 		//set the linear lower and upper limit(could do this somewhere else)
 		m6DOF->setLinearLowerLimit(btVector3(-5., -2., -1.));
 		m6DOF->setLinearUpperLimit(btVector3(5., 2., 1.));
@@ -75,7 +74,7 @@ namespace nPhysics {
 		return this->mBodyB;
 	}
 
-	//accessor for the constraint 
+	//accessor for the constraint
 	btGeneric6DofConstraint * cBullet6DOFConstraint::GetBulletConstraint()
 	{
 		return this->m6DOF;
@@ -91,5 +90,4 @@ namespace nPhysics {
 		this->m6DOF->setAngularLowerLimit(nConvert::vec3ToBullet(min));
 		this->m6DOF->setAngularUpperLimit(nConvert::vec3ToBullet(max));
 	}
-
 }

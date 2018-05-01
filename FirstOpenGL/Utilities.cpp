@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstdlib>	// RAND_MAX
-#include <map>	
+#include <map>
 #include <windows.h>
 #include "cSceneManager.h"
 #include "cPlayer.h"
@@ -17,7 +17,7 @@ extern nPhysics::iPhysicsFactory* theFactory;
 typedef nPhysics::iPhysicsFactory* (*f_CreateFactory)();
 extern sScene* g_pCurrentScene;
 
-bool loadConfigFile(int& width,int& height,std::string& title) {
+bool loadConfigFile(int& width, int& height, std::string& title) {
 	std::ifstream infoFile("config.txt");
 	if (!infoFile.is_open())
 	{	// File didn't open...
@@ -26,7 +26,7 @@ bool loadConfigFile(int& width,int& height,std::string& title) {
 		return false;
 	}
 	else
-	{	// File DID open, so read it... 
+	{	// File DID open, so read it...
 		std::string a;
 
 		infoFile >> a;	// "Game"	//std::cin >> a;
@@ -51,13 +51,11 @@ bool loadConfigFile(int& width,int& height,std::string& title) {
 				ssTitle << a << " ";
 			}
 			else
-			{	// it IS the end! 
+			{	// it IS the end!
 				bKeepReading = false;
 				title = ssTitle.str();
 			}
 		} while (bKeepReading);
-
-
 	}//if ( ! infoFile.is_open() )
 
 	return true;
@@ -171,7 +169,6 @@ namespace QnDTexureSamplerUtility
 		return;
 	}// void LoadUniformLocationsIfNeeded()
 
-
 	void setAllSamplerUnitsToInvalidNumber(GLint invalidTextureUnit)
 	{
 		glUniform1i(texSamp2D00_LocID, invalidTextureUnit);
@@ -228,26 +225,26 @@ namespace QnDTexureSamplerUtility
 			glUniform1i(texSamp2D02_LocID, textureUnitID);
 			glUniform1f(texBlend02_LocID, blendRatio);
 			break;
-		//case 3:
-		//	glUniform1i(texSamp2D03_LocID, textureUnitID);
-		//	glUniform1f(texBlend03_LocID, blendRatio);
-		//	break;
-		//case 4:
-		//	glUniform1i(texSamp2D04_LocID, textureUnitID);
-		//	glUniform1f(texBlend04_LocID, blendRatio);
-		//	break;
-		//case 5:
-		//	glUniform1i(texSamp2D05_LocID, textureUnitID);
-		//	glUniform1f(texBlend05_LocID, blendRatio);
-		//	break;
-		//case 6:
-		//	glUniform1i(texSamp2D06_LocID, textureUnitID);
-		//	glUniform1f(texBlend06_LocID, blendRatio);
-		//	break;
-		//case 7:
-		//	glUniform1i(texSamp2D07_LocID, textureUnitID);
-		//	glUniform1f(texBlend07_LocID, blendRatio);
-		//	break;
+			//case 3:
+			//	glUniform1i(texSamp2D03_LocID, textureUnitID);
+			//	glUniform1f(texBlend03_LocID, blendRatio);
+			//	break;
+			//case 4:
+			//	glUniform1i(texSamp2D04_LocID, textureUnitID);
+			//	glUniform1f(texBlend04_LocID, blendRatio);
+			//	break;
+			//case 5:
+			//	glUniform1i(texSamp2D05_LocID, textureUnitID);
+			//	glUniform1f(texBlend05_LocID, blendRatio);
+			//	break;
+			//case 6:
+			//	glUniform1i(texSamp2D06_LocID, textureUnitID);
+			//	glUniform1f(texBlend06_LocID, blendRatio);
+			//	break;
+			//case 7:
+			//	glUniform1i(texSamp2D07_LocID, textureUnitID);
+			//	glUniform1f(texBlend07_LocID, blendRatio);
+			//	break;
 		default:
 			// Invalid samplerIndex
 			break;
@@ -267,22 +264,21 @@ namespace QnDTexureSamplerUtility
 			glUniform1i(texSampCube01_LocID, textureUnitID);
 			glUniform1f(texCubeBlend01_LocID, blendRatio);
 			break;
-		//case 2:
-		//	glUniform1i(texSampCube02_LocID, textureUnitID);
-		//	glUniform1f(texCubeBlend02_LocID, blendRatio);
-		//	break;
-		//case 3:
-		//	glUniform1i(texSampCube03_LocID, textureUnitID);
-		//	glUniform1f(texCubeBlend03_LocID, blendRatio);
-		//	break;
+			//case 2:
+			//	glUniform1i(texSampCube02_LocID, textureUnitID);
+			//	glUniform1f(texCubeBlend02_LocID, blendRatio);
+			//	break;
+			//case 3:
+			//	glUniform1i(texSampCube03_LocID, textureUnitID);
+			//	glUniform1f(texCubeBlend03_LocID, blendRatio);
+			//	break;
 		default:
 			// Invalid samplerIndex;
 			break;
 		}//switch (samplerIndex)
 		return;
 	}//void setCubeSamplerAndBlenderByIndex()
-	
-	
+
 	void SetSamplersForMeshTextures(cGameObject &object,
 		std::map<std::string /*textureName*/, CTexUnitInfoBrief> &mapTexAndUnitInfo)
 	{
@@ -356,11 +352,9 @@ namespace QnDTexureSamplerUtility
 			}
 		}// cube maps
 	}
-
 };//namespace QnDTexureSamplerUtility
 
-void InitPhysics() {	
-
+void InitPhysics() {
 	//if debug use the debug dll else use release dll
 #if _DEBUG
 	std::string libraryFile = "MyBulletLibrary.dll";
@@ -383,7 +377,6 @@ void InitPhysics() {
 	{
 		std::cout << "where's the CreateFactory???" << std::endl;
 		system("pause");
-
 	}
 
 	theFactory = CreateFactory();
@@ -405,7 +398,7 @@ void ReadFileToToken(std::ifstream &file, std::string token)
 }
 
 void synchronizeGraphicsWithPhysicsLibrary() {
-	//update the entities 
+	//update the entities
 	for (int i = 1; i < g_pCurrentScene->entities.size(); i++) {
 		g_pCurrentScene->entities[i]->synchronize();
 	}

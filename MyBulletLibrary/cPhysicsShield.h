@@ -5,7 +5,6 @@
 #include <ObjectDescriptions.h>
 #include "cBulletHingeConstraint.h"
 
-
 namespace nPhysics {
 	class cBulletHingeConstraint;
 
@@ -16,8 +15,7 @@ namespace nPhysics {
 		iRigidBody* GetBodyB();
 		iRigidBody* GetBodyC();
 		iRigidBody* GetShieldCenterBody();
-		
-		
+
 	private:
 		iRigidBody* mBodyA;
 		iRigidBody* mBodyB;
@@ -34,6 +32,4 @@ namespace nPhysics {
 	};
 }
 
-
 #endif // !_cShield_HG_
-

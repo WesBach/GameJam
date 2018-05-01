@@ -36,21 +36,21 @@ unsigned long long AABB_Tri::calculateID(glm::vec3 locationXYZ)
 {
 	// 4,000,000,000 approx the largest unsigned 32 bit int
 	// 16,000,000,000,000,000,000 approx largest unsigned 64 bit
-	// If you do xxxxxx,yyyyyyy,zzzzzz where the xyz are the locations of the AABB, 
+	// If you do xxxxxx,yyyyyyy,zzzzzz where the xyz are the locations of the AABB,
 	//  AND you ONLY make the AABBs positive, then you have a range of
-	//  1,000,000 locations. 
-	//	So: 
+	//  1,000,000 locations.
+	//	So:
 	//   - from 0 to 999,999   if ALL POSITIVE
 	//   - from 0 to  99,999   if positive AND negative
 
 	const unsigned long long Z_MULT = 1;
 	const unsigned long long Y_MULT = 1000000;
-	// With just the numbers, we get an "integral constant overflow", which I think 
+	// With just the numbers, we get an "integral constant overflow", which I think
 	//	is happening because it's using an 32-bit int as const on the rhs, instead
 	//	of a 64 bit int...
 	const unsigned long long X_MULT = Y_MULT * Y_MULT;	// 1000000 * 1000000;
 
-														// This gives a C4244 warning, even when using an explicit c-style cast. 
+														// This gives a C4244 warning, even when using an explicit c-style cast.
 														//	...but it's fine with a C++ static_cast. Seriously? Grrr...
 	unsigned long long ID = static_cast<unsigned long long>(
 		fabs(floor((double)locationXYZ.x) * (double)X_MULT) +		// ?xxxxx,------,------

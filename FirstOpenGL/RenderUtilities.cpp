@@ -54,7 +54,7 @@ bool renderScene(std::vector<cGameObject*> theObjects, GLFWwindow* theWindow, in
 	::g_pShaderManager->useShaderProgram("mySexyShader");
 	GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("mySexyShader");
 
-	// View or "camera" matrix 
+	// View or "camera" matrix
 	// (for the whole scene)
 	::g_pLightManager->CopyLightInformationToCurrentShader();
 
@@ -65,7 +65,7 @@ bool renderScene(std::vector<cGameObject*> theObjects, GLFWwindow* theWindow, in
 			1.0f,		// Near (as big as possible)
 			10000.0f);	// Far (as small as possible)
 		matView = glm::lookAt(g_cameraXYZ,						// "eye" or "camera" position
-			g_cameraTarget_XYZ,		// "At" or "target" 
+			g_cameraTarget_XYZ,		// "At" or "target"
 			glm::vec3(0.0f, 1.0f, 0.0f));	// "up" vector
 	}
 	else
@@ -83,7 +83,6 @@ bool renderScene(std::vector<cGameObject*> theObjects, GLFWwindow* theWindow, in
 	glUniformMatrix4fv(uniLoc_mProjection, 1, GL_FALSE,
 		(const GLfloat*)glm::value_ptr(matProjection));
 
-
 	glUniformMatrix4fv(uniLoc_mLightSpaceMatrix, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(g_lightSpaceMatrix));
 
 	// Enable blend ("alpha") transparency for the scene
@@ -100,17 +99,16 @@ bool renderScene(std::vector<cGameObject*> theObjects, GLFWwindow* theWindow, in
 	unsigned int sizeOfVector = (unsigned int)theObjects.size();	//*****//
 	for (int index = 0; index != sizeOfVector; index++)
 	{
-		// This is the top level vector, so they are all "parents" 
-		DrawObject(theObjects[index], curShaderID,deltaTime,false/*used only for instanced objects (particles at the moment)*/,0);
+		// This is the top level vector, so they are all "parents"
+		DrawObject(theObjects[index], curShaderID, deltaTime, false/*used only for instanced objects (particles at the moment)*/, 0);
 	}//for ( int index = 0...
 
 	return true;
 }
 
-void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bool instanced,int numInstancedParticles)
+void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID, float deltaTime, bool instanced, int numInstancedParticles)
 {
-
-	// Is there a game object? 
+	// Is there a game object?
 	if (pTheGO == 0)	//if ( ::g_GameObjects[index] == 0 )
 	{	// Nothing to draw
 		return;		// Skip all for loop code and go to next
@@ -119,15 +117,13 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 	g_pVAOManager->lookupMeshFromName(pTheGO->meshName, *tempMesh);
 
 	if (drawDebugInfo) {
-		//build the bounding boxes 
+		//build the bounding boxes
 		if (pTheGO->bHasAABB)
 		{
 			pTheGO->theBoundingBox->update(tempMesh, pTheGO->position, pTheGO->scale);
 			pTheGO->theBoundingBox->buildBoundingBox(pTheGO->scale);
 		}
 	}
-
-
 
 	glm::mat4x4 mModel = glm::mat4x4(1.0f);	//		mat4x4_identity(m);
 
@@ -146,12 +142,10 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 		glm::vec3(0.0f, 0.0f, 1.0f));
 	mModel = mModel * matPostRotZ;
 
-
 	glm::mat4 matPostRotY = glm::mat4x4(1.0f);
 	matPostRotY = glm::rotate(matPostRotY, pTheGO->orientation2.y,
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	mModel = mModel * matPostRotY;
-
 
 	glm::mat4 matPostRotX = glm::mat4x4(1.0f);
 	matPostRotX = glm::rotate(matPostRotX, pTheGO->orientation2.x,
@@ -171,7 +165,6 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 	glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE,
 		(const GLfloat*)glm::value_ptr(mModel));
 
-
 	glm::mat4 mWorldInTranpose = glm::inverse(glm::transpose(mModel));
 
 	GLuint uniLoc_materialDiffuse = glGetUniformLocation(curShaderProgramID, "materialDiffuse");
@@ -181,10 +174,8 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 		pTheGO->diffuseColour.b,
 		pTheGO->diffuseColour.a);
 
-
 	//GLint uniLoc_mLightSpaceMatrix = glGetUniformLocation(curShaderProgramID, "lightSpaceMatrix");
 	//glUniformMatrix4fv(uniLoc_mLightSpaceMatrix, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(g_lightSpaceMatrix));
-
 
 	///////////////////////////////////////
 
@@ -230,12 +221,9 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 		glUniform1f(uniLoc_bIsSkyBoxObject, GL_FALSE);
 	}
 
-
-
 	glUniform1f(uniLoc_bReflectRatio, pTheGO->reflectRatio);
 	glUniform1f(uniLoc_bIsReflectRefract, pTheGO->bIsReflectRefract);
 	glUniform1f(uniLoc_bRefractRatio, pTheGO->refractRatio);
-
 
 	//coefficientRefract
 	if (pTheGO->refractRatio > 0.0f) {
@@ -264,7 +252,6 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 	else {
 		glUniform1f(uniloc_useDiffuse, GL_FALSE);
 	}
-
 
 	// HACK: Check for the mesh name
 	if (pTheGO->heightMap != NULL)
@@ -319,7 +306,7 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 		//glUniform1f(texHeightMap_UniLoc, textureNameID);
 		//set the offset
 		glUniform1f(uvOffsetForWaves, time);
-		time -= deltaTime /20.f;
+		time -= deltaTime / 20.f;
 
 		if (time <= -5.f) {
 			time = 5.f;
@@ -329,21 +316,20 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 		glUniform1f(bIsNoise_UniLoc, GL_FALSE);
 	}
 
-
 	///////////////////////////////////////////
 
 	// ***************************************************
-	//    ___  _    _                      _  __  __           _     
-	//   / __|| |__(_) _ _   _ _   ___  __| ||  \/  | ___  ___| |_   
-	//   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \  
-	//   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_| 
-	//                                                               
+	//    ___  _    _                      _  __  __           _
+	//   / __|| |__(_) _ _   _ _   ___  __| ||  \/  | ___  ___| |_
+	//   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \
+	//   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_|
+	//
 	GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderProgramID, "bIsASkinnedMesh");
 
 	if (pTheGO->pAnimationManager != NULL)
 	{
 		if (pTheGO->pAnimationManager->pAniState != NULL)
-		{	
+		{
 			// Calculate the pose and load the skinned mesh stuff into the shader, too
 			GLint UniLoc_NumBonesUsed = glGetUniformLocation(curShaderProgramID, "numBonesUsed");
 			GLint UniLoc_BoneIDArray = glGetUniformLocation(curShaderProgramID, "bones");
@@ -361,11 +347,9 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 	GLint Uniloc_IsToonShaded = glGetUniformLocation(curShaderProgramID, "toonShade");
 	glUniform1f(Uniloc_IsToonShaded, pTheGO->bIstoonShaded);
 
-
-	
 	if (bUseFog) {
 		glUniform1f(bUseFogUniform, bUseFog);
-		glUniform3f(skyColorUniform, 0.5f,0.5f,0.5f);
+		glUniform3f(skyColorUniform, 0.5f, 0.5f, 0.5f);
 	}
 
 	glEnable(GL_CULL_FACE);
@@ -380,15 +364,14 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 		}
 
 		if (instanced) {
-			GLint uniloc_isInstanced = glGetUniformLocation(curShaderProgramID, "isInstanced");	
+			GLint uniloc_isInstanced = glGetUniformLocation(curShaderProgramID, "isInstanced");
 			glUniform1f(uniloc_isInstanced, GL_TRUE);
-
 
 			glBindVertexArray(VAODrawInfo.VAO_ID);
 			glDrawElementsInstanced(GL_TRIANGLES,
 				VAODrawInfo.numberOfIndices,		// testMesh.numberOfTriangles * 3,	// How many vertex indices
-				GL_UNSIGNED_INT,					// 32 bit int 
-				0,numInstancedParticles);
+				GL_UNSIGNED_INT,					// 32 bit int
+				0, numInstancedParticles);
 
 			glUniform1f(uniloc_isInstanced, GL_FALSE);
 		}
@@ -396,10 +379,9 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 			glBindVertexArray(VAODrawInfo.VAO_ID);
 			glDrawElements(GL_TRIANGLES,
 				VAODrawInfo.numberOfIndices,		// testMesh.numberOfTriangles * 3,	// How many vertex indices
-				GL_UNSIGNED_INT,					// 32 bit int 
+				GL_UNSIGNED_INT,					// 32 bit int
 				0);
 		}
-
 	}
 	else {
 		//for objects with multiple meshes
@@ -415,7 +397,7 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 
 			glDrawElements(GL_TRIANGLES,
 				VAODrawInfo.numberOfIndices,		// testMesh.numberOfTriangles * 3,	// How many vertex indices
-				GL_UNSIGNED_INT,					// 32 bit int 
+				GL_UNSIGNED_INT,					// 32 bit int
 				0);
 		}
 	}
@@ -426,18 +408,16 @@ void DrawObject(cGameObject* pTheGO, GLint curShaderProgramID,float deltaTime,bo
 	return;
 }
 
-
 //****************************************************************************************
-//    ___  _    _                      _  __  __           _     
-//   / __|| |__(_) _ _   _ _   ___  __| ||  \/  | ___  ___| |_   
-//   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \  
-//   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_| 
-//                                                               
+//    ___  _    _                      _  __  __           _
+//   / __|| |__(_) _ _   _ _   ___  __| ||  \/  | ___  ___| |_
+//   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \
+//   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_|
+//
 void CalculateSkinnedMeshBonesAndLoad(sMeshDrawInfo &theMesh, cGameObject* pTheGO,
 	unsigned int UniformLoc_numBonesUsed,
 	unsigned int UniformLoc_bonesArray)
 {
-
 	std::string animationToPlay = "";
 	float curFrameTime = 0.0;
 	bool attackIsLeftHanded = false;
@@ -448,12 +428,12 @@ void CalculateSkinnedMeshBonesAndLoad(sMeshDrawInfo &theMesh, cGameObject* pTheG
 	glm::vec3 handPositionL(0.f);
 	glm::vec3 handPositionR(0.f);
 
-	//TODO:: find the time of the longest point of punch roughly 13/25 or half way 
+	//TODO:: find the time of the longest point of punch roughly 13/25 or half way
 	//R3: B_R_Hand, Keyframe 10 / 25
 	//L3 : B_L_Hand, Keyframe 13 / 25
 	if (!pTheGO->pAnimationManager->animationsToRun.empty())
 	{
-		// Play the "1st" animation in the queue 
+		// Play the "1st" animation in the queue
 		animationToPlay = pTheGO->pAnimationManager->animationsToRun[0].name;
 		curFrameTime = pTheGO->pAnimationManager->animationsToRun[0].currentTime;
 
@@ -461,7 +441,7 @@ void CalculateSkinnedMeshBonesAndLoad(sMeshDrawInfo &theMesh, cGameObject* pTheG
 
 		float timePerFrame = totalTime / 25.f;
 
-		//check to see what animation it is 
+		//check to see what animation it is
 		if (animationToPlay == "assets/modelsFBX/RPG-Character_Unarmed-Attack-R3(FBX2013).FBX") {
 			attackIsLeftHanded = false;
 			//check to see if the frame time is in the right area
@@ -471,7 +451,6 @@ void CalculateSkinnedMeshBonesAndLoad(sMeshDrawInfo &theMesh, cGameObject* pTheG
 			else {
 				isAtCorrectPositionInAnimation = false;
 			}
-
 		}
 		else if (animationToPlay == "assets/modelsFBX/RPG-Character_Unarmed-Attack-L3(FBX2013).FBX") {
 			attackIsLeftHanded = true;
@@ -491,7 +470,6 @@ void CalculateSkinnedMeshBonesAndLoad(sMeshDrawInfo &theMesh, cGameObject* pTheG
 			// ...meaning that the 1st animation is done
 			// (WHAT!? Should you use a vector for this???)
 			pTheGO->pAnimationManager->animationsToRun.erase(pTheGO->pAnimationManager->animationsToRun.begin());
-
 		}//vecAnimationQueue[0].IncrementTime()
 	}
 	else
@@ -500,7 +478,6 @@ void CalculateSkinnedMeshBonesAndLoad(sMeshDrawInfo &theMesh, cGameObject* pTheG
 		animationToPlay = pAniState->defaultAnimation.name;
 		curFrameTime = pAniState->defaultAnimation.currentTime;
 	}//if ( pAniState->vecAnimationQueue.empty()
-
 
 	// Set up the animation pose:
 	std::vector< glm::mat4x4 > vecFinalTransformation;	// Replaced by	theMesh.vecFinalTransformation
@@ -526,14 +503,13 @@ void CalculateSkinnedMeshBonesAndLoad(sMeshDrawInfo &theMesh, cGameObject* pTheG
 	glm::mat4x4* pBoneMatrixArray = &(vecFinalTransformation[0]);
 
 	// UniformLoc_bonesArray is the getUniformLoc of "bones[0]" from
-	//	uniform mat4 bones[MAXNUMBEROFBONES] 
+	//	uniform mat4 bones[MAXNUMBEROFBONES]
 	// in the shader
 	glUniformMatrix4fv(UniformLoc_bonesArray, numberOfBonesUsed, GL_FALSE,
 		(const GLfloat*)glm::value_ptr(*pBoneMatrixArray));
 
-
 	// Update the extents of the skinned mesh from the bones...
-	//	sMeshDrawInfo.minXYZ_from_SM_Bones(glm::vec3(0.0f)), 
+	//	sMeshDrawInfo.minXYZ_from_SM_Bones(glm::vec3(0.0f)),
 	//  sMeshDrawInfo.maxXYZ_from_SM_Bones(glm::vec3(0.0f))
 	for (unsigned int boneIndex = 0; boneIndex != numberOfBonesUsed; boneIndex++)
 	{
@@ -549,9 +525,8 @@ void CalculateSkinnedMeshBonesAndLoad(sMeshDrawInfo &theMesh, cGameObject* pTheG
 
 		glm::vec4 boneBallLocation = modelMatrix * boneLocal * glm::vec4(0.f, 0.f, 0.f, 1.f);
 
-		//TODO:: add a collision body to the bone 
-		//update the position of the body here 
-
+		//TODO:: add a collision body to the bone
+		//update the position of the body here
 
 		// Update the extents of the mesh
 		if (boneIndex == 0)
@@ -577,7 +552,6 @@ void CalculateSkinnedMeshBonesAndLoad(sMeshDrawInfo &theMesh, cGameObject* pTheG
 			}
 		}//if ( boneIndex == 0 )
 	}
-
 
 	//****************************************************************************************
 	return;

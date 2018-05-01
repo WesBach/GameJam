@@ -1,7 +1,7 @@
 #ifndef _cFrameBuffer_HG_
 #define _cFrameBuffer_HG_
 
-// This **ISN'T** used, currently. 
+// This **ISN'T** used, currently.
 // See the cFBO class for the frame buffer that's being used
 
 struct sScreenDesc
@@ -24,4 +24,4 @@ public:
 	int height_pixels;
 };
 
-#endif 
+#endif

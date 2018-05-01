@@ -4,7 +4,6 @@
 #include <glm/vec3.hpp>
 #include "cGameObject.h"
 
-
 class cTriangle
 {
 public:
@@ -21,8 +20,8 @@ class cPhysTriangle
 public:
 	glm::vec3 vertex[3];
 	glm::vec3 normals[3];
-	glm::vec3 ClosestPtPointTriangle(glm::vec3* p, glm::vec3* a, 
-									 glm::vec3* b, glm::vec3* c);
+	glm::vec3 ClosestPtPointTriangle(glm::vec3* p, glm::vec3* a,
+		glm::vec3* b, glm::vec3* c);
 	/*inline*/ glm::vec3 ClosestPtPointTriangle(glm::vec3* p);
 	int TestSphereTriangle(cGameObject* s, glm::vec3* a, glm::vec3* b, glm::vec3* c, glm::vec3 &p);
 };

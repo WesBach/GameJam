@@ -7,7 +7,7 @@ class Keyboard {
 public:
 	const static int KeyCount = 356;
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static void key_resolution(int index,float deltaTime);
+	static void key_resolution(int index, float deltaTime);
 	static void setKeys();
 	static bool isShiftKeyDown(int mods, bool bByItself = true);
 };

@@ -7,7 +7,7 @@
 class cShaderProgramInfo;
 
 class cMenuRenderer {
-public :
+public:
 
 	struct point {
 		GLfloat x;
@@ -46,4 +46,3 @@ private:
 };
 
 #endif // ! _cMenuRenderer
-

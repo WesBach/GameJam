@@ -3,8 +3,7 @@
 #include <sstream>
 #include <algorithm>
 
-ErrorLog::ErrorLog()
-{
+ErrorLog::ErrorLog(){
 	this->m_pLogFile = 0;
 	this->m_bWriteToCerr = false;
 	this->m_bWriteToCout = false;
@@ -16,8 +15,7 @@ ErrorLog::ErrorLog()
 	return;
 }
 
-ErrorLog::~ErrorLog()
-{
+ErrorLog::~ErrorLog(){
 	this->m_bLogFileOK = false;
 	if (this->m_pLogFile != 0)
 	{
@@ -27,72 +25,59 @@ ErrorLog::~ErrorLog()
 	return;
 }
 
-void ErrorLog::SetWriteToCout(bool bEnabled)
-{
+void ErrorLog::SetWriteToCout(bool bEnabled){
 	this->m_bWriteToCout = bEnabled;
 	return;
 }
 
-void ErrorLog::SetWriteToCerr(bool bEnabled)
-{
+void ErrorLog::SetWriteToCerr(bool bEnabled){
 	this->m_bWriteToCerr = bEnabled;
 	return;
 }
 
 // false = Prevents writing, but doesn't close
-void ErrorLog::SetWriteToLogFile(bool bEnabled)
-{
+void ErrorLog::SetWriteToLogFile(bool bEnabled){
 	this->m_bWriteToLogFile = bEnabled;
 	return;
 }
 
-
-void ErrorLog::SetAutoCRLF(bool bEnabled)
-{
+void ErrorLog::SetAutoCRLF(bool bEnabled){
 	this->m_bAutoCRLF = bEnabled;
 	return;
 }
 
-void ErrorLog::SetForceFlush(bool bEnabled)
-{
+void ErrorLog::SetForceFlush(bool bEnabled){
 	this->m_bForceFlush = bEnabled;
 	return;
 }
 
-void ErrorLog::SetAutoStripPathFromFileNames(bool bEnabled)
-{
+void ErrorLog::SetAutoStripPathFromFileNames(bool bEnabled){
 	this->m_bAutoStripPathFromFileNames = bEnabled;
 	return;
 }
 
 // Need to get the date and time of the file, maybe?
-void ErrorLog::OpenOrChangeLogFile(std::string logFileName)
-{
+void ErrorLog::OpenOrChangeLogFile(std::string logFileName){
 	// File already open?
-	if (this->m_pLogFile != 0)
-	{	// Yes, so close it
+	if (this->m_pLogFile != 0){	
+		// Yes, so close it
 		this->m_pLogFile->close();
 	}
-
-	//// Get the time
-	//time_t curTime = time(0);
-	//std::stringstream ssTime;
-	//ssTime << logFileName << " (" << asctime( std::localtime(&curTime) ) << ").log";
 
 	// Using the secure functions (mainly to stop the compiler complaining at me)
 	// From: https://msdn.microsoft.com/en-us/library/b6htak9c(v=vs.110).aspx
 	struct tm newtime;
 	__time32_t aclock;
 
-	// "The string result produced by asctime_s contains exactly 26 characters and 
-	//		has the form Wed Jan 02 02:03:55 1980\n\0.	
+	// "The string result produced by asctime_s contains exactly 26 characters and
+	//		has the form Wed Jan 02 02:03:55 1980\n\0.
 	static const unsigned int BUFFERSIZE = 26;
 	char timeCharBuffer[BUFFERSIZE] = { 0 };
 	_time32(&aclock);						// Get time in seconds.
 	_localtime32_s(&newtime, &aclock);	// Convert time to struct tm form.
 										// Reutrns zero (0) if everything is OK
-	if (asctime_s(timeCharBuffer, BUFFERSIZE, &newtime) != 0)
-	{	// Didn't get time, so clear the buffer that contains the time string
+	if (asctime_s(timeCharBuffer, BUFFERSIZE, &newtime) != 0){	
+		// Didn't get time, so clear the buffer that contains the time string
 		memset(timeCharBuffer, 0, BUFFERSIZE);
 	}
 	std::stringstream ssTime;
@@ -113,50 +98,33 @@ void ErrorLog::OpenOrChangeLogFile(std::string logFileName)
 	return;
 }
 
-
-void ErrorLog::CloseLogFile(void)
-{
-	if (this->m_pLogFile != 0)
-	{
+void ErrorLog::CloseLogFile(void){
+	if (this->m_pLogFile != 0){
 		this->m_pLogFile->close();
 	}
 	return;
 }
 
-std::string ErrorLog::GetLogFileName(void)
-{
+std::string ErrorLog::GetLogFileName(void){
 	// This doesn't check if the log file is "OK" because
 	//	 it could be you tried to open it, but it didn't open for some reason
-	if (this->m_pLogFile != 0)
-	{
+	if (this->m_pLogFile != 0){
 		return this->m_logFileName;
 	}
 	return "";
 }
 
-bool ErrorLog::bIsLogFileOpen(void)
-{
-	if (this->m_pLogFile != 0)
-	{
+bool ErrorLog::bIsLogFileOpen(void){
+	if (this->m_pLogFile != 0){
 		return this->m_pLogFile->is_open();
 	}
 	return false;
 }
 
-//void ErrorLog::operator<<( std::string textToWrite )
-//{
-//	if ( this->m_pLogFile != 0 )
-//	{
-//		(*this->m_pLogFile) << textToWrite;
-//	}
-//	return;
-//}
 
-std::string ErrorLog::m_cleanTimeToNiceFileName(std::string theText)
-{
+std::string ErrorLog::m_cleanTimeToNiceFileName(std::string theText){
 	std::string returnString;
-	for (std::string::iterator itCurChar = theText.begin(); itCurChar != theText.end(); itCurChar++)
-	{
+	for (std::string::iterator itCurChar = theText.begin(); itCurChar != theText.end(); itCurChar++){
 		char curChar = *itCurChar;
 		switch (curChar)
 		{
@@ -177,50 +145,42 @@ std::string ErrorLog::m_cleanTimeToNiceFileName(std::string theText)
 
 // These take the __LINE__ and __FILE__ things and return a string in this format:
 // ":@Line(xxx), File(yyy) "
-std::string ErrorLog::m_FormatLineAndFileString(const int lineNumber, const char* file)
-{
+std::string ErrorLog::m_FormatLineAndFileString(const int lineNumber, const char* file){
 	std::stringstream ss;
 	ss << ":@Line(" << lineNumber << "), File(" << file << ") ";
 	return ss.str();
 }
 
-std::string ErrorLog::m_FormatLineAndFileStringNoPath(const int lineNumber, const char* file)
-{
+std::string ErrorLog::m_FormatLineAndFileStringNoPath(const int lineNumber, const char* file){
 	std::string justFile(file);
 	justFile = this->m_StripPathFromFile(justFile);
 	return this->m_FormatLineAndFileString(lineNumber, justFile.c_str());
 }
 
 // Scans from the right side until it gets to any kind of slash
-std::string ErrorLog::m_StripPathFromFile(std::string fileNameIn)
-{
+std::string ErrorLog::m_StripPathFromFile(std::string fileNameIn){
 	std::stringstream ssJustFile;
-	for (std::string::reverse_iterator itCurChar = fileNameIn.rbegin();
-		itCurChar != fileNameIn.rend(); itCurChar++)
-	{
+	for (std::string::reverse_iterator itCurChar = fileNameIn.rbegin();itCurChar != fileNameIn.rend(); itCurChar++)	{
 		char curChar = *itCurChar;
-		if ((curChar == '\\') || (curChar == '/'))
-		{
+
+		if ((curChar == '\\') || (curChar == '/')){
 			break;
 		}
 		ssJustFile << curChar;
 	}
+
 	std::string justFile = ssJustFile.str();
 	std::reverse(justFile.begin(), justFile.end());
 	return justFile;
 }
 
 // WARNING: Assumes file is VALID!
-void ErrorLog::m_PrintEndlineCharacter(void)
-{
-	if (this->m_bAutoCRLF)
-	{
-		if (this->m_bForceFlush)
-		{
+void ErrorLog::m_PrintEndlineCharacter(void){
+	if (this->m_bAutoCRLF){
+		if (this->m_bForceFlush){
 			(*this->m_pLogFile) << std::endl;
 		}
-		else
-		{
+		else{
 			(*this->m_pLogFile) << "\n";
 		}
 	}
@@ -232,27 +192,24 @@ void ErrorLog::m_PrintEndlineCharacter(void)
 #include "CStringHelper.h"
 #endif
 
-void ErrorLog::GetListOfExistingLogs(std::vector< CSensibleLogFileData > &vecLogFileNames)
-{
+void ErrorLog::GetListOfExistingLogs(std::vector< CSensibleLogFileData > &vecLogFileNames){
 #ifdef WIN32
 	std::wstring dir = L"*.log";
 	WIN32_FIND_DATA ffd;
 	HANDLE h = FindFirstFile(dir.c_str(), &ffd);
-	while (FindNextFile(h, &ffd))
-	{
+
+	while (FindNextFile(h, &ffd)){
 		CSensibleLogFileData logFile;
 		logFile.logFileNameRaw = CStringHelper::UnicodeToASCII_QnD(ffd.cFileName);
 		logFile.parseLogFileNameAndUpdate();
 		vecLogFileNames.push_back(logFile);
 	}
-	//DWORD dw = GetLastError();// returns ERROR_NO_MORE_FILES
-#endif 
+#endif
 	return;
 }
 
 ////#include <iostream>
-bool ErrorLog::DeleteOldLogFiles(int numberOfLogsToKeep /*=3*/)
-{
+bool ErrorLog::DeleteOldLogFiles(int numberOfLogsToKeep /*=3*/){
 	std::vector< CSensibleLogFileData > vecOldLogs;
 	this->GetListOfExistingLogs(vecOldLogs);
 
@@ -261,10 +218,11 @@ bool ErrorLog::DeleteOldLogFiles(int numberOfLogsToKeep /*=3*/)
 
 	int fileToKeepCount = numberOfLogsToKeep;
 	bool bAllGood = true;
-	for (std::vector< CSensibleLogFileData >::iterator itLF = vecOldLogs.begin(); itLF != vecOldLogs.end(); itLF++, fileToKeepCount--)
-	{	// Saved the right number of files?
-		if (fileToKeepCount <= 0)
-		{	// Yup, so delete this one
+	for (std::vector< CSensibleLogFileData >::iterator itLF = vecOldLogs.begin(); itLF != vecOldLogs.end(); itLF++, fileToKeepCount--){	
+
+		// Saved the right number of files?
+		if (fileToKeepCount <= 0){	
+			// Yup, so delete this one
 #ifdef WIN32
 			if (!DeleteFile(CStringHelper::ASCIIToUnicodeQnD(itLF->logFileNameRaw).c_str()))
 			{
@@ -279,14 +237,12 @@ bool ErrorLog::DeleteOldLogFiles(int numberOfLogsToKeep /*=3*/)
 
 // "RunLog (Sat Feb 13 13-45-57 2016).log"
 // "RunLog (Tue Nov 24 13-13-07 2015).log"
-void ErrorLog::CSensibleLogFileData::parseLogFileNameAndUpdate(std::string logFileNameToParse /* ="" */)
-{
-	// Empty? 
+void ErrorLog::CSensibleLogFileData::parseLogFileNameAndUpdate(std::string logFileNameToParse /* ="" */){
+	// Empty?
 	if (logFileNameToParse != "") { this->logFileNameRaw = logFileNameToParse; }
 
 	// Anything to parse
-	if (this->logFileNameRaw == "")
-	{ /*nope*/ return;
+	if (this->logFileNameRaw == ""){ /*nope*/ return;
 	}
 
 	// Scan to "("
@@ -343,8 +299,7 @@ void ErrorLog::CSensibleLogFileData::parseLogFileNameAndUpdate(std::string logFi
 	return;
 }
 
-int ErrorLog::CSensibleLogFileData::stringToInt(std::string theString)
-{
+int ErrorLog::CSensibleLogFileData::stringToInt(std::string theString){
 	std::stringstream ss;
 	ss << theString;
 	int returnVal;

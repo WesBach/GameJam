@@ -10,7 +10,7 @@
 extern sScene* g_pCurrentScene;
 
 cCuriousState::cCuriousState() {
-	this->mAction = eActionType::IDLE;	
+	this->mAction = eActionType::IDLE;
 	this->mState = eStateType::CURIOUS;
 	this->visionDistance = 7.0f;
 	this->chaseThreshold = 14.0f;
@@ -18,15 +18,15 @@ cCuriousState::cCuriousState() {
 	this->timeInRadius = 0.0f;
 }
 
-const glm::vec4 stateGrey	(	0.5f, 0.5f, 0.5f, 1.0f);
-const glm::vec4 stateBlue	(	0.0f, 0.0f, 1.0f, 1.0f);
-const glm::vec4 statePurple	(	1.0f, 0.0f, 1.0f, 1.0f);
+const glm::vec4 stateGrey(0.5f, 0.5f, 0.5f, 1.0f);
+const glm::vec4 stateBlue(0.0f, 0.0f, 1.0f, 1.0f);
+const glm::vec4 statePurple(1.0f, 0.0f, 1.0f, 1.0f);
 
-void cCuriousState::performAction(cGameObject* player, cGameObject* me,float deltaTime) {
+void cCuriousState::performAction(cGameObject* player, cGameObject* me, float deltaTime) {
 	float enemySpeed = 2.0f;
 	glm::mat4 rotationMatrix = IDENTITYMATRIX;
 	Matrix RotationMatrix = IDENTITY_MATRIX;
-	
+
 	RotateAboutY(&RotationMatrix, me->orientation2.y);
 	glm::vec3 forwardVector = glm::vec3(1.0f, 0.0f, 0.0f);
 	forwardVector = VectorMultiplyMatrices(&RotationMatrix, &forwardVector);
@@ -36,7 +36,7 @@ void cCuriousState::performAction(cGameObject* player, cGameObject* me,float del
 	//glm::vec3 playerforwardVector = glm::vec3(1.0f, 0.0f, 0.0f);
 	//playerforwardVector = VectorMultiplyMatrices(&RotationMatrix, &playerforwardVector);
 
-	////set the players forward vector 
+	////set the players forward vector
 	//g_pCurrentScene->currentPlayer->playerForward = playerforwardVector;
 
 	float playerLookingAtMe = glm::dot(forwardVector, g_pCurrentScene->currentPlayer->playerForward);
@@ -46,17 +46,16 @@ void cCuriousState::performAction(cGameObject* player, cGameObject* me,float del
 		this->mAction = eActionType::EVADE;
 		this->isBehindPlayer = false;
 	}
-	else if(playerLookingAtMe > 0.0f){
+	else if (playerLookingAtMe > 0.0f) {
 		this->mAction = eActionType::ARRIVE;
 		this->isBehindPlayer = true;
 	}
 
 	//if the player is outside of the vision then idle
-	if (abs(glm::distance(me->position, player->position)) >= chaseThreshold){
+	if (abs(glm::distance(me->position, player->position)) >= chaseThreshold) {
 		this->mAction = eActionType::IDLE;
 	}
 
-	
 	if (this->mAction == eActionType::ARRIVE) {
 		glm::vec3 difVector = glm::vec3((player->position.x - me->position.x),
 			(player->position.y - me->position.y),
@@ -80,20 +79,20 @@ void cCuriousState::performAction(cGameObject* player, cGameObject* me,float del
 		{
 			rotAngle = -1.f;
 		}
-		float rotationSpeed = 0.01f; 
+		float rotationSpeed = 0.01f;
 
-		//check to see how far the rotation went 
+		//check to see how far the rotation went
 		if (me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) < 0.01f || me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) > -0.1f)
 		{
-			//move towards the character 
+			//move towards the character
 			me->diffuseColour = stateBlue;
 			glm::vec3 direction = player->position - me->position;
 			direction = glm::normalize(direction);
 			direction.y = 0.0f;
 
 			//performEnemyAction(player, me, direction, deltaTime);
-			
-			//make the enemy move towards the player at a set speed 
+
+			//make the enemy move towards the player at a set speed
 			me->position += direction * this->speed * deltaTime;
 			me->updateRigidBody();
 
@@ -104,7 +103,7 @@ void cCuriousState::performAction(cGameObject* player, cGameObject* me,float del
 	}
 	else if (this->mAction == eActionType::EVADE) {
 		//turn away from the person and run
-		//TODO:: figure out how to make the enemy run away 
+		//TODO:: figure out how to make the enemy run away
 		glm::vec3 difVector = glm::vec3((player->position.x - me->position.x),
 			(player->position.y - me->position.y),
 			(player->position.z - me->position.z)
@@ -131,17 +130,17 @@ void cCuriousState::performAction(cGameObject* player, cGameObject* me,float del
 		}
 		float rotationSpeed = 0.002f;
 
-		//check to see how far the rotation went 
+		//check to see how far the rotation went
 		if (me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) < 0.01f || me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) > -0.1f)
 		{
 			me->diffuseColour = statePurple;
-			//move awat from the character 
+			//move awat from the character
 			glm::vec3 direction = player->position - me->position;
 			direction = glm::normalize(direction);
 			direction.y = 0.0f;
 
 			//performEnemyAction(player,me, direction,deltaTime);
-			//make the enemy move towards the player at a set speed 
+			//make the enemy move towards the player at a set speed
 			me->position += -direction * this->speed * deltaTime;
 			me->updateRigidBody();
 			//me->theEntity->move(-direction);
@@ -151,7 +150,7 @@ void cCuriousState::performAction(cGameObject* player, cGameObject* me,float del
 
 	else if (this->mAction == eActionType::IDLE) {
 		//do nothing
-		//get the distance between the player and the object 
+		//get the distance between the player and the object
 		me->diffuseColour = stateGrey;
 		float dist = glm::distance(player->position, me->position);
 		if (dist < this->visionDistance) {
@@ -165,7 +164,6 @@ void cCuriousState::performAction(cGameObject* player, cGameObject* me,float del
 		}
 	}
 }
-
 
 eStateType cCuriousState::getStateType() {
 	return this->mState;

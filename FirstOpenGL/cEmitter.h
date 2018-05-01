@@ -18,7 +18,7 @@ public:
 		glm::vec3 maxRangeFromEmitter,
 		glm::vec3 acceleration, std::string meshname);
 	glm::vec3 position;
-	void Update(float deltaTime,glm::vec3 forwardVector);
+	void Update(float deltaTime, glm::vec3 forwardVector);
 
 	void setParticleTextures(std::string name1, std::string name2);
 	void setEmitterToActive(bool active);
@@ -41,7 +41,7 @@ private:
 	//Emitter Instance VBO
 	int vbo;
 	const int DATA_LENGTH = 3;
-	// 
+	//
 	int m_maxParticleCreatedPerStep;
 	glm::vec3 m_minInitVel;
 	glm::vec3 m_maxInitVel;
@@ -52,4 +52,4 @@ private:
 	glm::vec3 m_acceleration;
 };
 
-#endif 
+#endif

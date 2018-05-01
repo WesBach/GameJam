@@ -95,7 +95,7 @@ void cSoundManager::readSoundsFromSoundFile(std::string filename) {
 	}
 	// File is open, let's read it
 
-	//get the number of files to read 
+	//get the number of files to read
 	ReadFileToToken(configFile, "NumberOfLoopSounds");
 	configFile >> numberOfFiles;
 	ReadFileToToken(configFile, "START_LOOP_SOUNDS");
@@ -127,7 +127,7 @@ void cSoundManager::readSoundsFromSoundFile(std::string filename) {
 
 			//check for errors
 			checkForFMODError(mResult);
-			//set up the temp sound helper 
+			//set up the temp sound helper
 			tempSoundHelper->groupIndex = tempIndex;
 			tempSoundHelper->theChannel = tempChannel;
 			tempSoundHelper->theSound = tempSound;
@@ -169,7 +169,7 @@ void cSoundManager::readSoundsFromSoundFile(std::string filename) {
 
 			//check for errors
 			checkForFMODError(mResult);
-			//set up the temp sound helper 
+			//set up the temp sound helper
 			tempSoundHelper->groupIndex = tempIndex;
 			tempSoundHelper->theChannel = tempChannel;
 			tempSoundHelper->theSound = tempSound;
@@ -177,5 +177,4 @@ void cSoundManager::readSoundsFromSoundFile(std::string filename) {
 			this->mSounds[soundTitles[i]] = *tempSoundHelper;
 		}
 	}
-
 }

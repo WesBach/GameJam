@@ -8,7 +8,7 @@ extern int mazeEnd;
 //Name:		findShortestPathAStar
 //Purpose:	Given the start and end index will find the "shortest" path from start to end and populate the passed in vector with the path.
 //Return:	void
-void findShortestPathAStar(int startingIndex,int endingIndex, std::vector<cPathingNode*>& theShortestPath) {
+void findShortestPathAStar(int startingIndex, int endingIndex, std::vector<cPathingNode*>& theShortestPath) {
 	//set the node connections(could be done somewhere else)
 	setNodeConnections();
 
@@ -23,28 +23,25 @@ void findShortestPathAStar(int startingIndex,int endingIndex, std::vector<cPathi
 	//constains the node and it's connected node taken (most efficient)
 	std::map<unsigned int, cPathingNode*> cameFrom;
 	//each nodes cost of getting from start to that node
-	std::map<unsigned int, std::pair<cPathingNode*,float>> gScore;
+	std::map<unsigned int, std::pair<cPathingNode*, float>> gScore;
 	//each nodes cost of getting from start node to the goal going through that node
 	std::map<unsigned int, std::pair<cPathingNode*, float>> fScore;
 	gScore[theStartNode->nodeId] = std::pair<cPathingNode*, float>(theStartNode, theStartNode->value);
 	//give start a value of 0; cost from going from start to start
-	fScore[theStartNode->nodeId] = std::pair<cPathingNode*,float>(theStartNode,glm::distance(theStartNode->position,theFinishNode->position));
+	fScore[theStartNode->nodeId] = std::pair<cPathingNode*, float>(theStartNode, glm::distance(theStartNode->position, theFinishNode->position));
 	float tentative_gScore;
 
 	cPathingNode* current = new cPathingNode();
 
-	while (openNodes.size() > 0)
-	{
-		
-		 getNodeWithShortestFScoreFromOpen(openNodes, fScore,*current);
+	while (openNodes.size() > 0){
+		getNodeWithShortestFScoreFromOpen(openNodes, fScore, *current);
 
 		//check based on position because there are a set amount of nodes
-		if (current->nodeId == theFinishNode->nodeId)
-		{
+		if (current->nodeId == theFinishNode->nodeId){
 			reconstructPath(cameFrom, current, theShortestPath, theStartNode->nodeId);
 			break;
 		}
-		
+
 		//new node to push back on closed nodes
 		cPathingNode* tempNode = new cPathingNode();
 		tempNode->nodeId = current->nodeId;
@@ -56,31 +53,32 @@ void findShortestPathAStar(int startingIndex,int endingIndex, std::vector<cPathi
 		removeNodeFromOpen(current, openNodes);
 		closedNodes.push_back(tempNode);
 		//add all the connections to the gScore map
-		for (int i = 0; i < current->theConnections.size(); i++)
-		{
+		for (int i = 0; i < current->theConnections.size(); i++){
 			gScore[current->theConnections[i]->nodeId].second = gScore[current->nodeId].second + glm::distance(current->position, current->theConnections[i]->position) + current->theConnections[i]->value;
 			fScore[current->theConnections[i]->nodeId].first = current->theConnections[i];
 			fScore[current->theConnections[i]->nodeId].second = gScore[current->theConnections[i]->nodeId].second + glm::distance(current->theConnections[i]->position, theFinishNode->position);
 		}
 
 		//go through all the node connections
-		for (int i = 0; i < current->theConnections.size(); i++)
-		{
-
-			if (isPresent(current->theConnections[i], closedNodes))
+		for (int i = 0; i < current->theConnections.size(); i++) {
+			if (isPresent(current->theConnections[i], closedNodes)) {
 				continue;		// Ignore the neighbor which is already evaluated.
-			else if (isPresent(current->theConnections[i], openNodes) == false && current->theConnections[i]->isActive)
+			}
+			else if (isPresent(current->theConnections[i], openNodes) == false && current->theConnections[i]->isActive) {
 				openNodes.push_back(current->theConnections[i]);
-			else//isn't an active node so continue
+			}
+			else{//isn't an active node so continue
 				continue;
+			}
 
 			// The distance from start to a neighbor
 			//the "dist_between" function may vary as per the solution requirements.
 			tentative_gScore = gScore[current->nodeId].second + glm::distance(current->position, current->theConnections[i]->position);
-			
+
 			float currentgScore = gScore[current->theConnections[i]->nodeId].second;
-			if (tentative_gScore >= currentgScore && current->theConnections[i]->isActive)
+			if (tentative_gScore >= currentgScore && current->theConnections[i]->isActive){
 				continue;		// This is not a better path.
+			}
 
 			// This path is the best until now. Record it!
 			cameFrom[current->theConnections[i]->nodeId] = new cPathingNode();
@@ -103,19 +101,17 @@ void findShortestPathAStar(int startingIndex,int endingIndex, std::vector<cPathi
 //Name:		getNodeWithShortestFScoreFromOpen
 //Purpose:	Finds the node from the open vector with the smallest fScore.
 //Return:	void
-void getNodeWithShortestFScoreFromOpen(std::vector<cPathingNode*>& theOpenNodes, std::map<unsigned int, std::pair<cPathingNode*, float>>& fScores,cPathingNode& current)
-{
+void getNodeWithShortestFScoreFromOpen(std::vector<cPathingNode*>& theOpenNodes, std::map<unsigned int, std::pair<cPathingNode*, float>>& fScores, cPathingNode& current){
 	std::vector<std::pair<cPathingNode*, float>> theShortestOpen;
 
 	//check the open nodes for the shortest fScores
-	for (int i = 0; i < theOpenNodes.size();i++)
-	{
+	for (int i = 0; i < theOpenNodes.size(); i++){
 		//go through the map and get the scores
 		float score = fScores[theOpenNodes[i]->nodeId].second;
-		theShortestOpen.push_back(std::pair<cPathingNode*,float>(theOpenNodes[i], score));
+		theShortestOpen.push_back(std::pair<cPathingNode*, float>(theOpenNodes[i], score));
 	}
 	//sort so the first element will be the shortest fScore
-	std::sort(theShortestOpen.begin(), theShortestOpen.end(),sortShortestBySecond);
+	std::sort(theShortestOpen.begin(), theShortestOpen.end(), sortShortestBySecond);
 
 	current = *fScores[theShortestOpen[0].first->nodeId].first;
 }
@@ -123,18 +119,15 @@ void getNodeWithShortestFScoreFromOpen(std::vector<cPathingNode*>& theOpenNodes,
 //Name:		SortShortestBySecond
 //Purpose:	A function used as the third argument in std::vector sort (Sorts Ascending).
 //Return:	void
-bool sortShortestBySecond(std::pair<cPathingNode*,float>& pairA, std::pair<cPathingNode*, float>& pairB)
-{
+bool sortShortestBySecond(std::pair<cPathingNode*, float>& pairA, std::pair<cPathingNode*, float>& pairB){
 	return pairA.second < pairB.second;
 }
 
 //Name:		isPresent
 //Purpose:	Checks to see if a node is present in the passed in vector.
 //Return:	void
-bool isPresent(const cPathingNode* theNode, const std::vector<cPathingNode*>& theNodes)
-{
-	for (int i = 0; i < theNodes.size(); i++)
-	{
+bool isPresent(const cPathingNode* theNode, const std::vector<cPathingNode*>& theNodes){
+	for (int i = 0; i < theNodes.size(); i++){
 		//check the position because there will only ever be one node in that spot
 		if (theNode->position == theNodes[i]->position)
 			return true;
@@ -262,7 +255,7 @@ void setNodeConnections() {
 		g_thePathingManager->theNodes[15]->theConnections.push_back(g_thePathingManager->theNodes[22]);
 		g_thePathingManager->theNodes[15]->theConnections.push_back(g_thePathingManager->theNodes[23]);
 	}
-	
+
 	{
 		//16 = 8,9,17,24,25
 		g_thePathingManager->theNodes[16]->theConnections.push_back(g_thePathingManager->theNodes[8]);
@@ -331,7 +324,7 @@ void setNodeConnections() {
 		g_thePathingManager->theNodes[23]->theConnections.push_back(g_thePathingManager->theNodes[30]);
 		g_thePathingManager->theNodes[23]->theConnections.push_back(g_thePathingManager->theNodes[31]);
 	}
-	
+
 	{
 		//24 = 16,17,25,32,33
 		g_thePathingManager->theNodes[24]->theConnections.push_back(g_thePathingManager->theNodes[16]);
@@ -339,7 +332,7 @@ void setNodeConnections() {
 		g_thePathingManager->theNodes[24]->theConnections.push_back(g_thePathingManager->theNodes[25]);
 		g_thePathingManager->theNodes[24]->theConnections.push_back(g_thePathingManager->theNodes[32]);
 		g_thePathingManager->theNodes[24]->theConnections.push_back(g_thePathingManager->theNodes[33]);
-		//25 = 16,17,18,24,26,32,33,34 
+		//25 = 16,17,18,24,26,32,33,34
 		g_thePathingManager->theNodes[25]->theConnections.push_back(g_thePathingManager->theNodes[16]);
 		g_thePathingManager->theNodes[25]->theConnections.push_back(g_thePathingManager->theNodes[17]);
 		g_thePathingManager->theNodes[25]->theConnections.push_back(g_thePathingManager->theNodes[18]);
@@ -399,9 +392,9 @@ void setNodeConnections() {
 		g_thePathingManager->theNodes[31]->theConnections.push_back(g_thePathingManager->theNodes[30]);
 		g_thePathingManager->theNodes[31]->theConnections.push_back(g_thePathingManager->theNodes[38]);
 		g_thePathingManager->theNodes[31]->theConnections.push_back(g_thePathingManager->theNodes[39]);
-	}	
-		
-	{	
+	}
+
+	{
 		//32 = 24,25,33,40,41
 		g_thePathingManager->theNodes[32]->theConnections.push_back(g_thePathingManager->theNodes[24]);
 		g_thePathingManager->theNodes[32]->theConnections.push_back(g_thePathingManager->theNodes[25]);
@@ -469,7 +462,7 @@ void setNodeConnections() {
 		g_thePathingManager->theNodes[39]->theConnections.push_back(g_thePathingManager->theNodes[46]);
 		g_thePathingManager->theNodes[39]->theConnections.push_back(g_thePathingManager->theNodes[47]);
 	}
-	
+
 	{
 		//40 = 32,33,41,
 		g_thePathingManager->theNodes[40]->theConnections.push_back(g_thePathingManager->theNodes[32]);
@@ -523,7 +516,7 @@ void setNodeConnections() {
 //Name:		reconstructPath
 //Purpose:	Works backwards from the end node and fills a vector with the path taken.
 //Return:	void
-void reconstructPath(std::map<unsigned int ,cPathingNode*> cameFrom,cPathingNode* currNode, std::vector<cPathingNode*>& theReturnNodes,unsigned int startingNodeID) {
+void reconstructPath(std::map<unsigned int, cPathingNode*> cameFrom, cPathingNode* currNode, std::vector<cPathingNode*>& theReturnNodes, unsigned int startingNodeID) {
 	cPathingNode* tempNodeToAdd = new cPathingNode();
 	copyNodePointerToNewNode(currNode, *tempNodeToAdd);
 
@@ -551,8 +544,7 @@ void reconstructPath(std::map<unsigned int ,cPathingNode*> cameFrom,cPathingNode
 //Name:		removeNodeFromOpen
 //Purpose:	Removes a node from the open vector.
 //Return:	void
-void removeNodeFromOpen(cPathingNode* theNode,std::vector<cPathingNode*>& vecTheNodes) {
-	
+void removeNodeFromOpen(cPathingNode* theNode, std::vector<cPathingNode*>& vecTheNodes) {
 	for (std::vector<cPathingNode*>::iterator it = vecTheNodes.begin(); it != vecTheNodes.end();)
 	{
 		if ((*it)->nodeId == theNode->nodeId)

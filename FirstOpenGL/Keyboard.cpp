@@ -4,7 +4,6 @@
 #include <vector>
 #include <glm\vec3.hpp>
 #include "cLightManager.h"
-#include "LuaBrain.h"
 #include "cPlayer.h"
 #include "cSceneManager.h"
 #include "cSoundManager.h"
@@ -22,14 +21,13 @@ extern int g_languageNum;
 int objectIndex = 0;
 int lightIndex = 0;
 
-
 glm::vec3 vel;
 extern bool KeysPressed[Keyboard::KeyCount];
 
 extern bool drawDebugInfo;
 const float CAMERASPEED = 2.0f;
 
-void Keyboard::key_resolution(int index,float deltaTime) {
+void Keyboard::key_resolution(int index, float deltaTime) {
 	glm::vec3 cameraPos = g_cameraXYZ;
 	glm::vec3 forward = cameraPos - g_pCurrentScene->currentPlayer->thePlayerObject->position;
 	forward = glm::normalize(forward);
@@ -63,13 +61,11 @@ void Keyboard::key_resolution(int index,float deltaTime) {
 		g_pCurrentScene->currentPlayer->move(-forward);
 		break;
 	case 49:
-		g_pCurrentScene->currentPlayer->move(glm::vec3(0.f,1.f,0.f));
+		g_pCurrentScene->currentPlayer->move(glm::vec3(0.f, 1.f, 0.f));
 		break;
 	case 50:
 		g_pCurrentScene->currentPlayer->move(glm::vec3(0.f, -1.f, 0.f));
 		break;
-
-
 
 	case 262:
 		g_cameraXYZ.x += CAMERASPEED;
@@ -108,8 +104,6 @@ void Keyboard::key_resolution(int index,float deltaTime) {
 
 void Keyboard::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-
-
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 
@@ -169,7 +163,6 @@ void Keyboard::key_callback(GLFWwindow* window, int key, int scancode, int actio
 		KeysPressed[69] = true;
 	}
 
-
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
 		KeysPressed[49] = true;
 	}
@@ -212,7 +205,6 @@ void Keyboard::key_callback(GLFWwindow* window, int key, int scancode, int actio
 	}
 
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-
 		KeysPressed[32] = true;
 	}
 

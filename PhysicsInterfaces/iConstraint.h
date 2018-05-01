@@ -3,9 +3,7 @@
 #include "enums.h"
 #include"iRigidBody.h"
 
-
 namespace nPhysics {
-
 	class iConstraint {
 	public:
 		virtual ~iConstraint() {}
@@ -13,7 +11,7 @@ namespace nPhysics {
 		virtual iRigidBody* GetRigidBodyA() = 0;
 		virtual iRigidBody* GetRigidBodyB() = 0;
 
-		//for changing the limits of the constraint 
+		//for changing the limits of the constraint
 		virtual void SetLinearLimits(const glm::vec3& min, const glm::vec3& max) {};
 		virtual void SetAngularLimits(const glm::vec3& min, const glm::vec3& max) {};
 		virtual void SetLinearLimits(const float& min, const float& max) {};
@@ -41,4 +39,3 @@ namespace nPhysics {
 	};
 }
 #endif // !_iConstraint_HG_
-

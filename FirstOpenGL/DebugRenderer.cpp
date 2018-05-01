@@ -9,7 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
-#include <sstream>		
+#include <sstream>
 #include <fstream>
 
 // Used to hold the default sphere shape
@@ -49,10 +49,7 @@ const std::string DebugRenderer::DEFAULT_FRAG_SHADER_SOURCE = "\
             gl_FragColor.a = vertColour.a;          \n \
         }\n	";
 
-
-
-bool DebugRenderer::initialize(std::string &error)
-{
+bool DebugRenderer::initialize(std::string &error){
 	cShaderManager shaderManager;
 	this->m_pShaderProg->vertShader->parseStringIntoMultiLine(this->m_vertexShaderSource);
 	this->m_pShaderProg->fragShader->parseStringIntoMultiLine(this->m_fragmentShaderSource);
@@ -67,7 +64,7 @@ bool DebugRenderer::initialize(std::string &error)
 	// The shader was compiled, so get the shader program number
 	this->m_pShaderProg->shaderProgramID = shaderManager.getIDFromFriendlyName("debugShader");
 
-	// Get the uniform variable locations 
+	// Get the uniform variable locations
 	glUseProgram(this->m_pShaderProg->shaderProgramID);
 	this->m_pShaderProg->matModelUniformLoc = glGetUniformLocation(this->m_pShaderProg->shaderProgramID, "mModel");
 	this->m_pShaderProg->matViewUniformLoc = glGetUniformLocation(this->m_pShaderProg->shaderProgramID, "mView");
@@ -75,16 +72,13 @@ bool DebugRenderer::initialize(std::string &error)
 	glUseProgram(0);
 
 	// Set up the VBOs...
-	if (!this->resizeBufferForTriangles(DebugRenderer::DEFAULTNUMBEROFTRIANGLES))
-	{
+	if (!this->resizeBufferForTriangles(DebugRenderer::DEFAULTNUMBEROFTRIANGLES)){
 		return false;
 	}
-	if (!this->resizeBufferForLines(DebugRenderer::DEFAULTNUMBEROFLINES))
-	{
+	if (!this->resizeBufferForLines(DebugRenderer::DEFAULTNUMBEROFLINES)){
 		return false;
 	}
-	if (!this->resizeBufferForPoints(DebugRenderer::DEFAULTNUMBEROFPOINTS))
-	{
+	if (!this->resizeBufferForPoints(DebugRenderer::DEFAULTNUMBEROFPOINTS)){
 		return false;
 	}
 
@@ -93,27 +87,23 @@ bool DebugRenderer::initialize(std::string &error)
 	this->QnD_loadHeaderArrayInto_vecTri(default_sphere_array, default_sphere_array_size, vecSphereTris);
 	this->loadDebugMesh("sphere", vecSphereTris);
 
-
 	return true;
 }
 
-bool DebugRenderer::resizeBufferForPoints(unsigned int newNumberOfPoints)
-{
+bool DebugRenderer::resizeBufferForPoints(unsigned int newNumberOfPoints){
 	//TODO
 	return true;
 }
 
-bool DebugRenderer::resizeBufferForLines(unsigned int newNumberOfLines)
-{
+bool DebugRenderer::resizeBufferForLines(unsigned int newNumberOfLines){
 	//TODO
 	return true;
 }
 
-bool DebugRenderer::resizeBufferForTriangles(unsigned int newNumberOfTriangles)
-{
-	// Erase any exisiting buffers 
-	if (this->m_VAOBufferInfoTriangles.bIsValid)
-	{	// Assume it exists, so delete it
+bool DebugRenderer::resizeBufferForTriangles(unsigned int newNumberOfTriangles){
+	// Erase any exisiting buffers
+	if (this->m_VAOBufferInfoTriangles.bIsValid){	
+		// Assume it exists, so delete it
 		delete[] this->m_VAOBufferInfoTriangles.pLocalVertexArray;
 
 		glDeleteBuffers(1, &(this->m_VAOBufferInfoTriangles.vertex_buffer_ID));
@@ -134,14 +124,12 @@ bool DebugRenderer::resizeBufferForTriangles(unsigned int newNumberOfTriangles)
 	return this->m_InitBuffer(this->m_VAOBufferInfoTriangles);
 }
 
-bool DebugRenderer::m_InitBuffer(sVAOInfoDebug &VAOInfo)
-{
+bool DebugRenderer::m_InitBuffer(sVAOInfoDebug &VAOInfo){
 	glUseProgram(this->m_pShaderProg->shaderProgramID);
 
 	// Create a Vertex Array Object (VAO)
 	glGenVertexArrays(1, &(VAOInfo.VAO_ID));
 	glBindVertexArray(VAOInfo.VAO_ID);
-
 
 	glGenBuffers(1, &(VAOInfo.vertex_buffer_ID));
 	glBindBuffer(GL_ARRAY_BUFFER, VAOInfo.vertex_buffer_ID);
@@ -164,8 +152,8 @@ bool DebugRenderer::m_InitBuffer(sVAOInfoDebug &VAOInfo)
 
 	// Now set up the vertex layout (for this shader):
 	//
-	//	in vec4 vPosition;                           
-	//	in vec4 vColour;                               
+	//	in vec4 vPosition;
+	//	in vec4 vColour;
 	//
 	GLuint vpos_location = glGetAttribLocation(VAOInfo.shaderID, "vPosition");		// program, "vPos");	// 6
 	GLuint vcol_location = glGetAttribLocation(VAOInfo.shaderID, "vColour");		// program, "vCol");	// 13
@@ -177,17 +165,16 @@ bool DebugRenderer::m_InitBuffer(sVAOInfoDebug &VAOInfo)
 	glEnableVertexAttribArray(vpos_location);
 	const unsigned int OFFSET_TO_X_IN_CVERTEX = offsetof(sVertex_xyzw_rgba, x);
 	glVertexAttribPointer(vpos_location,
-		4,					//	in vec4 vPosition; 	
+		4,					//	in vec4 vPosition;
 		GL_FLOAT,
 		GL_FALSE,
 		VERTEX_SIZE_OR_STRIDE_IN_BYTES,
 		reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_X_IN_CVERTEX)));	// 64-bit
 
-
 	glEnableVertexAttribArray(vcol_location);
 	const unsigned int OFFSET_TO_R_IN_CVERTEX = offsetof(sVertex_xyzw_rgba, r);
 	glVertexAttribPointer(vcol_location,
-		4,					//	in vec4 vColour; 
+		4,					//	in vec4 vColour;
 		GL_FLOAT,
 		GL_FALSE,
 		VERTEX_SIZE_OR_STRIDE_IN_BYTES,
@@ -196,9 +183,9 @@ bool DebugRenderer::m_InitBuffer(sVAOInfoDebug &VAOInfo)
 
 	VAOInfo.bIsValid = true;
 
-	// CRITICAL 
+	// CRITICAL
 	// Unbind the VAO first!!!!
-	glBindVertexArray(0);	// 
+	glBindVertexArray(0);	//
 
 							// Unbind (release) everything
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -211,15 +198,12 @@ bool DebugRenderer::m_InitBuffer(sVAOInfoDebug &VAOInfo)
 	return true;
 }
 
-bool DebugRenderer::IsOK(void)
-{
+bool DebugRenderer::IsOK(void){
 	//TODO
 	return true;
 }
 
-
-DebugRenderer::DebugRenderer()
-{
+DebugRenderer::DebugRenderer(){
 	this->debugAABBId = 1;
 	this->m_vertexShaderSource = DebugRenderer::DEFALUT_VERT_SHADER_SOURCE;
 	this->m_fragmentShaderSource = DebugRenderer::DEFAULT_FRAG_SHADER_SOURCE;
@@ -228,38 +212,33 @@ DebugRenderer::DebugRenderer()
 	return;
 }
 
-DebugRenderer::~DebugRenderer()
-{
-	if (this->m_pShaderProg)
-	{
+DebugRenderer::~DebugRenderer(){
+	if (this->m_pShaderProg){
 		delete this->m_pShaderProg;
 	}
 	return;
 }
 
-
-void DebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matProjection, double deltaTime)
-{
+void DebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matProjection, double deltaTime){
 	this->m_copyTrianglesIntoRenderBuffer(deltaTime);
 	//	this->m_copyLinesIntoRenderBuffer();
 	//	this->m_copyPointsIntoRenderBuffer();
 
-	// Start rendering 
+	// Start rendering
 	glUseProgram(this->m_pShaderProg->shaderProgramID);
 
 	glUniformMatrix4fv(this->m_pShaderProg->matViewUniformLoc, 1, GL_FALSE,
 		(const GLfloat*)glm::value_ptr(matCameraView));
 	glUniformMatrix4fv(this->m_pShaderProg->matProjectionUniformLoc, 1, GL_FALSE,
 		(const GLfloat*)glm::value_ptr(matProjection));
-	// Model matrix is just set to identity. 
+	// Model matrix is just set to identity.
 	// In other words, the values in the buffers are in WORLD coordinates (untransformed)
 	glUniformMatrix4fv(this->m_pShaderProg->matModelUniformLoc, 1, GL_FALSE,
 		(const GLfloat*)glm::value_ptr(glm::mat4(1.0f)));
 
-
 	//TODO: Right now, the objects are drawn WITHOUT the depth buffer
 	//      To be added is the ability to draw objects with and without depth
-	//      (like some objects are draw "in the scene" and others are drawn 
+	//      (like some objects are draw "in the scene" and others are drawn
 	//       "on top of" the scene)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// Default
 	glDisable(GL_CULL_FACE);
@@ -274,14 +253,9 @@ void DebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matPro
 		0,		// 1st vertex
 		this->m_VAOBufferInfoTriangles.numberOfVerticesToDraw);
 	glBindVertexArray(0);
-
-	// Draw lines
-
-	// Draw points
-
 	glUseProgram(0);
 
-	// Put everything back as it was 
+	// Put everything back as it was
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	// Default
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -290,16 +264,14 @@ void DebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matPro
 	return;
 }
 
-void DebugRenderer::m_copyTrianglesIntoRenderBuffer(double deltaTime)
-{
+void DebugRenderer::m_copyTrianglesIntoRenderBuffer(double deltaTime){
 	// Used to keep the "persistent" ones...
 	std::vector<drTri> vecTriTemp;
 
 	this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw = (unsigned int)this->m_vecTriangles.size();
 
-	// Is the draw buffer big enough? 
-	if (this->m_VAOBufferInfoTriangles.bufferSizeObjects < this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw)
-	{
+	// Is the draw buffer big enough?
+	if (this->m_VAOBufferInfoTriangles.bufferSizeObjects < this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw){
 		// Resize the buffer
 		this->resizeBufferForTriangles(this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw);
 	}
@@ -307,10 +279,10 @@ void DebugRenderer::m_copyTrianglesIntoRenderBuffer(double deltaTime)
 	this->m_VAOBufferInfoTriangles.numberOfVerticesToDraw
 		= this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw * 3;	// Triangles
 
-	unsigned int vertexIndex = 0;	// index of the vertex buffer to copy into 
+	unsigned int vertexIndex = 0;	// index of the vertex buffer to copy into
 	unsigned int triIndex = 0;		// index of the triangle buffer
 	for (; triIndex != this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw;
-		triIndex++, vertexIndex+= 3)
+		triIndex++, vertexIndex += 3)
 	{
 		drTri& curTri = this->m_vecTriangles[triIndex];
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex + 0].x = curTri.v[0].x;
@@ -343,17 +315,14 @@ void DebugRenderer::m_copyTrianglesIntoRenderBuffer(double deltaTime)
 		curTri.lifeTime -= static_cast<float>(deltaTime);
 
 		// Keep this one? (i.e. is persistent?)
-		if (curTri.lifeTime > 0.0f)
-		{
+		if (curTri.lifeTime > 0.0f){
 			vecTriTemp.push_back(curTri);
 		}
-	}//for (; 
-
+	}//for (;
 
 	//Clear the triangle list and push back the persistent ones
 	this->m_vecTriangles.clear();
-	for (std::vector<drTri>::iterator itTri = vecTriTemp.begin(); itTri != vecTriTemp.end(); itTri++)
-	{
+	for (std::vector<drTri>::iterator itTri = vecTriTemp.begin(); itTri != vecTriTemp.end(); itTri++){
 		this->m_vecTriangles.push_back(*itTri);
 	}
 
@@ -375,71 +344,49 @@ void DebugRenderer::m_copyTrianglesIntoRenderBuffer(double deltaTime)
 	err = glGetError();
 	std::string error;
 	std::string errDetails;
-	if (err != GL_NO_ERROR)
-	{
+	if (err != GL_NO_ERROR){
 		//		error = decodeGLErrorFromEnum(err, errDetails);
 		error = OpenGLError::TranslateErrorEnum(err);
 	}
 
-	//	numberOfBytesToCopy,
-	//	this->m_VAOBufferInfoTriangles.pLocalVertexArray,
-	//	GL_DYNAMIC_DRAW);
-
-	//	void* pGPUBuff = glMapBuffer( this->m_VAOBufferInfoTriangles.vertex_buffer_ID,
-	//                             GL_COPY_WRITE_BUFFER);
-	//memcpy(
-	//	this->m_VAOBufferInfoTriangles.pLocalVertexArray,
-	//	pGPUBuff,
-	//	numberOfBytesToCopy);
-
-	//	glUnmapBuffer(this->m_VAOBufferInfoTriangles.vertex_buffer_ID);
-
 	return;
 }
 
-
-void DebugRenderer::addTriangle(glm::vec3 v1XYZ, glm::vec3 v2XYZ, glm::vec3 v3XYZ, glm::vec3 colour, float lifeTime/*=0.0f*/)
-{
+void DebugRenderer::addTriangle(glm::vec3 v1XYZ, glm::vec3 v2XYZ, glm::vec3 v3XYZ, glm::vec3 colour, float lifeTime/*=0.0f*/){
 	drTri tempTri(v1XYZ, v2XYZ, v3XYZ, colour, lifeTime);
 	this->addTriangle(tempTri);
 	return;
 }
 
-void DebugRenderer::addTriangle(drTri &tri)
-{
+void DebugRenderer::addTriangle(drTri &tri){
 	this->m_vecTriangles.push_back(tri);
 	return;
 }
 
-void DebugRenderer::addLine(glm::vec3 startXYZ, glm::vec3 endXYZ, glm::vec3 colour, float lifeTime/*=0.0f*/)
-{
+void DebugRenderer::addLine(glm::vec3 startXYZ, glm::vec3 endXYZ, glm::vec3 colour, float lifeTime/*=0.0f*/){
 	drLine tempLine(startXYZ, endXYZ, colour, lifeTime);
 	this->addLine(tempLine);
 	return;
 }
 
-void DebugRenderer::addLine(drLine &line)
-{
+void DebugRenderer::addLine(drLine &line){
 	this->m_vecLines.push_back(line);
 	return;
 }
 
-void DebugRenderer::addPoint(glm::vec3 xyz, glm::vec3 colour, float lifeTime/*=0.0f*/, float pointSize/*=1.0f*/)
-{
+void DebugRenderer::addPoint(glm::vec3 xyz, glm::vec3 colour, float lifeTime/*=0.0f*/, float pointSize/*=1.0f*/){
 	drPoint tempPoint(xyz, colour, lifeTime, pointSize);
 	this->addPoint(tempPoint);
 	return;
 }
 
-void DebugRenderer::addPoint(drPoint &point)
-{
+void DebugRenderer::addPoint(drPoint &point){
 	this->m_vecPoints.push_back(point);
 	return;
 }
 
 // Replaces the DrawDebugSphere
-void DebugRenderer::addDebugSphere(glm::vec3 xyz, glm::vec3 colour, float scale, float lifeTime/*=0.0f*/)
-{
+void DebugRenderer::addDebugSphere(glm::vec3 xyz, glm::vec3 colour, float scale, float lifeTime/*=0.0f*/){
 	iDebugRenderer::sDebugMesh sphereMesh;
 	sphereMesh.name = iDebugRenderer::DEFAULT_DEBUG_SPHERE_MESH_NAME;
 	sphereMesh.scale = scale;
@@ -450,23 +397,18 @@ void DebugRenderer::addDebugSphere(glm::vec3 xyz, glm::vec3 colour, float scale,
 	return;
 }
 
-
-
-
 // *********************************************************
-//	 ___      _                ___ _                      
+//	 ___      _                ___ _
 //	|   \ ___| |__ _  _ __ _  / __| |_  __ _ _ __  ___ ___
 //	| |) / -_) '_ \ || / _` | \__ \ ' \/ _` | '_ \/ -_|_-<
 //	|___/\___|_.__/\_,_\__, | |___/_||_\__,_| .__/\___/__/
-//	                   |___/                |_|           
+//	                   |___/                |_|
 //
 
-
-//static 
+//static
 const std::string iDebugRenderer::DEFAULT_DEBUG_SPHERE_MESH_NAME = "DSPHERE";
 
-iDebugRenderer::sDebugTri::sDebugTri()
-{
+iDebugRenderer::sDebugTri::sDebugTri(){
 	this->v[0] = glm::vec3(0.0f); this->v[1] = glm::vec3(0.0f); this->v[2] = glm::vec3(0.0f);
 	this->colour = glm::vec3(1.0f);	// white
 	this->lifeTime = 0.0f;
@@ -474,8 +416,7 @@ iDebugRenderer::sDebugTri::sDebugTri()
 	return;
 }
 
-iDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3, glm::vec3 colour, float lifeTime/*=0.0f*/)
-{
+iDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3, glm::vec3 colour, float lifeTime/*=0.0f*/){
 	this->v[0] = v1;
 	this->v[1] = v2;
 	this->v[2] = v3;
@@ -485,8 +426,7 @@ iDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3, g
 	return;
 }
 
-iDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v[3], glm::vec3 colour, float lifeTime/*=0.0f*/)
-{
+iDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v[3], glm::vec3 colour, float lifeTime/*=0.0f*/){
 	this->v[0] = v[0];
 	this->v[1] = v[1];
 	this->v[2] = v[2];
@@ -496,8 +436,7 @@ iDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v[3], glm::vec3 colour, float lif
 	return;
 }
 
-iDebugRenderer::sDebugLine::sDebugLine()
-{
+iDebugRenderer::sDebugLine::sDebugLine(){
 	this->points[0] = glm::vec3(0.0f);
 	this->points[0] = glm::vec3(0.0f);
 	this->colour = glm::vec3(1.0f);		// white
@@ -506,8 +445,7 @@ iDebugRenderer::sDebugLine::sDebugLine()
 	return;
 }
 
-iDebugRenderer::sDebugLine::sDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 colour, float lifeTime/*=0.0f*/)
-{
+iDebugRenderer::sDebugLine::sDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 colour, float lifeTime/*=0.0f*/){
 	this->points[0] = start;
 	this->points[1] = end;
 	this->colour = colour;
@@ -516,8 +454,7 @@ iDebugRenderer::sDebugLine::sDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3
 	return;
 }
 
-iDebugRenderer::sDebugLine::sDebugLine(glm::vec3 points[2], glm::vec3 colour, float lifeTime/*=0.0f*/)
-{
+iDebugRenderer::sDebugLine::sDebugLine(glm::vec3 points[2], glm::vec3 colour, float lifeTime/*=0.0f*/){
 	this->points[0] = points[0];
 	this->points[1] = points[1];
 	this->colour = colour;
@@ -529,9 +466,7 @@ iDebugRenderer::sDebugLine::sDebugLine(glm::vec3 points[2], glm::vec3 colour, fl
 /*static*/
 const float DebugRendererDEFAULT_POINT_SIZE = 1.0f;
 
-
-iDebugRenderer::sDebugPoint::sDebugPoint()
-{
+iDebugRenderer::sDebugPoint::sDebugPoint(){
 	this->xyz = glm::vec3(0.0f);
 	this->colour = glm::vec3(1.0f);	// white
 	this->lifeTime = 0.0f;
@@ -540,8 +475,7 @@ iDebugRenderer::sDebugPoint::sDebugPoint()
 	return;
 }
 
-iDebugRenderer::sDebugPoint::sDebugPoint(glm::vec3 xyz, glm::vec3 colour, float lifeTime/*=0.0f*/, float pointSize/*=1.0f*/)
-{
+iDebugRenderer::sDebugPoint::sDebugPoint(glm::vec3 xyz, glm::vec3 colour, float lifeTime/*=0.0f*/, float pointSize/*=1.0f*/){
 	this->xyz = xyz;
 	this->colour = colour;
 	this->pointSize = pointSize;
@@ -550,8 +484,7 @@ iDebugRenderer::sDebugPoint::sDebugPoint(glm::vec3 xyz, glm::vec3 colour, float 
 	return;
 }
 
-iDebugRenderer::sDebugMesh::sDebugMesh()
-{
+iDebugRenderer::sDebugMesh::sDebugMesh(){
 	this->name = iDebugRenderer::DEFAULT_DEBUG_SPHERE_MESH_NAME;	// = "DSPHERE";
 	this->xyz = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->qOrientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -562,8 +495,7 @@ iDebugRenderer::sDebugMesh::sDebugMesh()
 }
 
 // Assumes a size of 1, colour white
-iDebugRenderer::sDebugMesh::sDebugMesh(std::string name)
-{
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name){
 	this->name = name;
 	this->xyz = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->qOrientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -573,8 +505,7 @@ iDebugRenderer::sDebugMesh::sDebugMesh(std::string name)
 	return;
 }
 
-iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, float lifeTime/*=0.0f*/)
-{
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, float lifeTime/*=0.0f*/){
 	this->name = name;
 	this->xyz = xyz;
 	this->lifeTime = lifeTime;
@@ -584,8 +515,7 @@ iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, float li
 	return;
 }
 
-iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::vec3 colour, float scale, float lifeTime/*=0.0f*/)
-{
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::vec3 colour, float scale, float lifeTime/*=0.0f*/){
 	this->name = name;
 	this->xyz = xyz;
 	this->lifeTime = lifeTime;
@@ -595,9 +525,7 @@ iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::vec
 	return;
 }
 
-iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::vec3 EulerOrientation, glm::vec3 colour,
-	float scale, float lifeTime/*=0.0f*/)
-{
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::vec3 EulerOrientation, glm::vec3 colour,float scale, float lifeTime/*=0.0f*/){
 	this->name = name;
 	this->xyz = xyz;
 	this->lifeTime = lifeTime;
@@ -607,9 +535,7 @@ iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::vec
 	return;
 }
 
-iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::quat qOrientation, glm::vec3 colour,
-	float scale, float lifeTime/*=0.0f*/)
-{
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::quat qOrientation, glm::vec3 colour,float scale, float lifeTime/*=0.0f*/){
 	this->name = name;
 	this->xyz = xyz;
 	this->lifeTime = lifeTime;
@@ -620,5 +546,3 @@ iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::qua
 }
 //
 // *********************************************************
-
-

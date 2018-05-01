@@ -4,7 +4,6 @@
 class cAssimpBasic_Imp;
 #include "../cMesh.h"
 
-
 class cAssimpBasic
 {
 public:
@@ -12,9 +11,9 @@ public:
 	~cAssimpBasic();
 
 	// Loads a model and returns a mesh
-	bool loadModelA( std::string filename,
-				     cMesh &theMesh, 
-				     std::string &error );
+	bool loadModelA(std::string filename,
+		cMesh &theMesh,
+		std::string &error);
 	bool loadAllMeshesFromModel(
 		std::string filename,
 		cMesh &theMesh,

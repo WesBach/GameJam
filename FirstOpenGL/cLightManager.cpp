@@ -1,12 +1,11 @@
 #include "globalOpenGL_GLFW.h"	// glad (gl.h) and GLFW
-
+#include "Utilities.h"
 #include "cLightManager.h"
+#include <glm\glm.hpp>
 #include <vector>
 #include <sstream>
 
-
-cLight::cLight()
-{
+cLight::cLight() {
 	this->position = glm::vec3(0.0f);
 
 	this->diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -41,20 +40,15 @@ cLight::cLight()
 	return;
 }
 
-cLightManager::cLightManager()
-{
-
+cLightManager::cLightManager() {
 	return;
 }
 
-cLightManager::~cLightManager()
-{
-
+cLightManager::~cLightManager() {
 	return;
 }
 
-void cLightManager::CreateLights(int numberOfLights, bool bKeepOldValues /*=true*/)
-{
+void cLightManager::CreateLights(int numberOfLights, bool bKeepOldValues /*=true*/) {
 	int howManyLightsToAdd = numberOfLights - (int)this->vecLights.size();
 	howManyLightsToAdd = abs(howManyLightsToAdd);
 	// Resize the vector
@@ -70,17 +64,14 @@ void cLightManager::CreateLights(int numberOfLights, bool bKeepOldValues /*=true
 	return;
 }
 
-std::string genUniName(int lightIndex, std::string paramName)
-{
+std::string genUniName(int lightIndex, std::string paramName) {
 	// uniform vec4 myLight[0].position;
 	std::stringstream ssUniName;
 	ssUniName << "myLight[" << lightIndex << "]." << paramName;
 	return ssUniName.str();
 }
 
-
-void cLightManager::LoadShaderUniformLocations(int shaderID)
-{
+void cLightManager::LoadShaderUniformLocations(int shaderID) {
 	//struct sLightDesc {
 	//vec4 position;
 	//vec4 diffuse;
@@ -111,8 +102,7 @@ void cLightManager::LoadShaderUniformLocations(int shaderID)
 	return;
 }
 
-void cLightManager::CopyLightInformationToCurrentShader(void)
-{
+void cLightManager::CopyLightInformationToCurrentShader(void) {
 	for (int index = 0; index != this->vecLights.size(); index++)
 	{
 		cLight& pCurLight = this->vecLights[index];
@@ -154,7 +144,7 @@ void cLightManager::CopyLightInformationToCurrentShader(void)
 			1.0f);
 
 		// x = type, y = distance cut-off
-		// z angle1, w = angle2		
+		// z angle1, w = angle2
 		glUniform4f(pCurLight.shaderlocID_typeParams,
 			pCurLight.typeParams.x,
 			pCurLight.typeParams.y,
@@ -165,25 +155,21 @@ void cLightManager::CopyLightInformationToCurrentShader(void)
 	return;
 }
 
-
-//static 
+//static
 const float cLight::DEFAULTINFINITEDISTANCE = 10000.0f;
-//static 
+//static
 const float cLight::DEFAULDIFFUSEACCURACYTHRESHOLD = 0.001f;
 
-float cLight::calcApproxDistFromAtten(float targetLightLevel)	// Uses the defaults
-{
+float cLight::calcApproxDistFromAtten(float targetLightLevel) {
 	return this->calcApproxDistFromAtten(targetLightLevel, DEFAULDIFFUSEACCURACYTHRESHOLD);
 }
 
-float cLight::calcApproxDistFromAtten(float targetLightLevel, float accuracy)	// Uses the defaults
-{
+float cLight::calcApproxDistFromAtten(float targetLightLevel, float accuracy) {
 	return this->calcApproxDistFromAtten(targetLightLevel, accuracy, DEFAULTINFINITEDISTANCE, DEFAULTMAXITERATIONS);
 }
 
 float cLight::calcApproxDistFromAtten(float targetLightLevel, float accuracy,
-	float infiniteDistance, unsigned int maxIterations /*= DEFAULTMAXITERATIONS = 50*/)
-{
+	float infiniteDistance, unsigned int maxIterations /*= DEFAULTMAXITERATIONS = 50*/) {
 	// See if the accuracy being set it too big for the targetLightLevel, unless targetLightLevel is actually zero (0.0f)
 	// If it's actually zero, then adjusting the accuracy to a tenth of zero would give... wait for it...
 	//	zero, and we would max out the iterations
@@ -193,7 +179,7 @@ float cLight::calcApproxDistFromAtten(float targetLightLevel, float accuracy,
 		{	// Adjust the accuracy by a hundreth
 			accuracy = targetLightLevel / 10.0f;
 		}
-	}//if ( targetLightLevel != 0.0f )	
+	}//if ( targetLightLevel != 0.0f )
 
 	float targetLightLevelLow = targetLightLevel - accuracy;
 	//if ( targetLightLevelLow <= 0.0f )	{ targetLightLevel = 0.0f; }
@@ -215,7 +201,7 @@ float cLight::calcApproxDistFromAtten(float targetLightLevel, float accuracy,
 	{
 		// Pick a distance between the high and low
 		float curDistanceGuess = ((distanceGuessHigh - distanceGuessLow) / 2.0f) + distanceGuessLow;
-		// 
+		//
 		float curDiffuseAtGuessDistance = this->calcDiffuseFromAttenByDistance(curDistanceGuess, DEFAULTZEROTHRESHOLD);
 		// Could be three possibilities: too low, too high, or in between
 		if (curDiffuseAtGuessDistance < targetLightLevelLow)
@@ -232,7 +218,6 @@ float cLight::calcApproxDistFromAtten(float targetLightLevel, float accuracy,
 		}
 
 		iterationCount++;
-
 	}// while ( iterationCount < maxIterations )
 	 // If we are here, then we ran out of iterations.
 	 // Pick a distance between the low and high
@@ -241,11 +226,10 @@ float cLight::calcApproxDistFromAtten(float targetLightLevel, float accuracy,
 	return distance;
 }
 
-//static 
+//static
 const float cLight::DEFAULTZEROTHRESHOLD = 0.0001f;
 
-float cLight::calcDiffuseFromAttenByDistance(float distance, float zeroThreshold /*= DEFAULTZEROTHRESHOLD*/)
-{
+float cLight::calcDiffuseFromAttenByDistance(float distance, float zeroThreshold /*= DEFAULTZEROTHRESHOLD*/) {
 	float diffuse = 1.0f;		// Assume full brightness
 
 	float denominator = this->attenuation.x +						// Constant
@@ -268,44 +252,40 @@ float cLight::calcDiffuseFromAttenByDistance(float distance, float zeroThreshold
 	return diffuse;
 }
 
-void cLight::setLightAttenConst(float constAttenuation)
-{	//	glm::vec3 attenuation.x = constant
+void cLight::setLightAttenConst(float constAttenuation) {
+	//	glm::vec3 attenuation.x = constant
 	this->attenuation.x = constAttenuation;
 	return;
 }
 
-void cLight::setLightAttenLinear(float linearAttenuation)
-{	//	glm::vec3 attenuation.y = linear
+void cLight::setLightAttenLinear(float linearAttenuation) {
+	//	glm::vec3 attenuation.y = linear
 	this->attenuation.y = linearAttenuation;
 	return;
 }
 
-void cLight::setLightAttenQuad(float quadraticAttenuation)
-{	//	glm::vec3 attenuation.z = quadratic
+void cLight::setLightAttenQuad(float quadraticAttenuation) {
+	//	glm::vec3 attenuation.z = quadratic
 	this->attenuation.z = quadraticAttenuation;
 	return;
 }
 
-void cLight::setLightAtten(float constAtten, float linAtten, float quadAtten)
-{
+void cLight::setLightAtten(float constAtten, float linAtten, float quadAtten) {
 	this->attenuation.x = constAtten;
 	this->attenuation.y = linAtten;
 	this->attenuation.z = quadAtten;
 	return;
 }
 
-float cLight::getLightAttenConst(void)
-{
+float cLight::getLightAttenConst(void) {
 	return this->attenuation.x;
 }
 
-float cLight::getLightAttenLinear(void)
-{
+float cLight::getLightAttenLinear(void) {
 	return this->attenuation.y;
 }
 
-float cLight::getLightAttenQuad(void)
-{
+float cLight::getLightAttenQuad(void) {
 	return this->attenuation.z;
 }
 
@@ -316,8 +296,8 @@ float cLight::getLightAttenQuad(void)
 //	SPOT,			// Not implemented
 //	UNKNOWN
 //};
-void cLight::setLightParamType(eLightType lightType)
-{	//	glm::vec4 typeParams.x = type
+void cLight::setLightParamType(eLightType lightType) {
+	//	glm::vec4 typeParams.x = type
 	// TODO:
 	// 		0 = point
 	// 		1 = directional
@@ -341,30 +321,74 @@ void cLight::setLightParamType(eLightType lightType)
 	return;
 }
 
-void cLight::setLightParamDistCutOff(float distanceCutoff)
-{	//	glm::vec4 typeParams.y = distance cut-off
+void cLight::setLightParamDistCutOff(float distanceCutoff) {
+	//	glm::vec4 typeParams.y = distance cut-off
 	this->typeParams.y = distanceCutoff;
 	return;
 }
 
-void cLight::setLightParamSpotPrenumAngleInner(float innerPrenumAngle)
-{	//	glm::vec4 typeParams.z = angle1
+void cLight::setLightParamSpotPrenumAngleInner(float innerPrenumAngle) {
+	//	glm::vec4 typeParams.z = angle1
 	this->typeParams.z = innerPrenumAngle;
 	return;
 }
 
-void cLight::setLightParamSpotPrenumAngleOuter(float outerPrenumAngle)
-{	//	glm::vec4 typeParams.w = angle2
+void cLight::setLightParamSpotPrenumAngleOuter(float outerPrenumAngle) {
+	//	glm::vec4 typeParams.w = angle2
 	this->typeParams.w = outerPrenumAngle;
 	return;
 }
 
-float cLight::getLightParamSpotPrenumAngleInner(void)
-{
+float cLight::getLightParamSpotPrenumAngleInner(void) {
 	return this->typeParams.z;	//	glm::vec4 typeParams.z = angle1
 }
 
-float cLight::getLightParamSpotPrenumAngleOuter(void)	//	glm::vec4 typeParams.w = angle2
-{
+float cLight::getLightParamSpotPrenumAngleOuter(void) {
 	return this->typeParams.w; //	glm::vec4 typeParams.w = angle2
+}
+
+bool cLightManager::LoadLightsAttributesFromFile(std::string& fileName) {
+	//open the file
+	std::ifstream modelAndSceneFile(fileName.c_str());
+	int numLights = 0;
+
+	if (!modelAndSceneFile.is_open())
+	{	// Didn't open file, so return
+		return false;
+	}
+
+	ReadFileToToken(modelAndSceneFile, "NUM_LIGHTS_TO_LOAD");
+	modelAndSceneFile >> numLights;
+
+	ReadFileToToken(modelAndSceneFile, "LIGHTS_BEGIN");
+
+	std::string tempType;
+	for (int i = 0; i < numLights; i++)
+	{
+		modelAndSceneFile >> this->vecLights[i].position.x;
+		modelAndSceneFile >> this->vecLights[i].position.y;
+		modelAndSceneFile >> this->vecLights[i].position.z;
+		modelAndSceneFile >> this->vecLights[i].attenuation.x;
+		modelAndSceneFile >> this->vecLights[i].attenuation.y;
+		modelAndSceneFile >> this->vecLights[i].attenuation.z;
+		modelAndSceneFile >> this->vecLights[i].diffuse.r;
+		modelAndSceneFile >> this->vecLights[i].diffuse.g;
+		modelAndSceneFile >> this->vecLights[i].diffuse.b;
+		modelAndSceneFile >> tempType;
+		if (tempType == "DIRECTIONAL")
+			this->vecLights[i].setLightParamType(cLight::DIRECTIONAL);
+		else if (tempType == "POINT")
+			this->vecLights[i].setLightParamType(cLight::POINT);
+		else if (tempType == "SPOT")
+		{
+			this->vecLights[i].setLightParamType(cLight::SPOT);
+			this->vecLights[i].direction = glm::vec3(0.0f, -1.0f, 0.0f);
+			this->vecLights[i].setLightParamSpotPrenumAngleInner(glm::radians(15.0f));
+			this->vecLights[i].setLightParamSpotPrenumAngleOuter(glm::radians(25.0f));
+		}
+	}
+
+	//close the file stream
+	modelAndSceneFile.close();
+	return true;
 }

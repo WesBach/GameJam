@@ -1,46 +1,25 @@
 #include "cVAOMeshManager.h"
 
 #include "globalOpenGL_GLFW.h"	// glad (gl.h) and GLFW
-//#include <glad/glad.h>		// For all the OpenGL calls
-//#include <GLFW/glfw3.h>		// For all the OpenGL calls
-
-
 #include "cMesh.h"	// NOTE: This is in the CPP file, NOT the .h file
 
-//// The vertex layout as defined by the shader
-//// Where's the Best Place to put this?? 
-//// (good question)
-//class cVertex
-//{
-//public:
-//    float x, y, z;		// Position (vec2)	float x, y;	
-//    float r, g, b;		// Colour (vec3)
-//	float nx, ny, nz;	// Now with normals!
-//};
-#include "sVertex_xyz_rgba_n_uv2_bt.h"			
-
-cVAOMeshManager::cVAOMeshManager()
-{
-
+cVAOMeshManager::cVAOMeshManager() {
 	return;
 }
 
-cVAOMeshManager::~cVAOMeshManager()
-{
-
+cVAOMeshManager::~cVAOMeshManager() {
 	return;
 }
 
-bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMesh /*=false*/)
-{
+bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMesh /*=false*/) {
 	// ******************************************************************************
-	//__      __       _              ____         __  __          
-	//\ \    / /      | |            |  _ \       / _|/ _|         
-	// \ \  / /__ _ __| |_ _____  __ | |_) |_   _| |_| |_ ___ _ __ 
+	//__      __       _              ____         __  __
+	//\ \    / /      | |            |  _ \       / _|/ _|
+	// \ \  / /__ _ __| |_ _____  __ | |_) |_   _| |_| |_ ___ _ __
 	//  \ \/ / _ \ '__| __/ _ \ \/ / |  _ <| | | |  _|  _/ _ \ '__|
-	//   \  /  __/ |  | ||  __/>  <  | |_) | |_| | | | ||  __/ |   
-	//    \/ \___|_|   \__\___/_/\_\ |____/ \__,_|_| |_| \___|_|   
-	//                                                             
+	//   \  /  __/ |  | ||  __/>  <  | |_) | |_| | | | ||  __/ |
+	//    \/ \___|_|   \__\___/_/\_\ |____/ \__,_|_| |_| \___|_|
+	//
 	// ******************************************************************************
 
 	sVAOInfo theVAOInfo;
@@ -48,7 +27,6 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 	// Create a Vertex Array Object (VAO)
 	glGenVertexArrays(1, &(theVAOInfo.VAO_ID));
 	glBindVertexArray(theVAOInfo.VAO_ID);
-
 
 	glGenBuffers(1, &(theVAOInfo.vertex_buffer_ID));
 	glBindBuffer(GL_ARRAY_BUFFER, theVAOInfo.vertex_buffer_ID);
@@ -103,7 +81,7 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 	//int sizeOfGlobalVertexArrayInBytes = sizeof(cVertex) * theMesh.numberOfVertices;
 	int sizeOfGlobalVertexArrayInBytes = sizeof(sVertex_xyz_rgba_n_uv2_bt_4Bones) * theMesh.numberOfVertices;
 	glBufferData(GL_ARRAY_BUFFER,
-		sizeOfGlobalVertexArrayInBytes,		// sizeof(vertices), 
+		sizeOfGlobalVertexArrayInBytes,		// sizeof(vertices),
 		pVertices,
 		GL_STATIC_DRAW);
 
@@ -124,7 +102,7 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 	//unsigned int indexArray[ 10000000 ];		// CAN'T DO THIS, unfortunately
 	unsigned int* indexArray = new unsigned int[numberOfIndices];
 
-	// Copy the triangle data into this 1D array 
+	// Copy the triangle data into this 1D array
 	int triIndex = 0;		// Index into the triangle array (from mesh)
 	int indexIndex = 0;		// Index into the "vertex index" array (1D)
 	for (; triIndex < theMesh.numberOfTriangles; triIndex++, indexIndex += 3)
@@ -155,10 +133,9 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 	GLuint vUVx2_location = glGetAttribLocation(shaderID, "uvX2");		// program, "vCol");	// 13
 
 	GLuint vTangent_location = glGetAttribLocation(shaderID, "vTangent");				// in vec3 vTangent;
-	GLuint vBitangent_location = glGetAttribLocation(shaderID, "vBitangent");			// in vec3 vBitangent					
+	GLuint vBitangent_location = glGetAttribLocation(shaderID, "vBitangent");			// in vec3 vBitangent
 	GLuint vBoneWeights_x4_location = glGetAttribLocation(shaderID, "vBoneWeights_x4");	// 	in vec4 vBoneWeights_x4;
-	GLuint vBoneIDs_x4_location = glGetAttribLocation(shaderID, "vBoneIDs_x4");			// in vec4 vBoneIDs_x4;		
-
+	GLuint vBoneIDs_x4_location = glGetAttribLocation(shaderID, "vBoneIDs_x4");			// in vec4 vBoneIDs_x4;
 
 																		// Size of the vertex we are using in the array.
 																		// This is called the "stride" of the vertices in the vertex buffer
@@ -168,12 +145,12 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 		glEnableVertexAttribArray(vpos_location);
 		const unsigned int OFFSET_TO_X_IN_CVERTEX = offsetof(sVertex_xyz_rgba_n_uv2_bt_4Bones, x);
 		glVertexAttribPointer(vpos_location,
-			3,				// now vec3, not vec2   
+			3,				// now vec3, not vec2
 			GL_FLOAT,
 			GL_FALSE,
 			VERTEX_SIZE_OR_STRIDE_IN_BYTES,		//sizeof(float) * 9,	// cVertex is 6 floats in size
-												// or you could do: sizeof( cVertex ), 
-												//	  (void*) (sizeof(float) * offsetOf_x_into_cVertex) );		
+												// or you could do: sizeof( cVertex ),
+												//	  (void*) (sizeof(float) * offsetOf_x_into_cVertex) );
 												//	  (void*) offsetof( cVertex, x ) );
 			reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_X_IN_CVERTEX)));	// 64-bit
 	}//ENDOF: "in vec3 vPos;" or "float x, y, z;"
@@ -182,12 +159,12 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 		glEnableVertexAttribArray(vpos_location);
 		const unsigned int OFFSET_TO_X_IN_CVERTEX = offsetof(sVertex_xyz_rgba_n_uv2_bt_4Bones, x);
 		glVertexAttribPointer(vpos_location,
-			3,				// now vec3, not vec2   
+			3,				// now vec3, not vec2
 			GL_FLOAT,
 			GL_FALSE,
 			VERTEX_SIZE_OR_STRIDE_IN_BYTES,		//sizeof(float) * 9,	// cVertex is 6 floats in size
-												// or you could do: sizeof( cVertex ), 
-												//	  (void*) (sizeof(float) * offsetOf_x_into_cVertex) );		
+												// or you could do: sizeof( cVertex ),
+												//	  (void*) (sizeof(float) * offsetOf_x_into_cVertex) );
 												//	  (void*) offsetof( cVertex, x ) );
 			reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_X_IN_CVERTEX)));	// 64-bit
 	}//ENDOF: "in vec3 vPos;" or "float x, y, z;"
@@ -219,7 +196,7 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 		const unsigned int OFFSET_TO_UVs_IN_CVERTEX = offsetof(sVertex_xyz_rgba_n_uv2_bt_4Bones, u1);
 		glVertexAttribPointer(vUVx2_location,
 			4,				// because "vec4"
-			GL_FLOAT,			// vec is a float 
+			GL_FLOAT,			// vec is a float
 			GL_FALSE,			// normalize or not
 			VERTEX_SIZE_OR_STRIDE_IN_BYTES,
 			reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_UVs_IN_CVERTEX)));	// 64-bit
@@ -230,7 +207,7 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 		const unsigned int OFFSET_TO_vTangent_IN_CVERTEX = offsetof(sVertex_xyz_rgba_n_uv2_bt_4Bones, tx);
 		glVertexAttribPointer(vTangent_location,
 			3,				// because "vec3"
-			GL_FLOAT,			// vec is a float 
+			GL_FLOAT,			// vec is a float
 			GL_FALSE,			// normalize or not
 			VERTEX_SIZE_OR_STRIDE_IN_BYTES,
 			reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_vTangent_IN_CVERTEX)));	// 64-bit
@@ -242,39 +219,38 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 		const unsigned int OFFSET_TO_vBitangent_IN_CVERTEX = offsetof(sVertex_xyz_rgba_n_uv2_bt_4Bones, bx);
 		glVertexAttribPointer(vBitangent_location,
 			3,				// because "vec3"
-			GL_FLOAT,			// vec is a float 
+			GL_FLOAT,			// vec is a float
 			GL_FALSE,			// normalize or not
 			VERTEX_SIZE_OR_STRIDE_IN_BYTES,
 			reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_vBitangent_IN_CVERTEX)));	// 64-bit
 	}//ENDOF: "in vec3 vBitangent;" or "float bx, by, bz;"
 
 	{//STARTOF: "in vec4 vBoneIDs_x4;" or "float boneID[NUMBEROFBONES];"
-	 //GLuint vBoneIDs_x4_location = glGetAttribLocation(shaderID, "vBoneIDs_x4");			// in vec4 vBoneIDs_x4;		
+	 //GLuint vBoneIDs_x4_location = glGetAttribLocation(shaderID, "vBoneIDs_x4");			// in vec4 vBoneIDs_x4;
 		glEnableVertexAttribArray(vBoneIDs_x4_location);
 		const unsigned int OFFSET_TO_vBoneIDs_x4_IN_CVERTEX
 			= (unsigned int)offsetof(sVertex_xyz_rgba_n_uv2_bt_4Bones, boneID[0]);
 		glVertexAttribPointer(vBoneIDs_x4_location,
 			4,				// because "vec4"
-			GL_FLOAT,			// vec is a float 
+			GL_FLOAT,			// vec is a float
 			GL_FALSE,			// normalize or not
 			VERTEX_SIZE_OR_STRIDE_IN_BYTES,
 			reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_vBoneIDs_x4_IN_CVERTEX)));	// 64-bit
 	}//ENDOF: "in vec4 vBoneIDs_x4;" or "float boneID[NUMBEROFBONES];"
 
 	{//STARTOF: "in vec4 vBoneWeights_x4;" or "float boneWeights[NUMBEROFBONES];"
-	 //GLuint vBoneWeights_x4_location = glGetAttribLocation(shaderID, "vBoneWeights_x4");	// 	in vec4 vBoneWeights_x4;	
+	 //GLuint vBoneWeights_x4_location = glGetAttribLocation(shaderID, "vBoneWeights_x4");	// 	in vec4 vBoneWeights_x4;
 		glEnableVertexAttribArray(vBoneWeights_x4_location);
 		const unsigned int OFFSET_TO_vBoneWeights_x4_IN_CVERTEX
 			= (unsigned int)offsetof(sVertex_xyz_rgba_n_uv2_bt_4Bones, boneWeights[0]);
 		glVertexAttribPointer(vBoneWeights_x4_location,
 			4,				// because "vec4"
-			GL_FLOAT,			// vec is a float 
+			GL_FLOAT,			// vec is a float
 			GL_FALSE,			// normalize or not
 			VERTEX_SIZE_OR_STRIDE_IN_BYTES,
 			reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_vBoneWeights_x4_IN_CVERTEX)));	// 64-bit
 	}//ENDOF: "in vec4 vBoneWeights_x4;" or "float boneWeights[NUMBEROFBONES];"
 
-																					
 	theVAOInfo.numberOfIndices = theMesh.numberOfTriangles * 3;
 	theVAOInfo.numberOfTriangles = theMesh.numberOfTriangles;
 	theVAOInfo.numberOfVertices = theMesh.numberOfVertices;
@@ -287,9 +263,9 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 	// Store the VAO info by mesh name
 	this->m_mapNameToVAO[theMesh.name] = theVAOInfo;
 
-	// CRITICAL 
+	// CRITICAL
 	// Unbind the VAO first!!!!
-	glBindVertexArray(0);	// 
+	glBindVertexArray(0);	//
 
 	// Unbind (release) everything
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -300,9 +276,9 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 	glDisableVertexAttribArray(vUVx2_location);
 	glDisableVertexAttribArray(vTangent_location);				// in vec3 vTangent;
 	glDisableVertexAttribArray(vBitangent_location);			// in vec3 vBitangent;
-	glDisableVertexAttribArray(vBoneIDs_x4_location);			// in vec4 vBoneIDs_x4;		
-	glDisableVertexAttribArray(vBoneWeights_x4_location);		// 	in vec4 vBoneWeights_x4;	
-	// Save this mesh? 
+	glDisableVertexAttribArray(vBoneIDs_x4_location);			// in vec4 vBoneIDs_x4;
+	glDisableVertexAttribArray(vBoneWeights_x4_location);		// 	in vec4 vBoneWeights_x4;
+	// Save this mesh?
 	if (bKeepMesh)
 	{	// Make a COPY for later...
 		//std::map< std::string, cMesh > m_mapNameToMesh;
@@ -312,23 +288,21 @@ bool cVAOMeshManager::loadMeshIntoVAO(cMesh &theMesh, int shaderID, bool bKeepMe
 	return true;
 }
 
-bool cVAOMeshManager::lookupMeshFromName(std::string name, cMesh &theMesh)
-{
+bool cVAOMeshManager::lookupMeshFromName(std::string name, cMesh &theMesh) {
 	// Search for mesh by name using iterator based find
 	std::map< std::string, cMesh >::iterator itMesh = this->m_mapNameToMesh.find(name);
 
-	// Find it? 
+	// Find it?
 	if (itMesh == this->m_mapNameToMesh.end())
-	{	// Nope. 
+	{	// Nope.
 		return false;
 	}
 	// Found the mesh (DIDN'T return .end())
-	theMesh = itMesh->second;		// "return" the mesh by reference 
+	theMesh = itMesh->second;		// "return" the mesh by reference
 	return true;
 }
 
-bool cVAOMeshManager::lookupVAOFromName(std::string name, sVAOInfo &theVAOInfo)
-{
+bool cVAOMeshManager::lookupVAOFromName(std::string name, sVAOInfo &theVAOInfo) {
 	// look up in map for the name of the mesh we want to draw
 	//	std::map< std::string, sVAOInfo > m_mapNameToVAO;
 	// "Interator" is a class that can access inside a container
@@ -338,7 +312,7 @@ bool cVAOMeshManager::lookupVAOFromName(std::string name, sVAOInfo &theVAOInfo)
 	{	// ON NO! we DIDN'T!
 		return false;
 	}
-	// DID find what we were looking for, so 
+	// DID find what we were looking for, so
 	//	ISN'T pointing to the "end()" built-in iterator
 	theVAOInfo = itVAO->second;		// Because the "second" thing is the sVAO
 	return true;

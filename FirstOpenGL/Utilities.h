@@ -8,7 +8,6 @@
 #include <sstream>
 #include <map>
 
-
 class cPhysTriangle;
 class sMeshDrawInfo;
 class cGameObject;
@@ -17,17 +16,17 @@ class iPhysicsWorld;
 
 // Inspired by: https://stackoverflow.com/questions/686353/c-random-float-number-generation
 template <class T>
-T getRandInRange( T min, T max )
+T getRandInRange(T min, T max)
 {
-	double value = 
-		min + static_cast <double> (rand()) 
-		/ ( static_cast <double> (RAND_MAX/(static_cast<double>(max-min) )));
+	double value =
+		min + static_cast <double> (rand())
+		/ (static_cast <double> (RAND_MAX / (static_cast<double>(max - min))));
 	return static_cast<T>(value);
 }
 
 bool loadConfigFile(int& width, int& height, std::string& title);
 
-glm::vec3 getTriangleCentroid(glm::vec3 theTriangles[3] );
+glm::vec3 getTriangleCentroid(glm::vec3 theTriangles[3]);
 glm::vec3 getTriangleCentroid(cPhysTriangle* theTriangle);
 glm::vec3 getTriangleCentroid(glm::vec3* theTriangle[3]);
 
@@ -40,10 +39,10 @@ namespace QnDTexureSamplerUtility
 	void LoadUniformLocationsIfNeeded(unsigned int shaderID);
 	void setAllSamplerUnitsToInvalidNumber(GLint invalidTextureUnit);
 	void clearAllBlendValuesToZero(void);
-	void SetSamplersForMeshTextures(sMeshDrawInfo &meshDrawInfo,std::map<std::string /*textureName*/, CTexUnitInfoBrief> &mapTexAndUnitInfo);
+	void SetSamplersForMeshTextures(sMeshDrawInfo &meshDrawInfo, std::map<std::string /*textureName*/, CTexUnitInfoBrief> &mapTexAndUnitInfo);
 	//	void set2DSamplerAndBlenderByIndex(GLint samplerIndex, float blendRatio, GLint textureUnitID );
 	//	void setCubeSamplerAndBlenderByIndex( GLint samplerIndex, float blendRatio, GLint textureUnitID );
-	void SetSamplersForMeshTextures(cGameObject &object,std::map<std::string /*textureName*/, CTexUnitInfoBrief> &mapTexAndUnitInfo);
+	void SetSamplersForMeshTextures(cGameObject &object, std::map<std::string /*textureName*/, CTexUnitInfoBrief> &mapTexAndUnitInfo);
 };
 
 void InitPhysics();

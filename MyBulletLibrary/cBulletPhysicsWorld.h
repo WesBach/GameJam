@@ -5,7 +5,6 @@
 #include <iCollisionListener.h>
 
 namespace nPhysics {
-
 	//Bullet Physics world wrapper
 
 	class cBulletPhysicsWorld : public iPhysicsWorld {

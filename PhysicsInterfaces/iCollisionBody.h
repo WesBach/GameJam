@@ -18,4 +18,3 @@ namespace nPhysics {
 }
 
 #endif // !_iCollisionBody_HG_
-

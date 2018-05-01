@@ -19,7 +19,6 @@ public:
 	glm::vec3 color;
 	float lifetime;
 	float scale;
-
 };
 
 #endif

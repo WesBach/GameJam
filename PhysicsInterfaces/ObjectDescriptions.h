@@ -3,9 +3,8 @@
 #include "iRigidBody.h"
 #include <vector>
 namespace nPhysics {
-
 	struct sShieldDescription {
-		//3 rigid bodies 
+		//3 rigid bodies
 		iRigidBody* bodyA;
 		iRigidBody* bodyB;
 		iRigidBody* bodyC;
@@ -23,7 +22,6 @@ namespace nPhysics {
 		std::vector<iRigidBody*> boneBodies;
 		float health;
 	};
-
 }
 
 #endif // !_ObjectDescriptions_HG_

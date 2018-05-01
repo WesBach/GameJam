@@ -19,7 +19,6 @@ struct sVAOInfo
 	unsigned int numberOfTriangles;
 	unsigned int numberOfIndices;		/****/
 
-
 	int shaderID;			// Perhaps?
 							// Spoiler alert: we don't need these, actually...
 	unsigned int vertex_buffer_ID;		// GLuint

@@ -22,12 +22,11 @@ void main () {
 	vec4 sampleColour = texture2D(tex, texpos);
 	if(igcolour){
 		gl_FragColor = vec4(0.f, 0.f, 1.f, 1.f);
-	} 
+	}
 	else{
 		gl_FragColor = vec4(1, 1, 1, sampleColour.r) * color;
 	}
 })glsl";
-
 
 cMenuRenderer::cMenuRenderer() {
 	std::string error;
@@ -65,12 +64,10 @@ cMenuRenderer::cMenuRenderer() {
 	if (attribute_coord == -1 || uniform_tex == -1 || uniform_color == -1 || uniform_igcolour == -1) {
 		std::cout << "unable to get attribute or uniform from shader" << std::endl;
 	}
-
 }
 
-
 bool cMenuRenderer::addMenuItem(sMenuItem* item) {
-	//check to see if the item exists already 
+	//check to see if the item exists already
 	for (int i = 0; i < this->vecMenuItems.size(); i++)
 	{
 		if (this->vecMenuItems[i] == item)
@@ -78,7 +75,7 @@ bool cMenuRenderer::addMenuItem(sMenuItem* item) {
 			return false;
 		}
 	}
-	//no in the vector so add it 
+	//no in the vector so add it
 	this->vecMenuItems.push_back(item);
 
 	return true;
@@ -98,10 +95,10 @@ bool cMenuRenderer::removeMenuItem(sMenuItem* item) {
 }
 
 bool cMenuRenderer::renderMenu() {
-	// Get the uniform variable locations 
+	// Get the uniform variable locations
 	glUseProgram(this->m_pShaderProg->shaderProgramID);
 
-	//generate and bind vbo 
+	//generate and bind vbo
 	glGenBuffers(1, &mdp_vbo);
 	//generate and bind vao
 	glGenVertexArrays(1, &mvao);
@@ -161,14 +158,13 @@ bool cMenuRenderer::drawMenuItem(sMenuItem* item) {
 	glBindBuffer(GL_ARRAY_BUFFER, mdp_vbo);
 	glVertexAttribPointer(attribute_coord, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
-
 	/* Draw the background on the screen */
 	//change this to be the size of the menu items
 
 	//TODO:: map the point coords from the item width and height
 	point back[4] = {
 	{ 0, 0, 0, 0 },
-	{ 0, 1/item->height, 1 / item->width, 0 },
+	{ 0, 1 / item->height, 1 / item->width, 0 },
 	{ 1 / item->width, 0, 0, 1 / item->height },
 	{ 1 / item->width, 1 / item->height, 1 / item->width, 1 / item->height },
 	};
@@ -180,4 +176,3 @@ bool cMenuRenderer::drawMenuItem(sMenuItem* item) {
 
 	return true;
 }
-

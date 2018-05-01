@@ -12,7 +12,7 @@ namespace nPhysics
 	public:
 		virtual ~iPhysicsWorld() {}
 
-		virtual void TimeStep(double time,float deltaTime) = 0;
+		virtual void TimeStep(double time, float deltaTime) = 0;
 		//rigid body handling
 		virtual void AddRigidBody(iRigidBody* rigidBody) = 0;
 		virtual void AddCollisionBody(iCollisionBody* rigidBody) = 0;

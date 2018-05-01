@@ -1,7 +1,7 @@
 #include "OpenGLError.h"
 
 // Reutn false if everything is OK
-//static 
+//static
 bool OpenGLError::bWasThereAnOpenGLError(void)
 {
 	GLenum errorEnum = GL_NO_ERROR;
@@ -10,8 +10,7 @@ bool OpenGLError::bWasThereAnOpenGLError(void)
 	return OpenGLError::bWasThereAnOpenGLError(errorEnum, errorText, errorDetails);
 }
 
-
-//static 
+//static
 bool OpenGLError::bWasThereAnOpenGLError(GLenum &errorEnum)
 {
 	std::string errorText;
@@ -19,14 +18,14 @@ bool OpenGLError::bWasThereAnOpenGLError(GLenum &errorEnum)
 	return OpenGLError::bWasThereAnOpenGLError(errorEnum, errorText, errorDetails);
 }
 
-//static 
+//static
 bool OpenGLError::bWasThereAnOpenGLError(GLenum &errorEnum, std::string &errorString)
 {
 	std::string errorDetails;
 	return OpenGLError::bWasThereAnOpenGLError(errorEnum, errorString, errorDetails);
 }
 
-//static 
+//static
 bool OpenGLError::bWasThereAnOpenGLError(std::string &errorText, std::string &errorDetails)
 {
 #ifdef _DEBUG
@@ -38,7 +37,7 @@ bool OpenGLError::bWasThereAnOpenGLError(std::string &errorText, std::string &er
 }
 
 // These require an error logger class to be passed, too
-//static 
+//static
 bool OpenGLError::LogOpenGLErrorIfPresent(ErrorLog &errorLogger)
 {
 	std::string errorText;
@@ -53,7 +52,7 @@ bool OpenGLError::LogOpenGLErrorIfPresent(ErrorLog &errorLogger)
 	return bWasError;
 }
 
-//static 
+//static
 bool OpenGLError::LogOpenGLErrorIfPresent(std::string prependText, ErrorLog &errorLogger)
 {
 	std::string errorText;
@@ -68,7 +67,7 @@ bool OpenGLError::LogOpenGLErrorIfPresent(std::string prependText, ErrorLog &err
 	return bWasError;
 }
 
-//static 
+//static
 bool OpenGLError::LogOpenGLErorrIfPresent(const int line, const char* file, ErrorLog &errorLogger)
 {
 	std::string errorText;
@@ -83,7 +82,7 @@ bool OpenGLError::LogOpenGLErorrIfPresent(const int line, const char* file, Erro
 	return bWasError;
 }
 
-//static 
+//static
 bool OpenGLError::LogOpenGLErorrIfPresent(std::string prependText, const int line, const char* file, ErrorLog &errorLogger)
 {
 	std::string errorText;
@@ -98,14 +97,14 @@ bool OpenGLError::LogOpenGLErorrIfPresent(std::string prependText, const int lin
 	return bWasError;
 }
 
-//static 
+//static
 std::string OpenGLError::TranslateErrorEnum(GLenum &errorEnum)
 {
 	std::string errorDetails;
 	return OpenGLError::TranslateErrorEnumDetails(errorEnum, errorDetails);
 }
 
-//static 
+//static
 std::string OpenGLError::TranslateErrorEnumDetails(GLenum &errorEnum, std::string &errorDetails)
 {
 	// from: https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetError.xml
@@ -153,8 +152,7 @@ std::string OpenGLError::TranslateErrorEnumDetails(GLenum &errorEnum, std::strin
 	return "Unknown error";
 }
 
-
-//static 
+//static
 bool OpenGLError::bWasThereAnOpenGLError(GLenum &errorEnum, std::string &errorText, std::string &errorDetails)
 {
 #ifdef _DEBUG		// Visual studio specific
@@ -173,4 +171,3 @@ bool OpenGLError::bWasThereAnOpenGLError(GLenum &errorEnum, std::string &errorTe
 	return false;
 #endif
 }
-

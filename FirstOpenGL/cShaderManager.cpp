@@ -24,10 +24,9 @@ cShaderManager::~cShaderManager()
 	return;
 }
 
-
 bool cShaderManager::useShaderProgram(unsigned int ID)
 {
-	// Use the number directy... 
+	// Use the number directy...
 	// TODO: Might do a lookup to see if we really have that ID...
 	glUseProgram(ID);
 	return true;
@@ -79,7 +78,6 @@ cShaderProgram* cShaderManager::getShaderProgPointerFromFriendlyName(std::string
 	return this->getShaderProgPointerFromID(shaderID);
 }
 
-
 const unsigned int MAXLINELENGTH = 65536;		// 16x1024
 
 void cShaderManager::setBasePath(std::string basepath)
@@ -87,7 +85,6 @@ void cShaderManager::setBasePath(std::string basepath)
 	this->m_basepath = basepath;
 	return;
 }
-
 
 // Returns bool if didn't load
 bool cShaderManager::m_loadSourceFromFile(cShader &shader)
@@ -144,10 +141,9 @@ bool cShaderManager::m_wasThereACompileError(unsigned int shaderID,
 		// Copy char array to string
 		errorText.append(pLogText);
 
-		// Extra code that Michael forgot wasn't there... 
+		// Extra code that Michael forgot wasn't there...
 		this->m_lastError.append("\n");
 		this->m_lastError.append(errorText);
-
 
 		delete[] pLogText;	// Oops
 
@@ -173,10 +169,9 @@ bool cShaderManager::m_wasThereALinkError(unsigned int programID, std::string &e
 		// Copy char array to string
 		errorText.append(pLogText);
 
-		// Extra code that Michael forgot wasn't there... 
+		// Extra code that Michael forgot wasn't there...
 		this->m_lastError.append("\n");
 		this->m_lastError.append(errorText);
-
 
 		delete[] pLogText;
 
@@ -187,7 +182,6 @@ bool cShaderManager::m_wasThereALinkError(unsigned int programID, std::string &e
 	// There WASN'T an error
 	return false;
 }
-
 
 std::string cShaderManager::getLastError(void)
 {
@@ -227,7 +221,6 @@ bool cShaderManager::m_compileShaderFromSource(cShader &shader, std::string &err
 		 // At a '\0' at end (just in case)
 		arraySource[indexLine][numCharacters + 0] = '\n';
 		arraySource[indexLine][numCharacters + 1] = '\0';
-
 	}//for ( unsigned int indexLine = 0...
 
 	glShaderSource(shader.ID, numberOfLines, arraySource, NULL);
@@ -241,7 +234,7 @@ bool cShaderManager::m_compileShaderFromSource(cShader &shader, std::string &err
 	// And delete the original char** array
 	delete[] arraySource;
 
-	// Did it work? 
+	// Did it work?
 	std::string errorText = "";
 	if (this->m_wasThereACompileError(shader.ID, errorText))
 	{
@@ -263,7 +256,6 @@ bool cShaderManager::createProgramFromSource(
 {
 	std::string errorText = "";
 
-
 	// Shader loading happening before vertex buffer array
 	vertexShad.ID = glCreateShader(GL_VERTEX_SHADER);
 	vertexShad.shaderType = cShader::VERTEX_SHADER;
@@ -281,7 +273,6 @@ bool cShaderManager::createProgramFromSource(
 		return false;
 	}//if ( this->m_compileShaderFromSource(...
 
-
 	cShaderProgram curProgram;
 	curProgram.ID = glCreateProgram();
 
@@ -289,7 +280,7 @@ bool cShaderManager::createProgramFromSource(
 	glAttachShader(curProgram.ID, fragShader.ID);
 	glLinkProgram(curProgram.ID);
 
-	// Was there a link error? 
+	// Was there a link error?
 	errorText = "";
 	if (this->m_wasThereALinkError(curProgram.ID, errorText))
 	{
@@ -312,14 +303,12 @@ bool cShaderManager::createProgramFromSource(
 	return true;
 }
 
-
 bool cShaderManager::createProgramFromFile(
 	std::string friendlyName,
 	cShader &vertexShad,
 	cShader &fragShader)
 {
 	std::string errorText = "";
-
 
 	// Shader loading happening before vertex buffer array
 	vertexShad.ID = glCreateShader(GL_VERTEX_SHADER);
@@ -338,8 +327,6 @@ bool cShaderManager::createProgramFromFile(
 		return false;
 	}//if ( this->m_compileShaderFromSource(...
 
-
-
 	fragShader.ID = glCreateShader(GL_FRAGMENT_SHADER);
 	fragShader.shaderType = cShader::FRAGMENT_SHADER;
 	if (!this->m_loadSourceFromFile(fragShader))
@@ -353,7 +340,6 @@ bool cShaderManager::createProgramFromFile(
 		return false;
 	}//if ( this->m_compileShaderFromSource(...
 
-
 	cShaderProgram curProgram;
 	curProgram.ID = glCreateProgram();
 
@@ -361,7 +347,7 @@ bool cShaderManager::createProgramFromFile(
 	glAttachShader(curProgram.ID, fragShader.ID);
 	glLinkProgram(curProgram.ID);
 
-	// Was there a link error? 
+	// Was there a link error?
 	errorText = "";
 	if (this->m_wasThereALinkError(curProgram.ID, errorText))
 	{
@@ -385,14 +371,14 @@ bool cShaderManager::createProgramFromFile(
 	return true;
 }
 
-//	     ___  _              _            __  __                                      
-//	 __ / __|| |_   __ _  __| | ___  _ _ |  \/  | __ _  _ _   __ _  __ _  ___  _ _    
-//	/ _|\__ \| ' \ / _` |/ _` |/ -_)| '_|| |\/| |/ _` || ' \ / _` |/ _` |/ -_)| '_|   
-//	\__||___/|_||_|\__,_|\__,_|\___||_|  |_|  |_|\__,_||_||_|\__,_|\__, |\___||_|     
-//	(_)(_) __ / __|| |_   __ _  __| | ___  _ _ | _ \ _ _  ___  __ _|___/  __ _  _ __  
-//	 _  _ / _|\__ \| ' \ / _` |/ _` |/ -_)| '_||  _/| '_|/ _ \/ _` || '_|/ _` || '  \ 
+//	     ___  _              _            __  __
+//	 __ / __|| |_   __ _  __| | ___  _ _ |  \/  | __ _  _ _   __ _  __ _  ___  _ _
+//	/ _|\__ \| ' \ / _` |/ _` |/ -_)| '_|| |\/| |/ _` || ' \ / _` |/ _` |/ -_)| '_|
+//	\__||___/|_||_|\__,_|\__,_|\___||_|  |_|  |_|\__,_||_||_|\__,_|\__, |\___||_|
+//	(_)(_) __ / __|| |_   __ _  __| | ___  _ _ | _ \ _ _  ___  __ _|___/  __ _  _ __
+//	 _  _ / _|\__ \| ' \ / _` |/ _` |/ -_)| '_||  _/| '_|/ _ \/ _` || '_|/ _` || '  \
 //	(_)(_)\__||___/|_||_|\__,_|\__,_|\___||_|  |_|  |_|  \___/\__, ||_|  \__,_||_|_|_|
-//                                                          |___/                   
+//                                                          |___/
 cShaderProgram::cShaderProgram()
 {
 	this->ID = 0;	// Invalid shader program ID
@@ -437,8 +423,7 @@ void cShaderProgram::loadUniforms(void)
 	return;
 }
 
-
-// Searches the shader texture list, looking for a match. 
+// Searches the shader texture list, looking for a match.
 // If found, assigns the blend function and returns true.
 // if not found, returns false.
 bool cShaderProgram::m_FindAndAssign2DTexture(sTextureBindBlendInfo *pTexBlendInfo)
@@ -453,7 +438,7 @@ bool cShaderProgram::m_FindAndAssign2DTexture(sTextureBindBlendInfo *pTexBlendIn
 			// Indicate it's in use and copy the blend value
 			textureSlot.bIsInUseThisPass = true;
 			textureSlot.blendValue = pTexBlendInfo->blendRatio;
-			// NOTE: If this is already present, it is ALREADY 
+			// NOTE: If this is already present, it is ALREADY
 			//	bound inside the shader, so we don't have to do that.
 			return true;
 		}
@@ -494,34 +479,34 @@ bool cShaderProgram::m_Assign2DTextureToFirstEmptySlot(sTextureBindBlendInfo *pT
 
 // Here's the steps:
 // 1. Make a copy of the OBJECT's wanted texture list
-//    (NOTE: this copy is a vector of POINTERS to the original; 
-//     any items that point to something still need to be matched, 
-//     otherwise (if NULL), they ARE matched up. At the start, 
+//    (NOTE: this copy is a vector of POINTERS to the original;
+//     any items that point to something still need to be matched,
+//     otherwise (if NULL), they ARE matched up. At the start,
 //     all the items point to something, though)
 // 2. Set all the SHADER texture binding to "not in use this pass"
 //     - This will indicate that they can be "freed up"
-//     - Set the blend value to 0.0, so if there are some still 
+//     - Set the blend value to 0.0, so if there are some still
 //       bound, then will blend into black (not impact the result)
 // 3. For each of the OBJECT's wanted textures, look through the
 //     SHADER's ALREADY bound textures to see if there is a match.
 //     - if there IS, then copy the blending value, indicate
-//       that the SHADER binding IS in use, and set the copy of 
+//       that the SHADER binding IS in use, and set the copy of
 //       OBJECT pointers to NULL (meaning they ARE matched)
-//     - if there ISN't a match, do nothing (leaving them on the 
-//       OBJECT list. 
-// 4. For each of the OBJECT's wanted textures that are remaining 
+//     - if there ISN't a match, do nothing (leaving them on the
+//       OBJECT list.
+// 4. For each of the OBJECT's wanted textures that are remaining
 //     in the list (i.e. aren't NULL):
-//     - Seach for an "empty" slot in the SHADER (i.e. a slot that's 
-//       still got bIsInUseThisPass = false. 
-//       - if one is found: 
+//     - Seach for an "empty" slot in the SHADER (i.e. a slot that's
+//       still got bIsInUseThisPass = false.
+//       - if one is found:
 //         - set bIsInUseThisPass = true
 //         - Bind the texture to a texture unit (based on the slot index)
 //         - Set the sampler to the same texture unit (based on the slot index)
 //         - Copy the blend ratio to the sampler
 //         - Set the OBJECT's wanted texture to NULL (indicating it's assigned)
-//        - if you DIDN'T find a free slot, then there aren't enough 
-//           texture samplers in the sahder. 
-// 
+//        - if you DIDN'T find a free slot, then there aren't enough
+//           texture samplers in the sahder.
+//
 void cShaderProgram::set2DTextureBindings(std::vector<sTextureBindBlendInfo> &vec2DBindings, CTextureManager* pTextureManager)
 {
 	// Update the objects texture IDs if they are invalid
@@ -535,7 +520,6 @@ void cShaderProgram::set2DTextureBindings(std::vector<sTextureBindBlendInfo> &ve
 			itTex->texLookupCachedID = pTextureManager->getTextureIDFromTextureName(itTex->name);
 		}
 	}
-
 
 	// Make a copy of the OBJECT's texture list
 	std::vector<sTextureBindBlendInfo*> vecTemp_p2DNeededTextures;
@@ -595,11 +579,8 @@ void cShaderProgram::set2DTextureBindings(std::vector<sTextureBindBlendInfo> &ve
 	}
 
 	// At this point, it there's any items in the vecTemp_p2DNeededTextures
-	//	that DON'T point to NULL, then they haven't been assigned 
+	//	that DON'T point to NULL, then they haven't been assigned
 	// (not enough shader samplers in the shader)
-
 
 	return;
 }
-
-

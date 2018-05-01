@@ -9,7 +9,6 @@
 extern sScene* g_pCurrentScene;
 
 void cStateManager::determineStateBehaviours(std::vector<cGameObject*>& objects) {
-
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->theAIState != NULL) {
 			//of the type is a follower make sure to check all the objects in the scene to see what one is closest
@@ -19,7 +18,7 @@ void cStateManager::determineStateBehaviours(std::vector<cGameObject*>& objects)
 				//have all the objects in the same vector
 				std::vector<cGameObject*> theCopyVec = objects;
 				std::vector<glm::vec3> thePositions;
-				//sort the vector and get the closest one 
+				//sort the vector and get the closest one
 				for (int copyIndex = 0; copyIndex < theCopyVec.size(); copyIndex++) {
 					if (copyIndex == i) {
 						continue;
@@ -58,7 +57,6 @@ void cStateManager::determineStateBehaviours(std::vector<cGameObject*>& objects)
 						break;
 					}
 				}
-
 			}
 			objects[i]->theAIState->performAction(g_pCurrentScene->currentPlayer->thePlayerObject, objects[i], (float)1 / 60);
 		}

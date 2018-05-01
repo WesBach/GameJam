@@ -8,7 +8,7 @@ class cMesh;
 class cGameObject;
 
 class AABB_Center_Radius
-{	
+{
 public:
 	AABB_Center_Radius();
 	~AABB_Center_Radius();
@@ -37,7 +37,7 @@ public:
 	std::vector<AABB_Center_Radius*> theInnerBoxes;
 
 	//void generate inner boxes recursively given an integer of how many iterations to complete
-	void generateAABBInSpecificLocation(glm::vec3 point,float size);
+	void generateAABBInSpecificLocation(glm::vec3 point, float size);
 	void generateAABBinSpecificLocations(std::vector<glm::vec3> locs, std::vector<float> sizes);
 	void generateAABBAtMeshExtents();
 	unsigned int AABBDebugId;

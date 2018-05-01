@@ -5,7 +5,6 @@
 #include <glm/vec4.hpp>
 #include <vector>
 
-
 class cLight
 {
 public:
@@ -20,7 +19,6 @@ public:
 	glm::vec4 typeParams;	// x = type, y = distance cut-off
 							// z angle1, w = angle2
 
-
 							// This represents a uniform variable inside a specific shader
 							// (We are only using one shader)	int ShaderlocID_position;
 	int shaderlocID_position;
@@ -33,7 +31,7 @@ public:
 
 	// Taken from Day 12 cLightDescription class...
 	static const unsigned int DEFAULTMAXITERATIONS = 50;
-	static const float DEFAULTINFINITEDISTANCE;	// = 10,000.0f;	
+	static const float DEFAULTINFINITEDISTANCE;	// = 10,000.0f;
 	static const float DEFAULDIFFUSEACCURACYTHRESHOLD; // = 0.001f;
 	float calcApproxDistFromAtten(float targetLightLevel);	// Uses the defaults
 	float calcApproxDistFromAtten(float targetLightLevel, float accuracy);	// Uses the defaults
@@ -68,7 +66,7 @@ public:
 	void setLightParamSpotPrenumAngleOuter(float outerPrenumAngle);	//	glm::vec4 typeParams.w = angle2
 	float getLightParamSpotPrenumAngleInner(void);	//	glm::vec4 typeParams.z = angle1
 	float getLightParamSpotPrenumAngleOuter(void);	//	glm::vec4 typeParams.w = angle2
-													// 
+													//
 };
 
 class cLightManager
@@ -81,10 +79,9 @@ public:
 
 	void LoadShaderUniformLocations(int shaderID);
 	void CopyLightInformationToCurrentShader(void);
+	bool LoadLightsAttributesFromFile(std::string& fileName);
 
 	std::vector<cLight> vecLights;
-
-
 };
 
 #endif

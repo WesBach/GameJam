@@ -17,7 +17,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
 typedef unsigned char uchar;
 
 class CTextureFromBMP
@@ -28,34 +27,34 @@ public:
 	// Returns true if able to load texture and store it
 	// Updated: December 2010 for ATI cards, too!
 	// CHANGE: Now pass the texture unit, not the texture number...
-	// (texture number is created automatically). Pass GL_TEXTURE0, GL_TEXTURE1, etc. 
-	bool CreateNewTextureFromBMPFile( std::string textureName, std::string fileNameFullPath /*, GLenum textureUnit*/ );		
-	bool CreateNewTextureFromBMPFile2( std::string textureName, std::string fileNameFullPath, /*GLenum textureUnit,*/ bool bGenerateMIPMap );
-//	bool CreateNewTextyreFromBMPFileSOIL( std::string textureName, std::string fileNameFullPath, bool bGenerateMIPMap );
-//	bool CreateNewTextureFromBMPFile_OLD(std::string fileName, GLuint textureNumber);		
+	// (texture number is created automatically). Pass GL_TEXTURE0, GL_TEXTURE1, etc.
+	bool CreateNewTextureFromBMPFile(std::string textureName, std::string fileNameFullPath /*, GLenum textureUnit*/);
+	bool CreateNewTextureFromBMPFile2(std::string textureName, std::string fileNameFullPath, /*GLenum textureUnit,*/ bool bGenerateMIPMap);
+	//	bool CreateNewTextyreFromBMPFileSOIL( std::string textureName, std::string fileNameFullPath, bool bGenerateMIPMap );
+	//	bool CreateNewTextureFromBMPFile_OLD(std::string fileName, GLuint textureNumber);
 
-	// _____  _     _                        _     _                         
-	//|_   _|| |_  (_) ___  _ __  __ _  _ _ | |_  (_) ___  _ _   ___ __ __ __
-	//  | |  | ' \ | |(_-< | '_ \/ _` || '_||  _| | |(_-< | ' \ / -_)\ V  V /
-	//  |_|  |_||_||_|/__/ | .__/\__,_||_|   \__| |_|/__/ |_||_|\___| \_/\_/ 
-	//                     |_|                                               
-	bool CreateNewCubeTextureFromBMPFiles( std::string cubeMapName, 
-		                                   std::string posX_fileName, std::string negX_fileName, 
-		                                   std::string posY_fileName, std::string negY_fileName, 
-										   std::string posZ_fileName, std::string negZ_fileName, 
-										   /*GLenum textureUnit,*/ bool bIsSeamless,
-										   GLenum &errorEnum, std::string &errorString, std::string &errorDetails );
-	bool CreateNewBMPFromCurrentTexture( int mipMapLevel );
-	bool LoadBMP( std::string fileName );
-	bool LoadBMP2( std::string fileName );		// Faster loader
-	bool SaveBMP( std::string fileName );
+		// _____  _     _                        _     _
+		//|_   _|| |_  (_) ___  _ __  __ _  _ _ | |_  (_) ___  _ _   ___ __ __ __
+		//  | |  | ' \ | |(_-< | '_ \/ _` || '_||  _| | |(_-< | ' \ / -_)\ V  V /
+		//  |_|  |_||_||_|/__/ | .__/\__,_||_|   \__| |_|/__/ |_||_|\___| \_/\_/
+		//                     |_|
+	bool CreateNewCubeTextureFromBMPFiles(std::string cubeMapName,
+		std::string posX_fileName, std::string negX_fileName,
+		std::string posY_fileName, std::string negY_fileName,
+		std::string posZ_fileName, std::string negZ_fileName,
+		/*GLenum textureUnit,*/ bool bIsSeamless,
+		GLenum &errorEnum, std::string &errorString, std::string &errorDetails);
+	bool CreateNewBMPFromCurrentTexture(int mipMapLevel);
+	bool LoadBMP(std::string fileName);
+	bool LoadBMP2(std::string fileName);		// Faster loader
+	bool SaveBMP(std::string fileName);
 	// Deletes the data (and the array) - used after calling LoadBMP
-	bool ClearBMP( void );	
+	bool ClearBMP(void);
 
 	std::string getTextureName(void);
 	std::string getFileNameFullPath(void);
 
-	void SetDebug_cout_output( bool bHave_cout_output );
+	void SetDebug_cout_output(bool bHave_cout_output);
 
 	bool ResizeBitmap(int DesiredHeight, int DesiredWidth);
 	// Returns true if texture exists and can be applied
@@ -92,7 +91,7 @@ public:
 	unsigned long GetPixelsPerMeterY(void);
 	unsigned long GetNumberOfLookUpTables(void);
 	unsigned long GetNumberOfImportantColours(void);
-	// 
+	//
 	bool getIsCubeMap(void);
 	bool getIs2DTexture(void);
 	//
@@ -100,8 +99,8 @@ public:
 	//GLenum getTextureUnit(void);
 private:
 	// The actual image information
-	C24BitBMPpixel* m_p_theImages;	
-	//C32BitBMPpixel* m_p_theImages;	
+	C24BitBMPpixel* m_p_theImages;
+	//C32BitBMPpixel* m_p_theImages;
 	GLuint m_textureNumber;				// The texture number
 	std::string m_textureName;
 	std::string m_fileNameFullPath;
@@ -142,9 +141,8 @@ private:
 	unsigned short ReadNextUnsignedShort(char* data, unsigned long &index);
 	char ReadNextChar(char* data, unsigned long &index);
 	//
-	void WriteAsUnsignedShort( unsigned short value, std::ofstream& theStream );
-	void WriteAsUnsignedLong( unsigned long value, std::ofstream& theStream );
-
+	void WriteAsUnsignedShort(unsigned short value, std::ofstream& theStream);
+	void WriteAsUnsignedLong(unsigned long value, std::ofstream& theStream);
 
 	// This is for error handling:
 	int m_lastErrorNum;

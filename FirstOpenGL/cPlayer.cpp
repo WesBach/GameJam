@@ -20,20 +20,21 @@ cPlayer::cPlayer() {
 	this->projectileRange = 12.f;
 	this->SetBodyType(nPhysics::eCollisionBodyType::PLAYER_BODY);
 	playerParticleEmitter = new cEmitter();
-	//for shooting
+	//for projectiles
 	glm::vec3 forwardVector;
 	projectileIndex = -1;
 }
 
 void cPlayer::createProjectiles() {
 	cGameObject* tempObject;
+
 	for (int i = 0; i < 50; i++) {
 		tempObject = new cGameObject();
 		tempObject->meshName = "Sphere_xyz_n_uv.ply";
 		tempObject->position = glm::vec3(100.f);
 		tempObject->bIsWireFrame = true;
 		tempObject->bIsSkyBoxObject = false;
-		tempObject->diffuseColour = glm::vec4(0.f,0.f,0.f,1.f);
+		tempObject->diffuseColour = glm::vec4(0.f, 0.f, 0.f, 1.f);
 		tempObject->scale = 0.25f;
 		tempObject->radius = 0.125f;
 
@@ -56,7 +57,6 @@ void cPlayer::setMaxHealth(float health) {
 	this->maxHealth = health;
 	this->currentHealth = maxHealth;
 }
-
 
 eEntityType cPlayer::getEntityType() {
 	return eEntityType::PLAYER_ENTITY;
@@ -88,8 +88,7 @@ int cPlayer::getNextProjectileIndex() {
 	//check to see what projectile index will be
 
 	for (int i = 0; i < this->projectilePool.size(); i++) {
-		if (this->projectilePool[i].inUse == false)
-		{
+		if (this->projectilePool[i].inUse == false){
 			index = i;
 			this->projectilePool[i].inUse = true;
 			break;
@@ -102,8 +101,7 @@ int cPlayer::getNextProjectileIndex() {
 void cPlayer::setProjectileInUse(sProjectile& projectile) {
 	for (int i = 0; i < this->projectilePool.size(); i++) {
 		//if the memory addresses match set the projectile to be in use
-		if (this->projectilePool[i].object == projectile.object)
-		{
+		if (this->projectilePool[i].object == projectile.object){
 			this->projectilePool[i].inUse = true;
 		}
 	}
@@ -122,17 +120,16 @@ void cPlayer::attack(glm::vec3 direction, float deltaTime) {
 	//get the next available index of projectiles
 	int index = getNextProjectileIndex();
 
-	//TODO:: use delta time to limit the amount of times able to shoot per second
 	//add the projectile to the draw vector
 	if (index > -1) {
 		sProjectile tempProjectile = this->projectilePool[index];
 		tempProjectile.direction = this->playerForward;
 		//add the projectile to the active ones
 		//create the rigid body and add it to the world
-		nPhysics::iShape* shape = theFactory->CreateSphere(tempProjectile.object->scale /2.f);
+		nPhysics::iShape* shape = theFactory->CreateSphere(tempProjectile.object->scale / 2.f);
 		nPhysics::sRigidBodyDesc desc;
 		//set the position for the object and projectil
-		desc.Position = this->thePlayerObject->position  + this->playerForward;
+		desc.Position = this->thePlayerObject->position + this->playerForward;
 		tempProjectile.object->position = this->thePlayerObject->position + this->playerForward;
 		tempProjectile.projectileInitialPosition = tempProjectile.object->position;
 		desc.Mass = 1.f;
@@ -140,7 +137,7 @@ void cPlayer::attack(glm::vec3 direction, float deltaTime) {
 		desc.Velocity = glm::vec3(0.0f);
 		desc.noCollisionResponse = true;
 		//give the projectile a rigid body
-		tempProjectile.object->theBody = theFactory->CreateRigidBody(desc,shape,nPhysics::eCollisionBodyType::PLAYER_PROJECTILE_BODY);
+		tempProjectile.object->theBody = theFactory->CreateRigidBody(desc, shape, nPhysics::eCollisionBodyType::PLAYER_PROJECTILE_BODY);
 		//add the projectile to vector
 		this->projectiles.push_back(tempProjectile);
 		//change the body
@@ -150,12 +147,9 @@ void cPlayer::attack(glm::vec3 direction, float deltaTime) {
 		//tempBody->GetLinearVelocity(tempVel);
 		tempBody->SetLinearVelocity(direction * tempProjectile.speed);
 		tempBody->SetGravity(glm::vec3(0.f));
-		//tempBody->SetLinearFactor(glm::vec3(1.f, 0.f, 1.0f));
 		//add the projectile rigid body to the world
 		theWorld->AddCollisionBody(tempProjectile.object->theBody);
-		//apply impulse to rigid body
-		
-		//tempBody->ApplyImpulse(direction * tempProjectile.speed);
+
 		//add the object to the objects to draw
 		this->projectilesToDraw.push_back(tempProjectile.object);
 	}
@@ -164,78 +158,23 @@ void cPlayer::attack(glm::vec3 direction, float deltaTime) {
 	}
 }
 
-
-
-void cPlayer::emitParticles(float deltaTime,int shaderProgram) {
-	//glm::vec3 newVelocity = -this->playerForward;
-	//newVelocity.y = 0.25f;
-	//newVelocity.z = 0.25;
-
-	//this->playerParticleEmitter->Update(deltaTime,newVelocity);
-
-	////get the active particles for each active emitter and draw that amount of particles to the screen
-	//cGameObject* tempObject = new cGameObject();
-	//tempObject = new cGameObject();
-	//tempObject->meshName = "Sphere_xyz_n_uv.ply";
-	//tempObject->bIsWireFrame = false;
-	//tempObject->bIsSkyBoxObject = false;
-	////make slightly transparent
-	//tempObject->diffuseColour = glm::vec4(1.f, 1.f, 1.f, 0.5f);
-	//tempObject->scale = 0.25f;
-
-	//std::vector<cParticle*> activeParticles;
-	//int numActiveParticles = this->playerParticleEmitter->getLivingParticles(activeParticles);
-	//std::vector<cGameObject*> theParticlesToDraw;
-
-	////draw each particle individually
-	//for (int particleIndex = 0; particleIndex < numActiveParticles; particleIndex++) {
-	//	//update the particle position
-	//	//activeParticles[particleIndex]->pos = this->thePlayerObject->position + -playerForward;
-	//	tempObject->position = activeParticles[particleIndex]->pos;
-	//	float textureBlend = getRandInRange(0.0f, 1.0f);
-	//	float texBlend2 = 1.0f - textureBlend;
-	//	//set the textures with random blend values
-	//	tempObject->vecMehs2DTextures.push_back(sTextureBindBlendInfo("smoke.bmp", textureBlend));
-	//	tempObject->vecMehs2DTextures.push_back(sTextureBindBlendInfo("smoke2.bmp", texBlend2));
-	//	DrawObject(tempObject, shaderProgram, deltaTime,true);
-	//	//clear the textures
-	//	tempObject->vecMehs2DTextures.clear();
-	//}
-
-	//render the objects
-	//renderScene(theParticlesToDraw, g_pGLFWWindow, 0, 0.f);
-	
-
-	//clean up the object
-	//delete tempObject;
+void cPlayer::emitParticles(float deltaTime, int shaderProgram) {
 	std::string name = "Sphere_xyz_n_uv.ply";
 	this->playerParticleEmitter->position = this->thePlayerObject->position + -this->playerForward * 2.f;
-	//this->playerParticleEmitter->renderParticles(name,deltaTime,shaderProgram, -this->playerForward, this->thePlayerObject->position);
 }
 
 void cPlayer::setPlayerEmitterToActive() {
-	//add the emitter to active
-	//this->playerParticleEmitter->position = this->thePlayerObject->position + -this->playerForward * 2.f;
-
-	//this->playerParticleEmitter->init(NUMPARTICLES, 100,
-	//	-this->playerForward * 2.f,	// Min init vel
-	//	-this->playerForward * 5.f,	// max init vel
-	//	2.0f, 5.0f,
-	//	glm::vec3(0.0f, 0.0f, 0.0f),
-	//	glm::vec3(10.0f, 10.0f, 10.0f),
-	//	glm::vec3(0.0f, 0.0f, 0.0f), "Sphere_xyz_n_uv.ply");
+	this->playerParticleEmitter->setEmitterToActive(true);
 }
 
 void cPlayer::updateEmitterPosition() {
 	this->playerParticleEmitter->position = this->thePlayerObject->position + -playerForward;
 }
 
-
 void cPlayer::removeProjectile(cGameObject* theProjectile) {
-	for (std::vector<cGameObject*>::iterator it = this->projectilesToDraw.begin(); it != this->projectilesToDraw.end();it++) {
+	for (std::vector<cGameObject*>::iterator it = this->projectilesToDraw.begin(); it != this->projectilesToDraw.end(); it++) {
 		//remove the projectile from the drawing vector
 		if (*it == theProjectile) {
-
 			it = this->projectilesToDraw.erase(it);
 			break;
 		}
@@ -286,7 +225,6 @@ void cPlayer::applyContinuousDirectionalVelocityToProjectiles() {
 	for (int i = 0; i < this->projectilesToDraw.size(); i++) {
 		nPhysics::iRigidBody* tempBody = dynamic_cast<nPhysics::iRigidBody*>(this->projectilesToDraw[i]->theBody);
 		sProjectile tempProjectile = this->projectiles[i];
-		//tempBody->ApplyImpulse(tempProjectile.direction* tempProjectile.speed);
 		tempBody->SetLinearVelocity(tempProjectile.direction* tempProjectile.speed);
 	}
 }

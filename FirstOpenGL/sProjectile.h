@@ -17,7 +17,7 @@ enum eProjectileDamageType {
 	DMG_HEAVY
 };
 
-struct sProjectile: public nPhysics::iCollisionBody {
+struct sProjectile : public nPhysics::iCollisionBody {
 	glm::vec3 direction;
 	glm::vec3 projectileInitialPosition;
 	float speed = 0.0f;
@@ -28,5 +28,4 @@ struct sProjectile: public nPhysics::iCollisionBody {
 	float explosionRadius = 0.0f;
 };
 
-#endif // 
-
+#endif //

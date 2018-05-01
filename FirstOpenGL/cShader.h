@@ -27,4 +27,3 @@ public:
 };
 
 #endif // !_cShader_HG_
-

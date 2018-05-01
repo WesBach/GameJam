@@ -13,10 +13,9 @@ void cPowerUp::setModifierType(eModifierType type) {
 	this->modifierValue = type;
 }
 
-cPowerUp::cPowerUp(eModifierType type, ePowerUpType powerupType,cGameObject* theObject) {
+cPowerUp::cPowerUp(eModifierType type, ePowerUpType powerupType, cGameObject* theObject) {
 	this->modifierValue = type;
 	this->mPowerUpType = powerupType;
 	this->mModifierType = type;
 	this->thePowerUp = theObject;
 }
-

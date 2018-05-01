@@ -12,7 +12,7 @@ private:
 	int isPresent;
 	//axes
 	const float* axes;
-	int axesCount;	
+	int axesCount;
 	//buttons
 	int buttonCount;
 	const unsigned char* buttons;
@@ -24,4 +24,3 @@ private:
 };
 
 #endif // ! _GamePad_HG_
-

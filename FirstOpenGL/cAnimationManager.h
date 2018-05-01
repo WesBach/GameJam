@@ -19,7 +19,6 @@ public:
 	std::map<std::string, std::pair<bool, cAnimationState::sStateDetails>> animationStateMap;
 	std::vector< cAnimationState::sStateDetails> animationsToRun;
 	void setOtherAnimationsToNotRunning(std::vector<cAnimationState::sStateDetails> animations);
-
 };
 
 #endif // !_cAnimationManager_HG_

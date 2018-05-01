@@ -20,9 +20,9 @@ cFollowState::cFollowState() {
 	float timeInRadius = 0.0f;
 }
 
-const glm::vec4 stateGreen(0.0f, 1.f, 0.f,1.0f);
-const glm::vec4 stateTeal(0.0f, 1.0f, 1.0f,1.0f);
-const glm::vec4 stateBlack(0.0f, 0.0f, 0.0f,1.0f);
+const glm::vec4 stateGreen(0.0f, 1.f, 0.f, 1.0f);
+const glm::vec4 stateTeal(0.0f, 1.0f, 1.0f, 1.0f);
+const glm::vec4 stateBlack(0.0f, 0.0f, 0.0f, 1.0f);
 
 void cFollowState::performAction(cGameObject* player, cGameObject* me, float deltaTime) {
 	float enemySpeed = 2.0f;
@@ -61,7 +61,7 @@ void cFollowState::performAction(cGameObject* player, cGameObject* me, float del
 
 	float distanceFromPlayer = abs(glm::distance(me->position, player->position));
 
-	//determine what action to perform 
+	//determine what action to perform
 	if (distanceFromPlayer > chaseThreshold) {
 		this->mAction = eActionType::IDLE;
 	}
@@ -93,32 +93,29 @@ void cFollowState::performAction(cGameObject* player, cGameObject* me, float del
 		}
 		float rotationSpeed = 0.002f;
 
-		//check to see how far the rotation went 
+		//check to see how far the rotation went
 		if (me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) < 0.01f || me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) > -0.1f)
 		{
 			me->diffuseColour = stateTeal;
-			//move awat from the character 
+			//move awat from the character
 			glm::vec3 direction = player->position - me->position;
 			direction = glm::normalize(direction);
 			direction.y = 0.0f;
 
-			if (glm::distance(player->position,me->position) <= 4.0f) {
+			if (glm::distance(player->position, me->position) <= 4.0f) {
 				//performEnemyAction(player, me, direction,deltaTime);
 			}
 			else {
-				//make the enemy move towards the player at a set speed 
+				//make the enemy move towards the player at a set speed
 				//me->theEntity->move(-direction);
 				me->position += -direction * this->speed * deltaTime;
 				me->updateRigidBody();
-
-
 			}
 		}
 
 		me->orientation2.y += (rotationSpeed * rotAngle);
 	}
 	else if (this->mAction == eActionType::FOLLOW) {
-
 		glm::vec3 difVector = glm::vec3((player->position.x - me->position.x),
 			(player->position.y - me->position.y),
 			(player->position.z - me->position.z)
@@ -141,12 +138,12 @@ void cFollowState::performAction(cGameObject* player, cGameObject* me, float del
 		}
 		float rotationSpeed = 0.02f;
 
-		//and to get the new forward use the rotation vector dot the 
-		//check to see how far the rotation went 
+		//and to get the new forward use the rotation vector dot the
+		//check to see how far the rotation went
 		if (me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) < 0.01f || me->orientation2.y - me->orientation2.y + (rotationSpeed * rotAngle) > -0.1f)
 		{
 			me->diffuseColour = stateGreen;
-			//move towards the character 
+			//move towards the character
 			glm::vec3 direction = player->position - me->position;
 			direction = glm::normalize(direction);
 
@@ -156,11 +153,11 @@ void cFollowState::performAction(cGameObject* player, cGameObject* me, float del
 				//performEnemyAction(player, me, direction, deltaTime);
 			}
 			direction.y = 0.0f;
-			//make the enemy move towards the player at a set speed 
-			me->position += direction * 5.f * deltaTime;	
+			//make the enemy move towards the player at a set speed
+			me->position += direction * 5.f * deltaTime;
 			//me->theEntity->move(direction);
 			me->updateRigidBody();
-			//for animated character 
+			//for animated character
 			if (me->pAnimationManager) {
 				//only want one animation in here
 				if (me->pAnimationManager->animationsToRun.size() == 0) {
@@ -179,20 +176,18 @@ void cFollowState::performAction(cGameObject* player, cGameObject* me, float del
 		}
 
 		me->diffuseColour = stateBlack;
-		float dist = abs(glm::distance( me->position, player->position));
+		float dist = abs(glm::distance(me->position, player->position));
 		if (dist < this->visionDistance) {
 			//change my action type
 			if (this->isBehindPlayer) {
 				this->mAction = eActionType::FOLLOW;
 			}
-			else if(this->isBehindPlayer == false){
+			else if (this->isBehindPlayer == false) {
 				this->mAction = eActionType::EVADE;
 			}
-
 		}
 	}
 }
-
 
 eStateType cFollowState::getStateType() {
 	return this->mState;

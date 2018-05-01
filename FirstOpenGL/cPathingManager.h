@@ -9,7 +9,7 @@ class cPathingManager {
 public:
 	cPathingManager();
 	~cPathingManager();
-	
+
 	std::vector<cPathingNode*> theShortestPath;
 	std::vector<cPathingNode*> theNodes;
 

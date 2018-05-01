@@ -19,16 +19,15 @@
 // SOIL doesn't work - requires wgl functions from windows
 //#include "../include/SOIL.h"
 
-
 CTextureFromBMP::CTextureFromBMP()
-: m_Height(0), m_Width(0), m_OriginalHeight(0), m_OriginalWidth(0), m_p_theImages(0),
-  m_lastErrorNum(0), m_FileSize(0), m_offsetInBits(0), m_headerSize(0),
-  m_numberOfRows(0), m_numberOfColumns(0), m_numberOfPlanes(0), 
-  m_bitPerPixel(0), m_compressionMode(0), m_imageSizeInBytes(0),
-  m_PixelsPerMeterX(0), m_PixelsPerMeterY(0), 
-  m_numberOfLookUpTableEntries(0), m_numberOfImportantColours(0),
-  m_textureNumber(0), m_bHave_cout_output(false), /*m_textureUnit(0),*/
-  m_bIsCubeMap(false), m_bIs2DTexture(false)
+	: m_Height(0), m_Width(0), m_OriginalHeight(0), m_OriginalWidth(0), m_p_theImages(0),
+	m_lastErrorNum(0), m_FileSize(0), m_offsetInBits(0), m_headerSize(0),
+	m_numberOfRows(0), m_numberOfColumns(0), m_numberOfPlanes(0),
+	m_bitPerPixel(0), m_compressionMode(0), m_imageSizeInBytes(0),
+	m_PixelsPerMeterX(0), m_PixelsPerMeterY(0),
+	m_numberOfLookUpTableEntries(0), m_numberOfImportantColours(0),
+	m_textureNumber(0), m_bHave_cout_output(false), /*m_textureUnit(0),*/
+	m_bIsCubeMap(false), m_bIs2DTexture(false)
 {
 	return;
 }
@@ -38,11 +37,10 @@ CTextureFromBMP::~CTextureFromBMP()
 	return;
 }
 
-void CTextureFromBMP::SetDebug_cout_output( bool bHave_cout_output )
+void CTextureFromBMP::SetDebug_cout_output(bool bHave_cout_output)
 {
 	this->m_bHave_cout_output = bHave_cout_output;
 }
-
 
 GLuint CTextureFromBMP::getTextureNumber(void)
 {
@@ -80,9 +78,8 @@ std::string CTextureFromBMP::getFileNameFullPath(void)
 //	return true;
 //}
 
-
-bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std::string fileNameFullPath, 
-												    /*GLenum textureUnit,*/ bool bGenerateMIPMap )	
+bool CTextureFromBMP::CreateNewTextureFromBMPFile2(std::string textureName, std::string fileNameFullPath,
+	/*GLenum textureUnit,*/ bool bGenerateMIPMap)
 {
 	bool bReturnVal = true;
 
@@ -92,16 +89,15 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 	// Pick a texture number...
 //	GLuint textureNum = 0;
 	this->m_textureNumber = 0;
-	glGenTextures( 1, &(this->m_textureNumber) );
+	glGenTextures(1, &(this->m_textureNumber));
 	// Worked?
-	if ( ( glGetError() & GL_INVALID_VALUE ) == GL_INVALID_VALUE )
+	if ((glGetError() & GL_INVALID_VALUE) == GL_INVALID_VALUE)
 	{
 		bReturnVal = false;
 		return false;
 	}
 
-
-	if ( !this->LoadBMP2( fileNameFullPath ) )
+	if (!this->LoadBMP2(fileNameFullPath))
 	{
 		return false;
 	}
@@ -113,13 +109,13 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 	// Now set the texture...
 	//glActiveTexture( textureUnit );	// GL_TEXTURE0, GL_TEXTURE1, etc.
 	glBindTexture(GL_TEXTURE_2D, this->m_textureNumber);
-	glTexStorage2D( GL_TEXTURE_2D, 
-		            1,			// MIP map
-					GL_RGBA8, 
-					this->m_numberOfColumns, 
-					this->m_numberOfRows );
+	glTexStorage2D(GL_TEXTURE_2D,
+		1,			// MIP map
+		GL_RGBA8,
+		this->m_numberOfColumns,
+		this->m_numberOfRows);
 
-	if ( this->bWasThereAnOpenGLError() )	{ return false;	}
+	if (this->bWasThereAnOpenGLError()) { return false; }
 
 	//for ( int index = 0; index != 400; index++ )
 	//{
@@ -128,43 +124,41 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 	//	std::cout << (int)this->m_p_theImages[index].bluePixel << std::endl;
 	//}
 
-//	glTextureSubImage2D( 
-	glTexSubImage2D( GL_TEXTURE_2D, 
-		             0,		// Level 0
-					 0, 0,	// Offset of 0,0
-					 this->m_numberOfColumns, 
-					 this->m_numberOfRows,
-					 GL_RGB,			// Pixel data format
-					 GL_UNSIGNED_BYTE,	// Pixel data type  
-					 this->m_p_theImages );
+//	glTextureSubImage2D(
+	glTexSubImage2D(GL_TEXTURE_2D,
+		0,		// Level 0
+		0, 0,	// Offset of 0,0
+		this->m_numberOfColumns,
+		this->m_numberOfRows,
+		GL_RGB,			// Pixel data format
+		GL_UNSIGNED_BYTE,	// Pixel data type
+		this->m_p_theImages);
 
-	if ( this->bWasThereAnOpenGLError() )	{ return false;	}
+	if (this->bWasThereAnOpenGLError()) { return false; }
 
 	this->ClearBMP();
 
-
-	if ( bGenerateMIPMap )
+	if (bGenerateMIPMap)
 	{
-		glGenerateMipmap( GL_TEXTURE_2D );		// OpenGL 4.0
+		glGenerateMipmap(GL_TEXTURE_2D);		// OpenGL 4.0
 	}
 
 	//if ( this->bWasThereAnOpenGLError() )	{ return false;	}
 
-
 	//glBindTexture(GL_TEXTURE_2D, m_textureNumber);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, /*GL_CLAMP*/ GL_REPEAT );
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, /*GL_CLAMP*/ GL_REPEAT );
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, /*GL_CLAMP*/ GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, /*GL_CLAMP*/ GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, /*GL_NEAREST*/ GL_LINEAR);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, /*GL_NEAREST*/ GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
-//	GLfloat largest_supported_anisotropy;
-//	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest_supported_anisotropy);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest_supported_anisotropy);
+	//	GLfloat largest_supported_anisotropy;
+	//	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest_supported_anisotropy);
+	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest_supported_anisotropy);
 
-	//if ( this->bWasThereAnOpenGLError() )	{ return false;	}
+		//if ( this->bWasThereAnOpenGLError() )	{ return false;	}
 
-	//this->m_textureUnit = textureUnit;
+		//this->m_textureUnit = textureUnit;
 
 	this->m_bIs2DTexture = true;
 
@@ -173,24 +167,22 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 	return bReturnVal;
 }
 
-
-bool CTextureFromBMP::CreateNewCubeTextureFromBMPFiles( std::string cubeMapName, 
-													    std::string posX_fileName, std::string negX_fileName, 
-		                                                std::string posY_fileName, std::string negY_fileName, 
-														std::string posZ_fileName, std::string negZ_fileName, 
-														/*GLenum textureUnit, */bool bIsSeamless,
-														GLenum &errorEnum, std::string &errorString, std::string &errorDetails )
+bool CTextureFromBMP::CreateNewCubeTextureFromBMPFiles(std::string cubeMapName,
+	std::string posX_fileName, std::string negX_fileName,
+	std::string posY_fileName, std::string negY_fileName,
+	std::string posZ_fileName, std::string negZ_fileName,
+	/*GLenum textureUnit, */bool bIsSeamless,
+	GLenum &errorEnum, std::string &errorString, std::string &errorDetails)
 {
-
 	bool bReturnVal = true;
 
 	// Do the magic...
 
 	// Pick a texture number...
 	//GLuint textureNum = 0;
-	glGenTextures( 1, &(this->m_textureNumber) );
+	glGenTextures(1, &(this->m_textureNumber));
 	// Worked?
-	if ( ( glGetError() & GL_INVALID_VALUE ) == GL_INVALID_VALUE )
+	if ((glGetError() & GL_INVALID_VALUE) == GL_INVALID_VALUE)
 	{
 		bReturnVal = false;
 		return false;
@@ -199,38 +191,38 @@ bool CTextureFromBMP::CreateNewCubeTextureFromBMPFiles( std::string cubeMapName,
 	//
 	//glEnable(GL_TEXTURE_2D);
 	//glActiveTexture( textureUnit );	// GL_TEXTURE0, GL_TEXTURE1, etc.
-	glBindTexture( GL_TEXTURE_CUBE_MAP, this->m_textureNumber ); 
+	glBindTexture(GL_TEXTURE_CUBE_MAP, this->m_textureNumber);
 
 	//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_GENERATE_MIPMAP, GL_TRUE);
- 
-	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE /*GL_REPEAT*/ );
-	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE /*GL_REPEAT*/ );
-	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE /*GL_REPEAT*/ );
 
-	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-	
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE /*GL_REPEAT*/);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE /*GL_REPEAT*/);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE /*GL_REPEAT*/);
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 	// IF YOU DON'T GENERATE MIP MAPS, then you can use LINEAR filtering
-	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	//glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 
-	if ( bIsSeamless )
+	if (bIsSeamless)
 	{
-		glEnable( GL_TEXTURE_CUBE_MAP_SEAMLESS );	// OpenGL 4.1, maybe
+		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);	// OpenGL 4.1, maybe
 	}
 
-	if ( this->bWasThereAnOpenGLError(errorEnum, errorString,  errorDetails) ) { return false; }
-					
+	if (this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails)) { return false; }
+
 	// Positive X image...
 	// Assume all the images are the same size. If not, then it will screw up
-	if ( this->LoadBMP( posX_fileName ) )
+	if (this->LoadBMP(posX_fileName))
 	{
-		glTexStorage2D( GL_TEXTURE_CUBE_MAP, 
-		            10, // Mipmap levels
-					GL_RGBA8,	// Internal format
-					this->m_numberOfColumns,	// width (pixels)
-					this->m_numberOfRows );		// height (pixels)
+		glTexStorage2D(GL_TEXTURE_CUBE_MAP,
+			10, // Mipmap levels
+			GL_RGBA8,	// Internal format
+			this->m_numberOfColumns,	// width (pixels)
+			this->m_numberOfRows);		// height (pixels)
 
-		if ( this->bWasThereAnOpenGLError(errorEnum, errorString,  errorDetails) ) { return false; }
+		if (this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails)) { return false; }
 	}
 	else
 	{
@@ -239,24 +231,23 @@ bool CTextureFromBMP::CreateNewCubeTextureFromBMPFiles( std::string cubeMapName,
 	}
 
 	// Positive X image...
-	glTexSubImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X, 
-		             0,   // Level
-					 0, 0, // Offset
-					 this->m_numberOfColumns,	// width
-					 this->m_numberOfRows,		// height
-					 GL_RGB, 
-					 GL_UNSIGNED_BYTE,
-					 this->m_p_theImages );
+	glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+		0,   // Level
+		0, 0, // Offset
+		this->m_numberOfColumns,	// width
+		this->m_numberOfRows,		// height
+		GL_RGB,
+		GL_UNSIGNED_BYTE,
+		this->m_p_theImages);
 	this->ClearBMP();
-	if ( this->bWasThereAnOpenGLError(errorEnum, errorString,  errorDetails) ) { return false; }
-
+	if (this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails)) { return false; }
 
 	// Negative X image...
-	if ( this->LoadBMP( negX_fileName ) )
+	if (this->LoadBMP(negX_fileName))
 	{
-		glTexSubImage2D( GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages );
+		glTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages);
 		this->ClearBMP();
-		if ( this->bWasThereAnOpenGLError(errorEnum, errorString,  errorDetails) ) { return false; }
+		if (this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails)) { return false; }
 	}
 	else
 	{
@@ -265,11 +256,11 @@ bool CTextureFromBMP::CreateNewCubeTextureFromBMPFiles( std::string cubeMapName,
 	}
 
 	// Positive Y image...
-	if ( this->LoadBMP( posY_fileName ) )
+	if (this->LoadBMP(posY_fileName))
 	{
-		glTexSubImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages );
+		glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages);
 		this->ClearBMP();
-		if ( this->bWasThereAnOpenGLError(errorEnum, errorString,  errorDetails) ) { return false; }
+		if (this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails)) { return false; }
 	}
 	else
 	{
@@ -278,11 +269,11 @@ bool CTextureFromBMP::CreateNewCubeTextureFromBMPFiles( std::string cubeMapName,
 	}
 
 	// Negative Y image...
-	if ( this->LoadBMP( negY_fileName ) )
+	if (this->LoadBMP(negY_fileName))
 	{
-		glTexSubImage2D( GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages );
+		glTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages);
 		this->ClearBMP();
-		if ( this->bWasThereAnOpenGLError(errorEnum, errorString,  errorDetails) ) { return false; }
+		if (this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails)) { return false; }
 	}
 	else
 	{
@@ -291,11 +282,11 @@ bool CTextureFromBMP::CreateNewCubeTextureFromBMPFiles( std::string cubeMapName,
 	}
 
 	// Positive Z image...
-	if ( this->LoadBMP( posZ_fileName ) )
+	if (this->LoadBMP(posZ_fileName))
 	{
-		glTexSubImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages );
+		glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages);
 		this->ClearBMP();
-		if ( this->bWasThereAnOpenGLError(errorEnum, errorString,  errorDetails) ) { return false; }
+		if (this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails)) { return false; }
 	}
 	else
 	{
@@ -304,11 +295,11 @@ bool CTextureFromBMP::CreateNewCubeTextureFromBMPFiles( std::string cubeMapName,
 	}
 
 	// Negative Z image...
-	if ( this->LoadBMP( negZ_fileName ) )
+	if (this->LoadBMP(negZ_fileName))
 	{
-		glTexSubImage2D( GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages );
+		glTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, 0, 0, this->m_numberOfColumns, this->m_numberOfRows, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages);
 		this->ClearBMP();
-		if ( this->bWasThereAnOpenGLError(errorEnum, errorString,  errorDetails) ) { return false; }
+		if (this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails)) { return false; }
 	}
 	else
 	{
@@ -323,33 +314,33 @@ bool CTextureFromBMP::CreateNewCubeTextureFromBMPFiles( std::string cubeMapName,
 	this->m_bIsCubeMap = true;
 
 	// End of Do the magic...
-	
+
 	return bReturnVal;
 }
 
 // Same but generates a texture number automatically
-bool CTextureFromBMP::CreateNewTextureFromBMPFile( std::string textureName, std::string fileNameFullPath /*, GLenum textureUnit*/ )	
+bool CTextureFromBMP::CreateNewTextureFromBMPFile(std::string textureName, std::string fileNameFullPath /*, GLenum textureUnit*/)
 {
 	bool bReturnVal = true;
 
 	// Pick a texture number...
 	GLuint textureNum = 0;
-	glGenTextures( 1, &(this->m_textureNumber) );
+	glGenTextures(1, &(this->m_textureNumber));
 	// Worked?
-	if ( ( glGetError() & GL_INVALID_VALUE ) == GL_INVALID_VALUE )
+	if ((glGetError() & GL_INVALID_VALUE) == GL_INVALID_VALUE)
 	{
 		bReturnVal = false;
 		return false;
 	}
-	
-	// 
+
+	//
 	// Read a 24 bit bitmap from a file and save it to an arrau
 	std::ifstream theFile;
 	// Indicate we are reading...
-#ifdef DEBUG_MODE_BITMAPREAD	
+#ifdef DEBUG_MODE_BITMAPREAD
 	std::cout << "Reading texture file: " << fileName;
 #endif
-	// Note: This is set to binary mode - i.e. read the chars (bytes) as 
+	// Note: This is set to binary mode - i.e. read the chars (bytes) as
 	//	binary - set in the ios_base (i/o stream base class 'openmode' setting.
 	theFile.open(fileNameFullPath.c_str(), std::ios_base::binary);
 	// Did it open?
@@ -374,13 +365,13 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile( std::string textureName, std:
 			this->m_reserved1 = ReadAnUnsignedShort(theFile);
 			this->m_reserved2 = ReadAnUnsignedShort(theFile);
 			this->m_offsetInBits = ReadAnUnsignedLong(theFile);
-            this->m_headerSize = ReadAnUnsignedLong(theFile);
-            this->m_numberOfRows = ReadAnUnsignedLong(theFile);
+			this->m_headerSize = ReadAnUnsignedLong(theFile);
+			this->m_numberOfRows = ReadAnUnsignedLong(theFile);
 			this->m_Height = m_OriginalHeight = m_numberOfRows;
-            this->m_numberOfColumns = ReadAnUnsignedLong(theFile);
+			this->m_numberOfColumns = ReadAnUnsignedLong(theFile);
 			this->m_Width = m_OriginalWidth = m_numberOfColumns;
-            this->m_numberOfPlanes = ReadAnUnsignedShort(theFile);
-            this->m_bitPerPixel = ReadAnUnsignedShort(theFile);
+			this->m_numberOfPlanes = ReadAnUnsignedShort(theFile);
+			this->m_bitPerPixel = ReadAnUnsignedShort(theFile);
 			// Is is a 24 bit bitmap?
 			if (this->m_bitPerPixel != 24)
 			{
@@ -395,7 +386,7 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile( std::string textureName, std:
 				this->m_PixelsPerMeterY = ReadAnUnsignedLong(theFile);
 				this->m_numberOfLookUpTableEntries = ReadAnUnsignedLong(theFile);
 				this->m_numberOfImportantColours = ReadAnUnsignedLong(theFile);
-				// 
+				//
 				long bytesPerRow = ((3 * m_numberOfRows + 3) / 4) * 4;
 				long numberOfPaddingBytes = bytesPerRow - 3 * m_numberOfColumns;
 				// Allocate enough space...
@@ -428,7 +419,7 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile( std::string textureName, std:
 							this->m_p_theImages[pixelCount].greenPixel = static_cast<unsigned char>(thegreen);
 							this->m_p_theImages[pixelCount].bluePixel = static_cast<unsigned char>(theblue);
 							//m_p_theImages[pixelCount].alphaPixel = 255;
-							
+
 #ifdef DEBUG_MODE_BITMAPREAD
 							std::cout << (static_cast<unsigned int>(thered) & 0x00FF) << ", ";
 							std::cout << (static_cast<unsigned int>(thegreen) & 0x00FF) << ", ";
@@ -440,7 +431,7 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile( std::string textureName, std:
 #ifdef DEBUG_MODE_BITMAPREAD
 						std::cout << std::endl;
 #endif
-						// We are at the end of the row and there will 
+						// We are at the end of the row and there will
 						//	still be bytes padding up to a multiple of 4...
 						// Read and discard these...
 						for (int discardedBytes = 0; discardedBytes < numberOfPaddingBytes; discardedBytes++)
@@ -449,9 +440,9 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile( std::string textureName, std:
 							theFile >> tempChar;
 						}
 						// How much have we read?
-						// NOTE: This really isn't percent, but it does the job of 
+						// NOTE: This really isn't percent, but it does the job of
 						//	printing out fewer dots.
-						int percentRead = static_cast<int>( (static_cast<double>(bytesRead) / static_cast<double>(totalBytesInFile)) * 100);
+						int percentRead = static_cast<int>((static_cast<double>(bytesRead) / static_cast<double>(totalBytesInFile)) * 100);
 						if ((percentRead % 25) == 0)
 						{
 #ifdef DEBUG_MODE_BITMAPREAD
@@ -467,29 +458,28 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile( std::string textureName, std:
 
 					// Now set the texture...
 					glBindTexture(GL_TEXTURE_2D, m_textureNumber);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, /*GL_CLAMP*/ GL_REPEAT );
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, /*GL_CLAMP*/ GL_REPEAT );
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, /*GL_CLAMP*/ GL_REPEAT);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, /*GL_CLAMP*/ GL_REPEAT);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, /*GL_NEAREST*/ GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, /*GL_NEAREST*/ GL_LINEAR);
-					glTexImage2D( GL_TEXTURE_2D,		// target (2D, 3D, etc.)
-								 0,					// MIP map level 
-								 GL_RGBA,			// internal format
-								 m_numberOfColumns,	// width (pixels)
-								 m_numberOfRows,	// height (pixels)
-								 0,					// border (0 or 1)
-								 GL_RGB,			// format of pixel data
-								 GL_UNSIGNED_BYTE,	// type of pixel data
-								 m_p_theImages);	// pointer to data in memory
+					glTexImage2D(GL_TEXTURE_2D,		// target (2D, 3D, etc.)
+						0,					// MIP map level
+						GL_RGBA,			// internal format
+						m_numberOfColumns,	// width (pixels)
+						m_numberOfRows,	// height (pixels)
+						0,					// border (0 or 1)
+						GL_RGB,			// format of pixel data
+						GL_UNSIGNED_BYTE,	// type of pixel data
+						m_p_theImages);	// pointer to data in memory
 					glBindTexture(GL_TEXTURE_2D, m_textureNumber);
 
 					this->m_bIs2DTexture = true;
-
 				} // if (!m_p_theImages) // Run out of memory?
 			} // if (m_bitPerPixel != 24) // Not a 24 bit bitmap
 		} // if ((letter1 != 'B') && (letter2 != 'M'))	// Not a bitmap file...
 		// Close the file
 		theFile.close();
-		delete [] this->m_p_theImages;
+		delete[] this->m_p_theImages;
 	} // if (!theFile)   // Did the file open?
 
 	this->m_fileNameFullPath = fileNameFullPath;
@@ -499,15 +489,15 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile( std::string textureName, std:
 	return bReturnVal;
 }
 
-bool CTextureFromBMP::ClearBMP( void )
+bool CTextureFromBMP::ClearBMP(void)
 {
-	delete [] this->m_p_theImages;
+	delete[] this->m_p_theImages;
 	this->m_p_theImages = 0;
 	return true;
 }
 
 // Some of this taken from: http://www.allegro.cc/forums/thread/601551
-bool CTextureFromBMP::CreateNewBMPFromCurrentTexture( int mipMapLevel )
+bool CTextureFromBMP::CreateNewBMPFromCurrentTexture(int mipMapLevel)
 {
 	GLint textureWidth, textureHeight;
 
@@ -518,12 +508,12 @@ bool CTextureFromBMP::CreateNewBMPFromCurrentTexture( int mipMapLevel )
 
 	//GLubyte *buffer = (GLubyte *)malloc(textureSize);
 	//GLubyte *buffer = new GLubyte[ textureSize ];
-	this->m_p_theImages = new C24BitBMPpixel[ numberOfPixels ];
+	this->m_p_theImages = new C24BitBMPpixel[numberOfPixels];
 
 	//GLubyte buffer[ 5000000 ] = {0};
 	//
-	glGetTexImage(GL_TEXTURE_2D, mipMapLevel, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages );
-	
+	glGetTexImage(GL_TEXTURE_2D, mipMapLevel, GL_RGB, GL_UNSIGNED_BYTE, this->m_p_theImages);
+
 	// Now fill in all the BMP stuff...
 	this->m_reserved1 = this->m_reserved2 = 0;
 	this->m_offsetInBits = 54;	// (always 54);
@@ -532,7 +522,7 @@ bool CTextureFromBMP::CreateNewBMPFromCurrentTexture( int mipMapLevel )
 	this->m_bitPerPixel = 24;	// (always 24);
 
 	this->m_compressionMode = 0;	// (0);
-	this->m_imageSizeInBytes = numberOfPixels * sizeof( C24BitBMPpixel );
+	this->m_imageSizeInBytes = numberOfPixels * sizeof(C24BitBMPpixel);
 	this->m_PixelsPerMeterX = 2880;		// Not sure why...
 	this->m_PixelsPerMeterY = 2880;		// Not sure why...
 	this->m_numberOfLookUpTableEntries = 0;	// Always seem to be zero.
@@ -547,12 +537,11 @@ bool CTextureFromBMP::CreateNewBMPFromCurrentTexture( int mipMapLevel )
 	return true;
 }
 
-
-bool CTextureFromBMP::SaveBMP( std::string fileName )
+bool CTextureFromBMP::SaveBMP(std::string fileName)
 {
 	std::ofstream theFile;
-	theFile.open( fileName.c_str(), std::ios_base::binary );
-	if ( !theFile.is_open() )
+	theFile.open(fileName.c_str(), std::ios_base::binary);
+	if (!theFile.is_open())
 	{
 		return false;
 	}
@@ -560,34 +549,32 @@ bool CTextureFromBMP::SaveBMP( std::string fileName )
 	//unsigned char *img = NULL;
 	//int filesize = 54 + 3*w*h
 
-
 	std::cout << "Writing texture to BMP" << std::endl;
 	theFile << 'B' << 'M';
-	this->WriteAsUnsignedLong( this->m_FileSize, theFile );	//	theFile << this->m_FileSize;
-	this->WriteAsUnsignedShort( this->m_reserved1, theFile );			// 0
-	this->WriteAsUnsignedShort( this->m_reserved2, theFile );			// 0
-	this->WriteAsUnsignedLong( this->m_offsetInBits, theFile );			//54
-	this->WriteAsUnsignedLong( this->m_headerSize, theFile );			//40
-	this->WriteAsUnsignedLong( this->m_numberOfRows, theFile );
-	this->WriteAsUnsignedLong( this->m_numberOfColumns, theFile );
-	this->WriteAsUnsignedShort( this->m_numberOfPlanes, theFile );		// 1
-	this->WriteAsUnsignedShort( this->m_bitPerPixel, theFile );			// 24
-	this->WriteAsUnsignedLong( this->m_compressionMode, theFile );
-	this->WriteAsUnsignedLong( this->m_imageSizeInBytes, theFile );
-	this->WriteAsUnsignedLong( this->m_PixelsPerMeterX, theFile );
-	this->WriteAsUnsignedLong( this->m_PixelsPerMeterY, theFile );
-	this->WriteAsUnsignedLong( this->m_numberOfLookUpTableEntries, theFile );
-	this->WriteAsUnsignedLong( this->m_numberOfImportantColours, theFile );
-
+	this->WriteAsUnsignedLong(this->m_FileSize, theFile);	//	theFile << this->m_FileSize;
+	this->WriteAsUnsignedShort(this->m_reserved1, theFile);			// 0
+	this->WriteAsUnsignedShort(this->m_reserved2, theFile);			// 0
+	this->WriteAsUnsignedLong(this->m_offsetInBits, theFile);			//54
+	this->WriteAsUnsignedLong(this->m_headerSize, theFile);			//40
+	this->WriteAsUnsignedLong(this->m_numberOfRows, theFile);
+	this->WriteAsUnsignedLong(this->m_numberOfColumns, theFile);
+	this->WriteAsUnsignedShort(this->m_numberOfPlanes, theFile);		// 1
+	this->WriteAsUnsignedShort(this->m_bitPerPixel, theFile);			// 24
+	this->WriteAsUnsignedLong(this->m_compressionMode, theFile);
+	this->WriteAsUnsignedLong(this->m_imageSizeInBytes, theFile);
+	this->WriteAsUnsignedLong(this->m_PixelsPerMeterX, theFile);
+	this->WriteAsUnsignedLong(this->m_PixelsPerMeterY, theFile);
+	this->WriteAsUnsignedLong(this->m_numberOfLookUpTableEntries, theFile);
+	this->WriteAsUnsignedLong(this->m_numberOfImportantColours, theFile);
 
 	long bytesPerRow = ((3 * this->m_numberOfRows + 3) / 4) * 4;
 	long numberOfPaddingBytes = bytesPerRow - 3 * this->m_numberOfColumns;
 
-	// Write the bitmap data to the file... 
+	// Write the bitmap data to the file...
 	long bytesWritten = 0;
 	long totalBytesInFile = this->m_numberOfRows * this->m_numberOfColumns;
 	long pixelCount = 0;
-	
+
 	for (unsigned long row = 0; row < this->m_numberOfRows; row++)
 	{
 #ifdef DEBUG_MODE_BITMAPREAD
@@ -595,9 +582,9 @@ bool CTextureFromBMP::SaveBMP( std::string fileName )
 #endif
 		for (unsigned long col = 0; col < this->m_numberOfColumns; col++)
 		{
-			char thered   = static_cast<unsigned char>( this->m_p_theImages[pixelCount].redPixel );
-			char thegreen = static_cast<unsigned char>( this->m_p_theImages[pixelCount].greenPixel );
-			char theblue  = static_cast<unsigned char>( this->m_p_theImages[pixelCount].bluePixel );
+			char thered = static_cast<unsigned char>(this->m_p_theImages[pixelCount].redPixel);
+			char thegreen = static_cast<unsigned char>(this->m_p_theImages[pixelCount].greenPixel);
+			char theblue = static_cast<unsigned char>(this->m_p_theImages[pixelCount].bluePixel);
 			theFile.put(theblue);
 			theFile.put(thegreen);
 			theFile.put(thered);
@@ -608,13 +595,13 @@ bool CTextureFromBMP::SaveBMP( std::string fileName )
 #ifdef DEBUG_MODE_BITMAPREAD
 		std::cout << std::endl;
 #endif
-		// We are at the end of the row and there will 
+		// We are at the end of the row and there will
 		//	still be bytes padding up to a multiple of 4...
 		// Write thes padding bytes here...
 		for (int discardedBytes = 0; discardedBytes < numberOfPaddingBytes; discardedBytes++)
 		{
 			char tempChar = 0;
-			theFile.put( tempChar );
+			theFile.put(tempChar);
 		}
 	}
 
@@ -658,15 +645,15 @@ unsigned long CTextureFromBMP::ReadNextUnsignedLong(char* data, unsigned long &i
 }
 
 // Loads it in one "go" instead of streaming it
-bool CTextureFromBMP::LoadBMP2( std::string fileName )
+bool CTextureFromBMP::LoadBMP2(std::string fileName)
 {
 	std::ifstream theFile;
-	if ( this->m_bHave_cout_output )
+	if (this->m_bHave_cout_output)
 	{
 		std::cout << "Reading texture file: " << fileName;
 	}
 	theFile.open(fileName.c_str(), std::ios_base::binary);
-	if ( !theFile )
+	if (!theFile)
 	{
 		this->m_lastErrorNum = CTextureFromBMP::ERORR_FILE_WONT_OPEN;
 		return false;
@@ -676,16 +663,16 @@ bool CTextureFromBMP::LoadBMP2( std::string fileName )
 	std::ios::pos_type fileSize = theFile.tellg();
 	// Return to start
 	theFile.seekg(0, std::ios::beg);
-		
-	char* pRawData = new char[ static_cast<unsigned int>(fileSize) ];
-	
-	theFile.read( pRawData, fileSize );
+
+	char* pRawData = new char[static_cast<unsigned int>(fileSize)];
+
+	theFile.read(pRawData, fileSize);
 	theFile.close();
 
 	// Now go through and decode the BMP file.
 	unsigned long curIndex = 0;
-	char letter1 = this->ReadNextChar( pRawData, curIndex ); 
-	char letter2 = this->ReadNextChar( pRawData, curIndex );
+	char letter1 = this->ReadNextChar(pRawData, curIndex);
+	char letter2 = this->ReadNextChar(pRawData, curIndex);
 	if ((letter1 != 'B') && (letter2 != 'M'))
 	{
 		this->m_lastErrorNum = CTextureFromBMP::ERROR_NOT_A_BMP_FILE;
@@ -696,13 +683,13 @@ bool CTextureFromBMP::LoadBMP2( std::string fileName )
 	this->m_reserved1 = this->ReadNextUnsignedShort(pRawData, curIndex);
 	this->m_reserved2 = this->ReadNextUnsignedShort(pRawData, curIndex);
 	this->m_offsetInBits = this->ReadNextUnsignedLong(pRawData, curIndex);
-    this->m_headerSize = this->ReadNextUnsignedLong(pRawData, curIndex);
-    this->m_numberOfRows = this->ReadNextUnsignedLong(pRawData, curIndex);
+	this->m_headerSize = this->ReadNextUnsignedLong(pRawData, curIndex);
+	this->m_numberOfRows = this->ReadNextUnsignedLong(pRawData, curIndex);
 	this->m_Height = this->m_OriginalHeight = this->m_numberOfRows;
-    this->m_numberOfColumns = this->ReadNextUnsignedLong(pRawData, curIndex);
+	this->m_numberOfColumns = this->ReadNextUnsignedLong(pRawData, curIndex);
 	this->m_Width = this->m_OriginalWidth = this->m_numberOfColumns;
-    this->m_numberOfPlanes = this->ReadNextUnsignedShort(pRawData, curIndex);
-    this->m_bitPerPixel = this->ReadNextUnsignedShort(pRawData, curIndex);
+	this->m_numberOfPlanes = this->ReadNextUnsignedShort(pRawData, curIndex);
+	this->m_bitPerPixel = this->ReadNextUnsignedShort(pRawData, curIndex);
 	// Is is a 24 bit bitmap?
 	if (this->m_bitPerPixel != 24)
 	{
@@ -716,21 +703,20 @@ bool CTextureFromBMP::LoadBMP2( std::string fileName )
 	this->m_PixelsPerMeterY = this->ReadNextUnsignedLong(pRawData, curIndex);
 	this->m_numberOfLookUpTableEntries = this->ReadNextUnsignedLong(pRawData, curIndex);
 	this->m_numberOfImportantColours = this->ReadNextUnsignedLong(pRawData, curIndex);
-				
-	// 
+
+	//
 	long bytesPerRow = ((3 * this->m_numberOfRows + 3) / 4) * 4;
 	long numberOfPaddingBytes = bytesPerRow - 3 * this->m_numberOfColumns;
 
 	// Allocate enough space...
 	this->m_p_theImages = new C24BitBMPpixel[this->m_numberOfRows * this->m_numberOfColumns];
-	
+
 	// Did we run out of memory?
 	if (!this->m_p_theImages)
 	{
 		this->m_lastErrorNum = CTextureFromBMP::ERROR_NOT_ENOUGHT_MEMORY_FOR_BITMAP;
 		return false;
 	}
-
 
 	// Read the bitmap into memory...
 	unsigned long bytesRead = 0;
@@ -748,8 +734,8 @@ bool CTextureFromBMP::LoadBMP2( std::string fileName )
 			this->m_p_theImages[pixelCount].redPixel = static_cast<unsigned char>(thered);
 			this->m_p_theImages[pixelCount].greenPixel = static_cast<unsigned char>(thegreen);
 			this->m_p_theImages[pixelCount].bluePixel = static_cast<unsigned char>(theblue);
-							//m_p_theImages[pixelCount].alphaPixel = 255;
-							
+			//m_p_theImages[pixelCount].alphaPixel = 255;
+
 #ifdef DEBUG_MODE_BITMAPREAD
 			std::cout << (static_cast<unsigned int>(thered) & 0x00FF) << ", ";
 			std::cout << (static_cast<unsigned int>(thegreen) & 0x00FF) << ", ";
@@ -761,7 +747,7 @@ bool CTextureFromBMP::LoadBMP2( std::string fileName )
 #ifdef DEBUG_MODE_BITMAPREAD
 		std::cout << std::endl;
 #endif
-		// We are at the end of the row and there will 
+		// We are at the end of the row and there will
 		//	still be bytes padding up to a multiple of 4...
 		// Read and discard these...
 		for (int discardedBytes = 0; discardedBytes < numberOfPaddingBytes; discardedBytes++)
@@ -769,18 +755,18 @@ bool CTextureFromBMP::LoadBMP2( std::string fileName )
 			char tempChar = this->ReadNextChar(pRawData, curIndex);
 		}
 		// How much have we read?
-		// NOTE: This really isn't percent, but it does the job of 
+		// NOTE: This really isn't percent, but it does the job of
 		//	printing out fewer dots.
-		int percentRead = static_cast<int>( (static_cast<double>(bytesRead) / static_cast<double>(totalBytesInFile)) * 100);
+		int percentRead = static_cast<int>((static_cast<double>(bytesRead) / static_cast<double>(totalBytesInFile)) * 100);
 		if ((percentRead % 25) == 0)
 		{
-			if ( this->m_bHave_cout_output )
+			if (this->m_bHave_cout_output)
 			{
 				std::cout << ".";
 			}
 		}
 	}// for (unsigned long row...
-	if ( this->m_bHave_cout_output )
+	if (this->m_bHave_cout_output)
 	{
 		std::cout << "complete." << std::endl;
 	}
@@ -789,21 +775,20 @@ bool CTextureFromBMP::LoadBMP2( std::string fileName )
 	return true;
 }
 
-
 // When done, this->m_p_theImages contains a valid, loaded 24 bit BMP.
-bool CTextureFromBMP::LoadBMP( std::string fileName )
+bool CTextureFromBMP::LoadBMP(std::string fileName)
 {
 	bool bReturnVal = true;
 
-	// 
+	//
 	// Read a 24 bit bitmap from a file and save it to an arrau
 	std::ifstream theFile;
 	// Indicate we are reading...
-	if ( this->m_bHave_cout_output )
+	if (this->m_bHave_cout_output)
 	{
 		std::cout << "Reading texture file: " << fileName;
 	}
-	// Note: This is set to binary mode - i.e. read the chars (bytes) as 
+	// Note: This is set to binary mode - i.e. read the chars (bytes) as
 	//	binary - set in the ios_base (i/o stream base class 'openmode' setting.
 	theFile.open(fileName.c_str(), std::ios_base::binary);
 	// Did it open?
@@ -828,13 +813,13 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 			this->m_reserved1 = ReadAnUnsignedShort(theFile);
 			this->m_reserved2 = ReadAnUnsignedShort(theFile);
 			this->m_offsetInBits = ReadAnUnsignedLong(theFile);
-            this->m_headerSize = ReadAnUnsignedLong(theFile);
-            this->m_numberOfRows = ReadAnUnsignedLong(theFile);
+			this->m_headerSize = ReadAnUnsignedLong(theFile);
+			this->m_numberOfRows = ReadAnUnsignedLong(theFile);
 			this->m_Height = m_OriginalHeight = m_numberOfRows;
-            this->m_numberOfColumns = ReadAnUnsignedLong(theFile);
+			this->m_numberOfColumns = ReadAnUnsignedLong(theFile);
 			this->m_Width = m_OriginalWidth = m_numberOfColumns;
-            this->m_numberOfPlanes = ReadAnUnsignedShort(theFile);
-            this->m_bitPerPixel = ReadAnUnsignedShort(theFile);
+			this->m_numberOfPlanes = ReadAnUnsignedShort(theFile);
+			this->m_bitPerPixel = ReadAnUnsignedShort(theFile);
 			// Is is a 24 bit bitmap?
 			if (this->m_bitPerPixel != 24)
 			{
@@ -849,7 +834,7 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 				this->m_PixelsPerMeterY = ReadAnUnsignedLong(theFile);
 				this->m_numberOfLookUpTableEntries = ReadAnUnsignedLong(theFile);
 				this->m_numberOfImportantColours = ReadAnUnsignedLong(theFile);
-				// 
+				//
 				long bytesPerRow = ((3 * m_numberOfRows + 3) / 4) * 4;
 				long numberOfPaddingBytes = bytesPerRow - 3 * m_numberOfColumns;
 				// Allocate enough space...
@@ -882,7 +867,7 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 							this->m_p_theImages[pixelCount].greenPixel = static_cast<unsigned char>(thegreen);
 							this->m_p_theImages[pixelCount].bluePixel = static_cast<unsigned char>(theblue);
 							//m_p_theImages[pixelCount].alphaPixel = 255;
-							
+
 #ifdef DEBUG_MODE_BITMAPREAD
 							std::cout << (static_cast<unsigned int>(thered) & 0x00FF) << ", ";
 							std::cout << (static_cast<unsigned int>(thegreen) & 0x00FF) << ", ";
@@ -894,7 +879,7 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 #ifdef DEBUG_MODE_BITMAPREAD
 						std::cout << std::endl;
 #endif
-						// We are at the end of the row and there will 
+						// We are at the end of the row and there will
 						//	still be bytes padding up to a multiple of 4...
 						// Read and discard these...
 						for (int discardedBytes = 0; discardedBytes < numberOfPaddingBytes; discardedBytes++)
@@ -903,18 +888,18 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 							theFile >> tempChar;
 						}
 						// How much have we read?
-						// NOTE: This really isn't percent, but it does the job of 
+						// NOTE: This really isn't percent, but it does the job of
 						//	printing out fewer dots.
-						int percentRead = static_cast<int>( (static_cast<double>(bytesRead) / static_cast<double>(totalBytesInFile)) * 100);
+						int percentRead = static_cast<int>((static_cast<double>(bytesRead) / static_cast<double>(totalBytesInFile)) * 100);
 						if ((percentRead % 25) == 0)
 						{
-							if ( this->m_bHave_cout_output )
+							if (this->m_bHave_cout_output)
 							{
 								std::cout << ".";
 							}
 						}
 					}
-					if ( this->m_bHave_cout_output )
+					if (this->m_bHave_cout_output)
 					{
 						std::cout << "complete." << std::endl;
 					}
@@ -927,7 +912,7 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 					//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, /*GL_NEAREST*/ GL_LINEAR);
 					//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, /*GL_NEAREST*/ GL_LINEAR);
 					//glTexImage2D( GL_TEXTURE_2D,		// target (2D, 3D, etc.)
-					//			 0,					// MIP map level 
+					//			 0,					// MIP map level
 					//			 GL_RGBA,			// internal format
 					//			 m_numberOfColumns,	// width (pixels)
 					//			 m_numberOfRows,	// height (pixels)
@@ -936,7 +921,6 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 					//			 GL_UNSIGNED_BYTE,	// type of pixel data
 					//			 m_p_theImages);	// pointer to data in memory
 					//glBindTexture(GL_TEXTURE_2D, m_textureNumber);
-
 				} // if (!m_p_theImages) // Run out of memory?
 			} // if (m_bitPerPixel != 24) // Not a 24 bit bitmap
 		} // if ((letter1 != 'B') && (letter2 != 'M'))	// Not a bitmap file...
@@ -948,7 +932,6 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 	return bReturnVal;
 }
 
-
 ////  ____                _       _   _               _____         _                  _____                    ____  __  __ ____  _____ _ _
 //// / ___|_ __ ___  __ _| |_ ___| \ | | _____      _|_   _|____  _| |_ _   _ _ __ ___|  ___| __ ___  _ __ ___ | __ )|  \/  |  _ \|  ___(_) | ___
 ////| |   | '__/ _ \/ _` | __/ _ \  \| |/ _ \ \ /\ / / | |/ _ \ \/ / __| | | | '__/ _ \ |_ | '__/ _ \| '_ ` _ \|  _ \| |\/| | |_) | |_  | | |/ _ \
@@ -959,12 +942,12 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 //bool CTextureFromBMP::CreateNewTextureFromBMPFile_OLD(std::string fileName, GLuint textureNumber)
 //{
 //	bool bReturnVal = true;
-//	// 
+//	//
 //	// Read a 24 bit bitmap from a file and save it to an arrau
 //	std::ifstream theFile;
 //	// Indicate we are reading...
 //	std::cout << "Reading texture file: " << fileName;
-//	// Note: This is set to binary mode - i.e. read the chars (bytes) as 
+//	// Note: This is set to binary mode - i.e. read the chars (bytes) as
 //	//	binary - set in the ios_base (i/o stream base class 'openmode' setting.
 //	theFile.open(fileName.c_str(), std::ios_base::binary);
 //	// Did it open?
@@ -1010,7 +993,7 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 //				m_PixelsPerMeterY = ReadAnUnsignedLong(theFile);
 //				m_numberOfLookUpTableEntries = ReadAnUnsignedLong(theFile);
 //				m_numberOfImportantColours = ReadAnUnsignedLong(theFile);
-//				// 
+//				//
 //				long bytesPerRow = ((3 * m_numberOfRows + 3) / 4) * 4;
 //				//long bytesPerRow = ((4 * m_numberOfRows + 4) / 4) * 4;
 //				long numberOfPaddingBytes = bytesPerRow - 3 * m_numberOfColumns;
@@ -1045,7 +1028,7 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 //							m_p_theImages[pixelCount].greenPixel = static_cast<unsigned char>(thegreen);
 //							m_p_theImages[pixelCount].bluePixel = static_cast<unsigned char>(theblue);
 //							//m_p_theImages[pixelCount].alphaPixel = 255;
-//							
+//
 //#ifdef DEBUG_MODE_BITMAPREAD
 //							std::cout << (static_cast<unsigned int>(thered) & 0x00FF) << ", ";
 //							std::cout << (static_cast<unsigned int>(thegreen) & 0x00FF) << ", ";
@@ -1057,7 +1040,7 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 //#ifdef DEBUG_MODE_BITMAPREAD
 //						std::cout << std::endl;
 //#endif
-//						// We are at the end of the row and there will 
+//						// We are at the end of the row and there will
 //						//	still be bytes padding up to a multiple of 4...
 //						// Read and discard these...
 //						for (int discardedBytes = 0; discardedBytes < numberOfPaddingBytes; discardedBytes++)
@@ -1066,7 +1049,7 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 //							theFile >> tempChar;
 //						}
 //						// How much have we read?
-//						// NOTE: This really isn't percent, but it does the job of 
+//						// NOTE: This really isn't percent, but it does the job of
 //						//	printing out fewer dots.
 //						int percentRead = static_cast<int>( (static_cast<double>(bytesRead) / static_cast<double>(totalBytesInFile)) * 100);
 //						if ((percentRead % 25) == 0)
@@ -1085,7 +1068,7 @@ bool CTextureFromBMP::LoadBMP( std::string fileName )
 //					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, /*GL_NEAREST*/ GL_LINEAR);
 //					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, /*GL_NEAREST*/ GL_LINEAR);
 //					glTexImage2D(GL_TEXTURE_2D,		// target (2D, 3D, etc.)
-//								 0,					// MIP map level 
+//								 0,					// MIP map level
 //								 GL_RGB,			// internal format
 //								 //GL_RGBA,			// internal format
 //								 m_numberOfColumns,	// width (pixels)
@@ -1184,7 +1167,6 @@ bool CTextureFromBMP::RestoreOldTextureEnvironmentMode(void)
 	return bReturnVal;
 }
 
-
 // ____          _         ____  _ _
 //|  _ \ ___ ___(_)_______| __ )(_) |_ _ __ ___   __ _ _ __
 //| |_) / _ Y __| |_  / _ \  _ \| | __| '_ ` _ \ / _` | '_ \
@@ -1231,7 +1213,6 @@ std::string CTextureFromBMP::DecodeLastError(int errorNum)
 	return lastErrorString;
 }
 
-
 // These functions shift numbers by one, two, and three bytes.
 unsigned long CTextureFromBMP::ShiftAndAdd_Byte_to_ULong(unsigned long theULong, char theByte, int bytesToShift)
 {
@@ -1241,7 +1222,7 @@ unsigned long CTextureFromBMP::ShiftAndAdd_Byte_to_ULong(unsigned long theULong,
 		bytesToShift = 0;
 	}
 	unsigned short bitsToShift = bytesToShift * 8;	// 8 bits / byte.
-	// Now, convert the uChar to a uLong, 
+	// Now, convert the uChar to a uLong,
 	//	shift it the number of bits,
 	//	then or it (add it) to the long
 	unsigned char uByte = theByte;
@@ -1257,14 +1238,13 @@ unsigned short CTextureFromBMP::ShiftAndAdd_Byte_to_UShort(unsigned short theUSh
 		bytesToShift = 0;
 	}
 	unsigned short bitsToShift = bytesToShift * 8;	// 8 bits / byte.
-	// Now, convert the uChar to a uLong, 
+	// Now, convert the uChar to a uLong,
 	//	shift it the number of bits,
 	//	then or it (add it) to the long
 	unsigned char uByte = theByte;
 	theUShort = theUShort | (static_cast<unsigned long>(uByte) << bitsToShift);
 	return theUShort;
 }
-
 
 // These are used to read the data from a file.
 unsigned long CTextureFromBMP::ReadAnUnsignedLong(std::ifstream& theStream)
@@ -1283,34 +1263,30 @@ unsigned long CTextureFromBMP::ReadAnUnsignedLong(std::ifstream& theStream)
 	return ulTheReturnVal;
 }
 
-
-
-
-
-void CTextureFromBMP::WriteAsUnsignedShort( unsigned short value, std::ofstream& theStream )
+void CTextureFromBMP::WriteAsUnsignedShort(unsigned short value, std::ofstream& theStream)
 {
 	// AB --> BA
-	char TheByte[2] = {0};
-	TheByte[1] = static_cast<char>(( value & 0xFF00 ) >> 8 );
-	TheByte[0] = static_cast<char>( value & 0x00FF );
+	char TheByte[2] = { 0 };
+	TheByte[1] = static_cast<char>((value & 0xFF00) >> 8);
+	TheByte[0] = static_cast<char>(value & 0x00FF);
 
-	theStream.put( TheByte[0] );
-	theStream.put( TheByte[1] );
+	theStream.put(TheByte[0]);
+	theStream.put(TheByte[1]);
 }
 
-void CTextureFromBMP::WriteAsUnsignedLong( unsigned long value, std::ofstream& theStream )
+void CTextureFromBMP::WriteAsUnsignedLong(unsigned long value, std::ofstream& theStream)
 {
 	// ABCD --> DCBA
-	char TheByte[4] = {0};
-	TheByte[3] = static_cast<char>(( value & 0xFF000000 ) >> 24 );
-	TheByte[2] = static_cast<char>(( value & 0x00FF0000 ) >> 16 );
-	TheByte[1] = static_cast<char>(( value & 0x0000FF00 ) >> 8 );
-	TheByte[0] = static_cast<char>( value & 0x000000FF );
+	char TheByte[4] = { 0 };
+	TheByte[3] = static_cast<char>((value & 0xFF000000) >> 24);
+	TheByte[2] = static_cast<char>((value & 0x00FF0000) >> 16);
+	TheByte[1] = static_cast<char>((value & 0x0000FF00) >> 8);
+	TheByte[0] = static_cast<char>(value & 0x000000FF);
 
-	theStream.put( TheByte[0] );
-	theStream.put( TheByte[1] );
-	theStream.put( TheByte[2] );
-	theStream.put( TheByte[3] );
+	theStream.put(TheByte[0]);
+	theStream.put(TheByte[1]);
+	theStream.put(TheByte[2]);
+	theStream.put(TheByte[3]);
 }
 
 unsigned short CTextureFromBMP::ReadAnUnsignedShort(std::ifstream& theStream)
@@ -1339,8 +1315,8 @@ char CTextureFromBMP::ReadAByte(std::ifstream& theStream)
 //|____/|_|___/ .__/|_|\__,_|\__, ||_|\___/_/\_\\__|\__,_|_|  \___/_/   \_\___/_| \_\__,_|___/\__\___|_|  |____/|_|\__|_| |_| |_|\__,_| .__/
 //            |_|            |___/                                                                                                    |_|
 // This takes the bitmap that is read and displays it on the screen
-//	as a raster image. i.e. it doesn't go through the transformations, 
-//	etc., it just plops it on the screen at the current raster 
+//	as a raster image. i.e. it doesn't go through the transformations,
+//	etc., it just plops it on the screen at the current raster
 //	location. This is like bitmap fonts.
 void CTextureFromBMP::DisplayTextureAsRasterBitmap(GLfloat xOrigin, GLfloat yOrigin, GLfloat xMove, GLfloat yMove)
 {
@@ -1385,19 +1361,19 @@ void CTextureFromBMP::DisplayTextureAsRasterBitmap(GLfloat xOrigin, GLfloat yOri
 		}
 	}
 #ifdef DEBUG_MODE_BITMAPDISPLAY
-	if (!bDisplayedOnce) 
+	if (!bDisplayedOnce)
 	{
 		bDisplayedOnce = true;
 	}
 #endif
 
 	// Draw the image using the glDrawPixels instead of bitmap...
-	glRasterPos2i(0,0);
+	glRasterPos2i(0, 0);
 	glPixelZoom(10, 10);
 	glDrawPixels(m_Width, m_Height, GL_BGRA, GL_UNSIGNED_BYTE, p_theBitmap);
 
 	//glBitmap(m_Width, m_Height, xOrigin, yOrigin, xMove, yMove, p_theBitmap);
-	delete [] p_theBitmap;
+	delete[] p_theBitmap;
 	return;
 }
 
@@ -1406,28 +1382,28 @@ bool CTextureFromBMP::bWasThereAnOpenGLError(void)
 	GLenum errorEnum = GL_NO_ERROR;
 	std::string errorString;
 	std::string errorDetails;
-	return this->bWasThereAnOpenGLError( errorEnum, errorString, errorDetails );
+	return this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails);
 }
 
 bool CTextureFromBMP::bWasThereAnOpenGLError(GLenum &errorEnum)
 {
 	std::string errorString;
 	std::string errorDetails;
-	return this->bWasThereAnOpenGLError( errorEnum, errorString, errorDetails );
+	return this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails);
 }
 
 bool CTextureFromBMP::bWasThereAnOpenGLError(GLenum &errorEnum, std::string &errorString)
 {
 	std::string errorDetails;
-	return this->bWasThereAnOpenGLError( errorEnum, errorString, errorDetails );
+	return this->bWasThereAnOpenGLError(errorEnum, errorString, errorDetails);
 }
 
 // Reutn false if everything is OK
-bool CTextureFromBMP::bWasThereAnOpenGLError(GLenum &errorEnum, std::string &errorString, std::string &errorDetails )
+bool CTextureFromBMP::bWasThereAnOpenGLError(GLenum &errorEnum, std::string &errorString, std::string &errorDetails)
 {
 	errorEnum = glGetError();
 	// from: https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetError.xml
-	switch ( errorEnum )
+	switch (errorEnum)
 	{
 	case GL_NO_ERROR:
 		errorString = "GL_NO_ERROR";
@@ -1437,31 +1413,31 @@ bool CTextureFromBMP::bWasThereAnOpenGLError(GLenum &errorEnum, std::string &err
 		/******************/
 		break;
 	case GL_INVALID_ENUM:
-		errorString = "GL_INVALID_ENUM"; 
+		errorString = "GL_INVALID_ENUM";
 		errorDetails = "GL_INVALID_ENUM: An unacceptable value is specified for an enumerated argument.";
 		break;
 	case GL_INVALID_VALUE:
-		errorString = "GL_INVALID_VALUE"; 
+		errorString = "GL_INVALID_VALUE";
 		errorDetails = "GL_INVALID_VALUE: A numeric argument is out of range.";
 		break;
 	case GL_INVALID_OPERATION:
-		errorString = "GL_INVALID_OPERATION"; 
+		errorString = "GL_INVALID_OPERATION";
 		errorDetails = "GL_INVALID_OPERATION: The specified operation is not allowed in the current state.";
 		break;
 	case GL_INVALID_FRAMEBUFFER_OPERATION:
-		errorString = "GL_INVALID_FRAMEBUFFER_OPERATION"; 
+		errorString = "GL_INVALID_FRAMEBUFFER_OPERATION";
 		errorDetails = "GL_INVALID_FRAMEBUFFER_OPERATION: The framebuffer object is not complete.";
 		break;
 	case GL_OUT_OF_MEMORY:
-		errorString = "GL_OUT_OF_MEMORY"; 
+		errorString = "GL_OUT_OF_MEMORY";
 		errorDetails = "GL_OUT_OF_MEMORY: There is not enough memory left to execute the command.";
 		break;
 	case GL_STACK_UNDERFLOW:
-		errorString = "GL_STACK_UNDERFLOW"; 
+		errorString = "GL_STACK_UNDERFLOW";
 		errorDetails = "GL_STACK_UNDERFLOW: An attempt has been made to perform an operation that would cause an internal stack to underflow.";
 		break;
 	case GL_STACK_OVERFLOW:
-		errorString = "GL_STACK_OVERFLOW"; 
+		errorString = "GL_STACK_OVERFLOW";
 		errorDetails = "GL_STACK_OVERFLOW: An attempt has been made to perform an operation that would cause an internal stack to overflow.";
 		break;
 	default:
@@ -1489,7 +1465,7 @@ bool CTextureFromBMP::getIs2DTexture(void)
 }
 
 // The actual image information
-//C24BitBMPpixel m_p_theImages[];	
+//C24BitBMPpixel m_p_theImages[];
 unsigned long CTextureFromBMP::GetHeight(void)
 {
 	return m_Height;
@@ -1569,6 +1545,3 @@ unsigned long CTextureFromBMP::GetNumberOfImportantColours(void)
 {
 	return m_numberOfImportantColours;
 }
-
-
-

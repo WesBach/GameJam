@@ -17,9 +17,9 @@ public:
 	~ErrorLog();
 
 	template <class T>
-	void PrintToLog( T theThingToWrite )
+	void PrintToLog(T theThingToWrite)
 	{
-		if ( this->m_pLogFile != 0 )
+		if (this->m_pLogFile != 0)
 		{
 			(*this->m_pLogFile) << theThingToWrite;
 			this->m_PrintEndlineCharacter();
@@ -27,36 +27,39 @@ public:
 		return;
 	}
 
-
 	template <class T>
-	void PrintToLog( T theThingToWrite, const int line, const char* file )
+	void PrintToLog(T theThingToWrite, const int line, const char* file)
 	{
-		if ( this->m_pLogFile != 0 )
+		if (this->m_pLogFile != 0)
 		{
-			if ( this->m_bAutoStripPathFromFileNames )
-			{	(*this->m_pLogFile) << theThingToWrite << this->m_FormatLineAndFileStringNoPath( line, file );	}
-			else 
-			{	(*this->m_pLogFile) << theThingToWrite << this->m_FormatLineAndFileString( line, file );	}
+			if (this->m_bAutoStripPathFromFileNames)
+			{
+				(*this->m_pLogFile) << theThingToWrite << this->m_FormatLineAndFileStringNoPath(line, file);
+			}
+			else
+			{
+				(*this->m_pLogFile) << theThingToWrite << this->m_FormatLineAndFileString(line, file);
+			}
 			this->m_PrintEndlineCharacter();
 		}
 		return;
 	}
 
 	template <class T>
-	void PrintToLogNoPath( T theThingToWrite, const int line, const char* file )
+	void PrintToLogNoPath(T theThingToWrite, const int line, const char* file)
 	{
-		if ( this->m_pLogFile != 0 )
+		if (this->m_pLogFile != 0)
 		{
-			(*this->m_pLogFile) << theThingToWrite << this->m_FormatLineAndFileStringNoPath( line, file );
+			(*this->m_pLogFile) << theThingToWrite << this->m_FormatLineAndFileStringNoPath(line, file);
 			this->m_PrintEndlineCharacter();
 		}
 		return;
 	}
 	// This isn't quite the right overloading signature (can't chain the streams together)
 	template <class T>
-	void operator<<( T theThingToWrite )
+	void operator<<(T theThingToWrite)
 	{
-		if ( this->m_pLogFile != 0 )
+		if (this->m_pLogFile != 0)
 		{
 			(*this->m_pLogFile) << theThingToWrite;
 			this->m_PrintEndlineCharacter();
@@ -65,13 +68,13 @@ public:
 	}
 	//template <class T>
 	//friend std::ostream &operator<<( std::ostream &output, const std::string &theThingToWrite )
-	//{ 
+	//{
 	//	if ( this->m_pLogFile != 0 )
 	//	{
 	//		(*this->m_pLogFile) << theThingToWrite;
 	//		this->m_PrintEndlineCharacter();
 	//	}// if ( this->m_pLogFile != 0 )
-	//	return output;          
+	//	return output;
 	//}
 
 	void SetWriteToCout(bool bEnabled);
@@ -80,7 +83,7 @@ public:
 	void SetAutoCRLF(bool bEnabled);
 	void SetForceFlush(bool bEnabled);
 	void SetAutoStripPathFromFileNames(bool bEnabled);
-	void OpenOrChangeLogFile( std::string logFileName );
+	void OpenOrChangeLogFile(std::string logFileName);
 	void CloseLogFile(void);
 	std::string GetLogFileName(void);
 	bool bIsLogFileOpen(void);
@@ -103,29 +106,29 @@ public:
 		int hour;
 		int minute;
 		int second;
-		std::string logFileNameRaw;	
+		std::string logFileNameRaw;
 		// Year, month, date, hour, minute, second, separated by spaces
 		std::string dateThatYouCanActuallySortDammitJim;
 		// If blank, takes the member value
-		void parseLogFileNameAndUpdate( std::string logFileNameToParse = "" );
-		int stringToInt( std::string theString );
+		void parseLogFileNameAndUpdate(std::string logFileNameToParse = "");
+		int stringToInt(std::string theString);
 		// Mainly for the sorting operation. Well, that's the only reason these are here
 		bool operator< (const CSensibleLogFileData &rhs)
-		{	/* do actual comparison */ 
+		{	/* do actual comparison */
 			return (this->dateThatYouCanActuallySortDammitJim < rhs.dateThatYouCanActuallySortDammitJim);
 		}
 		// I don't really know if these work... (they weren't needed for the sort, anyway
 		//bool operator> (const CSensibleLogFileData &rhs)
-		//{	/* do actual comparison */ 
+		//{	/* do actual comparison */
 		//	//return (this->dateThatYouCanActuallySortDammitJim > rhs.dateThatYouCanActuallySortDammitJim);
 		//	return !(*this < rhs );
 		//}
 		//bool operator<=(const CSensibleLogFileData &rhs){ return !((*this) > rhs); }
 		//bool operator>=(const CSensibleLogFileData &rhs){ return !((*this) < rhs); }
 	};
-	// Returns anything that ends in "log" 
-	void GetListOfExistingLogs( std::vector< CSensibleLogFileData > &vecLogFileNames );
-	bool DeleteOldLogFiles( int numberOfLogsToKeep = 5 );
+	// Returns anything that ends in "log"
+	void GetListOfExistingLogs(std::vector< CSensibleLogFileData > &vecLogFileNames);
+	bool DeleteOldLogFiles(int numberOfLogsToKeep = 5);
 
 private:
 	bool m_bWriteToCout;
@@ -141,11 +144,11 @@ private:
 	std::string m_cleanTimeToNiceFileName(std::string theText);
 	// These take the __LINE__ and __FILE__ things and return a string in this format:
 	// ":@Line(xxx), File(yyy) "
-	std::string m_FormatLineAndFileString( const int lineNumber, const char* file );
-	std::string m_FormatLineAndFileStringNoPath( const int lineNumber, const char* file );
+	std::string m_FormatLineAndFileString(const int lineNumber, const char* file);
+	std::string m_FormatLineAndFileStringNoPath(const int lineNumber, const char* file);
 
 	// Scans from the right side until it gets to any kind of slash
-	std::string m_StripPathFromFile( std::string fileNameIn );
+	std::string m_StripPathFromFile(std::string fileNameIn);
 	// WARNING: Assumes file is VALID!
 	void m_PrintEndlineCharacter(void);
 };

@@ -4,7 +4,7 @@
 #include "pugixml.hpp"
 #include <sapi.h>
 #include <sphelper.h>
-#include "stb_image.h" 
+#include "stb_image.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <glad\glad.h>
@@ -43,7 +43,7 @@ private:
 	GLuint mvao;
 	//vertex buffer object
 	GLuint mdp_vbo;
-	
+
 	std::string m_vertexShaderSource;
 	std::string m_fragmentShaderSource;
 	//shader prog info
@@ -51,4 +51,3 @@ private:
 };
 
 #endif // !_cTextRenderer_HG_
-
